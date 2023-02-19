@@ -1,0 +1,152 @@
+import { ethers } from 'ethers'
+import { FNS } from '..'
+import setup, {deploymentAddresses} from '../tests/setup'
+import { hexEncodeName } from '../utils/hexEncodedName'
+import { namehash } from '../utils/normalise'
+
+let fnsInstance: FNS
+let revert: Awaited<ReturnType<typeof setup>>['revert']
+let provider: ethers.providers.JsonRpcProvider
+let accounts: string[]
+
+beforeAll(async () => {
+  ;({ fnsInstance, revert, provider } = await setup())
+  accounts = await provider.listAccounts()
+})
+
+afterAll(async () => {
+  await revert()
+})
+
+const approve = async () => {
+  const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
+  const registry = (await fnsInstance.contracts!.getRegistry()!).connect(
+    provider.getSigner(2),
+  )
+  const setApprovedForAllTx = await registry.setApprovalForAll(
+    nameWrapper.address,
+    true,
+  )
+  await setApprovedForAllTx?.wait()
+}
+
+describe('wrapName', () => {
+  beforeEach(async () => {
+    await revert()
+  })
+  describe('.fil', () => {
+    it('should return a wrap name transaction and succeed', async () => {
+      const tx = await fnsInstance.wrapName('test123.fil', {
+        wrappedOwner: accounts[2],
+        addressOrIndex: 1,
+      })
+      expect(tx).toBeTruthy()
+      await tx.wait()
+
+      const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
+      const [, fuses] = await nameWrapper.getData(namehash('test123.fil'))
+
+      // parent cannot control
+      expect(fuses).toBe(196608)
+    })
+    it('should allow initial fuses', async () => {
+      const tx = await fnsInstance.wrapName('test123.fil', {
+        wrappedOwner: accounts[2],
+        fuseOptions: {
+          child: {
+            named: ['CANNOT_UNWRAP', 'CANNOT_SET_TTL'],
+          },
+        },
+        addressOrIndex: 1,
+      })
+      expect(tx).toBeTruthy()
+      await tx.wait()
+
+      const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
+      const [, fuses] = await nameWrapper.getData(namehash('test123.fil'))
+      expect(fuses).toBe(196625)
+    })
+    it('should allow an initial resolver address', async () => {
+      const tx = await fnsInstance.wrapName('test123.fil', {
+        wrappedOwner: accounts[2],
+        resolverAddress: deploymentAddresses.LegacyPublicResolver,
+        addressOrIndex: 1,
+      })
+      expect(tx).toBeTruthy()
+      await tx.wait()
+
+      const universalResolver =
+        await fnsInstance.contracts!.getUniversalResolver()!
+      const [result] = await universalResolver.findResolver(
+        hexEncodeName('test123.fil'),
+      )
+      expect(result).toBe(deploymentAddresses.LegacyPublicResolver)
+    })
+    it('should throw an error for labels longer than 255 bytes', async () => {
+      const label = 'a'.repeat(256)
+      await expect(
+        fnsInstance.wrapName(`${label}.fil`, {
+          wrappedOwner: accounts[2],
+          addressOrIndex: 1,
+        }),
+      ).rejects.toThrow("Label can't be longer than 255 bytes")
+    })
+  })
+  describe('other', () => {
+    it('should return a wrap name transaction and succeed', async () => {
+      await approve()
+
+      const tx = await fnsInstance.wrapName('test.nowrapped-with-subnames.fil', {
+        wrappedOwner: accounts[2],
+        addressOrIndex: 2,
+      })
+      expect(tx).toBeTruthy()
+      await tx.wait()
+
+      const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
+      const [, fuses] = await nameWrapper.getData(
+        namehash('test.with-subnames.fil'),
+      )
+
+      expect(fuses).toBe(0)
+    })
+    it('should allow an initial resolver address', async () => {
+      await approve()
+      const tx = await fnsInstance.wrapName('test.nowrapped-with-subnames.fil', {
+        wrappedOwner: accounts[2],
+        resolverAddress: deploymentAddresses.LegacyPublicResolver,
+        addressOrIndex: 2,
+      })
+      expect(tx).toBeTruthy()
+      await tx.wait()
+
+      const universalResolver =
+        await fnsInstance.contracts!.getUniversalResolver()!
+      const [result] = await universalResolver.findResolver(
+        hexEncodeName('test.with-subnames.fil'),
+      )
+      expect(result).toBe(deploymentAddresses.LegacyPublicResolver)
+    })
+    it('should throw an error if contract does not have approval', async () => {
+      await expect(
+        fnsInstance.wrapName('test.with-subnames.fil', {
+          wrappedOwner: accounts[2],
+          addressOrIndex: 2,
+        }),
+      ).rejects.toThrow()
+    })
+    it('should throw an error if initial fuses are provided', async () => {
+      await expect(
+        fnsInstance.wrapName('test.with-subnames.fil', {
+          wrappedOwner: accounts[2],
+          fuseOptions: {
+            child: {
+              named: ['CANNOT_UNWRAP', 'CANNOT_SET_TTL'],
+            },
+          },
+          addressOrIndex: 1,
+        }),
+      ).rejects.toThrow()
+    })
+  })
+})
