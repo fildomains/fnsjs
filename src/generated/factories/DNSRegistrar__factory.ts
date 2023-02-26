@@ -10,6 +10,16 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "_previousRegistrar",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_resolver",
+        type: "address",
+      },
+      {
         internalType: "contract DNSSEC",
         name: "_dnssec",
         type: "address",
@@ -29,8 +39,40 @@ const _abi = [
     type: "constructor",
   },
   {
+    inputs: [
+      {
+        internalType: "bytes",
+        name: "name",
+        type: "bytes",
+      },
+    ],
+    name: "InvalidPublicSuffix",
+    type: "error",
+  },
+  {
     inputs: [],
     name: "NoOwnerRecordFound",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "caller",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+    ],
+    name: "PermissionDenied",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "PreconditionNotMet",
     type: "error",
   },
   {
@@ -75,25 +117,31 @@ const _abi = [
       {
         indexed: false,
         internalType: "address",
-        name: "oracle",
-        type: "address",
-      },
-    ],
-    name: "NewOracle",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
         name: "suffixes",
         type: "address",
       },
     ],
     name: "NewPublicSuffixList",
     type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes",
+        name: "domain",
+        type: "bytes",
+      },
+    ],
+    name: "enableNode",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "node",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [],
@@ -133,6 +181,19 @@ const _abi = [
     outputs: [
       {
         internalType: "contract DNSSEC",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "previousRegistrar",
+    outputs: [
+      {
+        internalType: "address",
         name: "",
         type: "address",
       },
@@ -208,6 +269,19 @@ const _abi = [
     name: "proveAndClaimWithResolver",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "resolver",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
