@@ -2,444 +2,396 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Interface } from '@ethersproject/abi'
-import { Signer } from '@ethersproject/abstract-signer'
-import { Contract } from '@ethersproject/contracts'
-import type { Provider } from '@ethersproject/providers'
-import type { Registry, RegistryInterface } from '../Registry'
+import { Contract, Signer, utils } from "ethers";
+import type { Provider } from "@ethersproject/providers";
+import type { Registry, RegistryInterface } from "../Registry";
 
 const _abi = [
   {
-    inputs: [
-      {
-        internalType: 'contract FNS',
-        name: '_old',
-        type: 'address',
-      },
-    ],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'constructor',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'operator',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'bool',
-        name: 'approved',
-        type: 'bool',
-      },
-    ],
-    name: 'ApprovalForAll',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32',
-      },
-      {
-        indexed: true,
-        internalType: 'bytes32',
-        name: 'label',
-        type: 'bytes32',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
-      },
-    ],
-    name: 'NewOwner',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'resolver',
-        type: 'address',
-      },
-    ],
-    name: 'NewResolver',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32',
-      },
-      {
-        indexed: false,
-        internalType: 'uint64',
-        name: 'ttl',
-        type: 'uint64',
-      },
-    ],
-    name: 'NewTTL',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
-      },
-    ],
-    name: 'Transfer',
-    type: 'event',
-  },
-  {
-    constant: true,
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'operator',
-        type: 'address',
-      },
-    ],
-    name: 'isApprovedForAll',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
-      },
-    ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    constant: true,
     inputs: [],
-    name: 'old',
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "operator",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "approved",
+        type: "bool",
+      },
+    ],
+    name: "ApprovalForAll",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "node",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "label",
+        type: "bytes32",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+    ],
+    name: "NewOwner",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "node",
+        type: "bytes32",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "resolver",
+        type: "address",
+      },
+    ],
+    name: "NewResolver",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "node",
+        type: "bytes32",
+      },
+      {
+        indexed: false,
+        internalType: "uint64",
+        name: "ttl",
+        type: "uint64",
+      },
+    ],
+    name: "NewTTL",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "node",
+        type: "bytes32",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+    ],
+    name: "Transfer",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "operator",
+        type: "address",
+      },
+    ],
+    name: "isApprovedForAll",
     outputs: [
       {
-        internalType: 'contract FNS',
-        name: '',
-        type: 'address',
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
   {
-    constant: true,
     inputs: [
       {
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "node",
+        type: "bytes32",
       },
     ],
-    name: 'owner',
+    name: "owner",
     outputs: [
       {
-        internalType: 'address',
-        name: '',
-        type: 'address',
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
   {
-    constant: true,
     inputs: [
       {
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "node",
+        type: "bytes32",
       },
     ],
-    name: 'recordExists',
+    name: "recordExists",
     outputs: [
       {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
   {
-    constant: true,
     inputs: [
       {
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "node",
+        type: "bytes32",
       },
     ],
-    name: 'resolver',
+    name: "resolver",
     outputs: [
       {
-        internalType: 'address',
-        name: '',
-        type: 'address',
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
   {
-    constant: false,
     inputs: [
       {
-        internalType: 'address',
-        name: 'operator',
-        type: 'address',
+        internalType: "address",
+        name: "operator",
+        type: "address",
       },
       {
-        internalType: 'bool',
-        name: 'approved',
-        type: 'bool',
+        internalType: "bool",
+        name: "approved",
+        type: "bool",
       },
     ],
-    name: 'setApprovalForAll',
+    name: "setApprovalForAll",
     outputs: [],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    constant: false,
     inputs: [
       {
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "node",
+        type: "bytes32",
       },
       {
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
+        internalType: "address",
+        name: "owner",
+        type: "address",
       },
     ],
-    name: 'setOwner',
+    name: "setOwner",
     outputs: [],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    constant: false,
     inputs: [
       {
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "node",
+        type: "bytes32",
       },
       {
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
+        internalType: "address",
+        name: "owner",
+        type: "address",
       },
       {
-        internalType: 'address',
-        name: 'resolver',
-        type: 'address',
+        internalType: "address",
+        name: "resolver",
+        type: "address",
       },
       {
-        internalType: 'uint64',
-        name: 'ttl',
-        type: 'uint64',
+        internalType: "uint64",
+        name: "ttl",
+        type: "uint64",
       },
     ],
-    name: 'setRecord',
+    name: "setRecord",
     outputs: [],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    constant: false,
     inputs: [
       {
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "node",
+        type: "bytes32",
       },
       {
-        internalType: 'address',
-        name: 'resolver',
-        type: 'address',
+        internalType: "address",
+        name: "resolver",
+        type: "address",
       },
     ],
-    name: 'setResolver',
+    name: "setResolver",
     outputs: [],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    constant: false,
     inputs: [
       {
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "node",
+        type: "bytes32",
       },
       {
-        internalType: 'bytes32',
-        name: 'label',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "label",
+        type: "bytes32",
       },
       {
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
+        internalType: "address",
+        name: "owner",
+        type: "address",
       },
     ],
-    name: 'setSubnodeOwner',
+    name: "setSubnodeOwner",
     outputs: [
       {
-        internalType: 'bytes32',
-        name: '',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
       },
     ],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    constant: false,
     inputs: [
       {
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "node",
+        type: "bytes32",
       },
       {
-        internalType: 'bytes32',
-        name: 'label',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "label",
+        type: "bytes32",
       },
       {
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
+        internalType: "address",
+        name: "owner",
+        type: "address",
       },
       {
-        internalType: 'address',
-        name: 'resolver',
-        type: 'address',
+        internalType: "address",
+        name: "resolver",
+        type: "address",
       },
       {
-        internalType: 'uint64',
-        name: 'ttl',
-        type: 'uint64',
+        internalType: "uint64",
+        name: "ttl",
+        type: "uint64",
       },
     ],
-    name: 'setSubnodeRecord',
+    name: "setSubnodeRecord",
     outputs: [],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    constant: false,
     inputs: [
       {
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "node",
+        type: "bytes32",
       },
       {
-        internalType: 'uint64',
-        name: 'ttl',
-        type: 'uint64',
+        internalType: "uint64",
+        name: "ttl",
+        type: "uint64",
       },
     ],
-    name: 'setTTL',
+    name: "setTTL",
     outputs: [],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    constant: true,
     inputs: [
       {
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "node",
+        type: "bytes32",
       },
     ],
-    name: 'ttl',
+    name: "ttl",
     outputs: [
       {
-        internalType: 'uint64',
-        name: '',
-        type: 'uint64',
+        internalType: "uint64",
+        name: "",
+        type: "uint64",
       },
     ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
-]
+] as const;
 
 export class Registry__factory {
-  static readonly abi = _abi
+  static readonly abi = _abi;
   static createInterface(): RegistryInterface {
-    return new Interface(_abi) as RegistryInterface
+    return new utils.Interface(_abi) as RegistryInterface;
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider,
+    signerOrProvider: Signer | Provider
   ): Registry {
-    return new Contract(address, _abi, signerOrProvider) as Registry
+    return new Contract(address, _abi, signerOrProvider) as Registry;
   }
 }

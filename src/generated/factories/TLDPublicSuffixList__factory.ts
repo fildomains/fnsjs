@@ -2,46 +2,44 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Interface } from '@ethersproject/abi'
-import { Signer } from '@ethersproject/abstract-signer'
-import { Contract } from '@ethersproject/contracts'
-import type { Provider } from '@ethersproject/providers'
+import { Contract, Signer, utils } from "ethers";
+import type { Provider } from "@ethersproject/providers";
 import type {
   TLDPublicSuffixList,
   TLDPublicSuffixListInterface,
-} from '../TLDPublicSuffixList'
+} from "../TLDPublicSuffixList";
 
 const _abi = [
   {
     inputs: [
       {
-        internalType: 'bytes',
-        name: 'name',
-        type: 'bytes',
+        internalType: "bytes",
+        name: "name",
+        type: "bytes",
       },
     ],
-    name: 'isPublicSuffix',
+    name: "isPublicSuffix",
     outputs: [
       {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
-]
+] as const;
 
 export class TLDPublicSuffixList__factory {
-  static readonly abi = _abi
+  static readonly abi = _abi;
   static createInterface(): TLDPublicSuffixListInterface {
-    return new Interface(_abi) as TLDPublicSuffixListInterface
+    return new utils.Interface(_abi) as TLDPublicSuffixListInterface;
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider,
+    signerOrProvider: Signer | Provider
   ): TLDPublicSuffixList {
-    return new Contract(address, _abi, signerOrProvider) as TLDPublicSuffixList
+    return new Contract(address, _abi, signerOrProvider) as TLDPublicSuffixList;
   }
 }

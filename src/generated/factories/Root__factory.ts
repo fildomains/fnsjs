@@ -2,245 +2,246 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Interface } from '@ethersproject/abi'
-import { Signer } from '@ethersproject/abstract-signer'
-import { Contract } from '@ethersproject/contracts'
-import type { Provider } from '@ethersproject/providers'
-import type { Root, RootInterface } from '../Root'
+import { Contract, Signer, utils } from "ethers";
+import type { Provider } from "@ethersproject/providers";
+import type { Root, RootInterface } from "../Root";
 
 const _abi = [
   {
     inputs: [
       {
-        internalType: 'contract FNS',
-        name: '_ens',
-        type: 'address',
+        internalType: "contract FNS",
+        name: "_fns",
+        type: "address",
       },
     ],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'constructor',
+    stateMutability: "nonpayable",
+    type: "constructor",
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: 'bytes32',
-        name: 'label',
-        type: 'bytes32',
+        internalType: "address",
+        name: "controller",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "enabled",
+        type: "bool",
       },
     ],
-    name: 'TLDLocked',
-    type: 'event',
+    name: "ControllerChanged",
+    type: "event",
   },
   {
-    constant: true,
+    anonymous: false,
     inputs: [
       {
-        internalType: 'address',
-        name: '',
-        type: 'address',
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
       },
-    ],
-    name: 'controllers',
-    outputs: [
       {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
       },
     ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function',
+    name: "OwnershipTransferred",
+    type: "event",
   },
   {
-    constant: true,
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "label",
+        type: "bytes32",
+      },
+    ],
+    name: "TLDLocked",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "controllers",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
-    name: 'ens',
+    name: "fns",
     outputs: [
       {
-        internalType: 'contract FNS',
-        name: '',
-        type: 'address',
+        internalType: "contract FNS",
+        name: "",
+        type: "address",
       },
     ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
   {
-    constant: true,
     inputs: [
       {
-        internalType: 'address',
-        name: 'addr',
-        type: 'address',
+        internalType: "bytes32",
+        name: "label",
+        type: "bytes32",
       },
     ],
-    name: 'isOwner',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
-      },
-    ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        internalType: 'bytes32',
-        name: 'label',
-        type: 'bytes32',
-      },
-    ],
-    name: 'lock',
+    name: "lock",
     outputs: [],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    constant: true,
     inputs: [
       {
-        internalType: 'bytes32',
-        name: '',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
       },
     ],
-    name: 'locked',
+    name: "locked",
     outputs: [
       {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
   {
-    constant: true,
     inputs: [],
-    name: 'owner',
+    name: "owner",
     outputs: [
       {
-        internalType: 'address',
-        name: '',
-        type: 'address',
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
   {
-    constant: false,
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'controller',
-        type: 'address',
-      },
-      {
-        internalType: 'bool',
-        name: 'enabled',
-        type: 'bool',
-      },
-    ],
-    name: 'setController',
+    inputs: [],
+    name: "renounceOwnership",
     outputs: [],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    constant: false,
     inputs: [
       {
-        internalType: 'address',
-        name: 'resolver',
-        type: 'address',
+        internalType: "address",
+        name: "controller",
+        type: "address",
+      },
+      {
+        internalType: "bool",
+        name: "enabled",
+        type: "bool",
       },
     ],
-    name: 'setResolver',
+    name: "setController",
     outputs: [],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    constant: false,
     inputs: [
       {
-        internalType: 'bytes32',
-        name: 'label',
-        type: 'bytes32',
-      },
-      {
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
+        internalType: "address",
+        name: "resolver",
+        type: "address",
       },
     ],
-    name: 'setSubnodeOwner',
+    name: "setResolver",
     outputs: [],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    constant: true,
     inputs: [
       {
-        internalType: 'bytes4',
-        name: 'interfaceID',
-        type: 'bytes4',
+        internalType: "bytes32",
+        name: "label",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
       },
     ],
-    name: 'supportsInterface',
+    name: "setSubnodeOwner",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes4",
+        name: "interfaceID",
+        type: "bytes4",
+      },
+    ],
+    name: "supportsInterface",
     outputs: [
       {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
-    payable: false,
-    stateMutability: 'pure',
-    type: 'function',
+    stateMutability: "pure",
+    type: "function",
   },
   {
-    constant: false,
     inputs: [
       {
-        internalType: 'address',
-        name: 'newOwner',
-        type: 'address',
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
       },
     ],
-    name: 'transferOwnership',
+    name: "transferOwnership",
     outputs: [],
-    payable: false,
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
-]
+] as const;
 
 export class Root__factory {
-  static readonly abi = _abi
+  static readonly abi = _abi;
   static createInterface(): RootInterface {
-    return new Interface(_abi) as RootInterface
+    return new utils.Interface(_abi) as RootInterface;
   }
   static connect(address: string, signerOrProvider: Signer | Provider): Root {
-    return new Contract(address, _abi, signerOrProvider) as Root
+    return new Contract(address, _abi, signerOrProvider) as Root;
   }
 }

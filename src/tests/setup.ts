@@ -15,8 +15,8 @@ config({
 
 export const deploymentAddresses: Record<string, string> = {
   Registry: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-  LegacyPublicResolver: "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
-  NoMulticallResolver: "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
+  LegacyPublicResolver: "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
+  NoMulticallResolver: "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
 }
 
 const createFNS = (graphURI: string, useReal?: boolean) =>

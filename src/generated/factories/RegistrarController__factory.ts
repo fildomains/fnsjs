@@ -2,621 +2,818 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Interface } from '@ethersproject/abi'
-import { Signer } from '@ethersproject/abstract-signer'
-import { Contract } from '@ethersproject/contracts'
-import type { Provider } from '@ethersproject/providers'
+import { Contract, Signer, utils } from "ethers";
+import type { Provider } from "@ethersproject/providers";
 import type {
   RegistrarController,
   RegistrarControllerInterface,
-} from '../RegistrarController'
+} from "../RegistrarController";
 
 const _abi = [
   {
     inputs: [
       {
-        internalType: 'contract BaseRegistrarImplementation',
-        name: '_base',
-        type: 'address',
+        internalType: "contract BaseRegistrarImplementation",
+        name: "_base",
+        type: "address",
       },
       {
-        internalType: 'contract IPriceOracle',
-        name: '_prices',
-        type: 'address',
+        internalType: "contract IPriceOracle",
+        name: "_prices",
+        type: "address",
       },
       {
-        internalType: 'uint256',
-        name: '_minCommitmentAge',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "_minCommitmentAge",
+        type: "uint256",
       },
       {
-        internalType: 'uint256',
-        name: '_maxCommitmentAge',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "_maxCommitmentAge",
+        type: "uint256",
       },
       {
-        internalType: 'contract ReverseRegistrar',
-        name: '_reverseRegistrar',
-        type: 'address',
+        internalType: "contract ReverseRegistrar",
+        name: "_reverseRegistrar",
+        type: "address",
       },
       {
-        internalType: 'contract INameWrapper',
-        name: '_nameWrapper',
-        type: 'address',
+        internalType: "contract INameWrapper",
+        name: "_nameWrapper",
+        type: "address",
       },
     ],
-    stateMutability: 'nonpayable',
-    type: 'constructor',
+    stateMutability: "nonpayable",
+    type: "constructor",
   },
   {
     inputs: [
       {
-        internalType: 'bytes32',
-        name: 'commitment',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "commitment",
+        type: "bytes32",
       },
     ],
-    name: 'CommitmentTooNew',
-    type: 'error',
+    name: "CommitmentTooNew",
+    type: "error",
   },
   {
     inputs: [
       {
-        internalType: 'bytes32',
-        name: 'commitment',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "commitment",
+        type: "bytes32",
       },
     ],
-    name: 'CommitmentTooOld',
-    type: 'error',
+    name: "CommitmentTooOld",
+    type: "error",
   },
   {
     inputs: [
       {
-        internalType: 'uint256',
-        name: 'duration',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
       },
     ],
-    name: 'DurationTooShort',
-    type: 'error',
+    name: "DurationTooShort",
+    type: "error",
   },
   {
     inputs: [],
-    name: 'InsufficientValue',
-    type: 'error',
+    name: "InsufficientValue",
+    type: "error",
   },
   {
     inputs: [],
-    name: 'MaxCommitmentAgeTooHigh',
-    type: 'error',
+    name: "MaxCommitmentAgeTooHigh",
+    type: "error",
   },
   {
     inputs: [],
-    name: 'MaxCommitmentAgeTooLow',
-    type: 'error',
+    name: "MaxCommitmentAgeTooLow",
+    type: "error",
   },
   {
     inputs: [
       {
-        internalType: 'string',
-        name: 'name',
-        type: 'string',
+        internalType: "string",
+        name: "name",
+        type: "string",
       },
     ],
-    name: 'NameNotAvailable',
-    type: 'error',
+    name: "NameNotAvailable",
+    type: "error",
   },
   {
     inputs: [],
-    name: 'ResolverRequiredWhenDataSupplied',
-    type: 'error',
+    name: "ResolverRequiredWhenDataSupplied",
+    type: "error",
   },
   {
     inputs: [
       {
-        internalType: 'bytes32',
-        name: 'commitment',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "commitment",
+        type: "bytes32",
       },
     ],
-    name: 'UnexpiredCommitmentExists',
-    type: 'error',
+    name: "UnexpiredCommitmentExists",
+    type: "error",
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: false,
-        internalType: 'string',
-        name: 'name',
-        type: 'string',
+        internalType: "string",
+        name: "name",
+        type: "string",
       },
       {
         indexed: true,
-        internalType: 'bytes32',
-        name: 'label',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "label",
+        type: "bytes32",
       },
       {
         indexed: true,
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
+        internalType: "address",
+        name: "owner",
+        type: "address",
       },
       {
         indexed: false,
-        internalType: 'uint256',
-        name: 'baseCost',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "baseCost",
+        type: "uint256",
       },
       {
         indexed: false,
-        internalType: 'uint256',
-        name: 'premium',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "premium",
+        type: "uint256",
       },
       {
         indexed: false,
-        internalType: 'uint256',
-        name: 'expires',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "expires",
+        type: "uint256",
       },
     ],
-    name: 'NameRegistered',
-    type: 'event',
+    name: "NameRegistered",
+    type: "event",
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: false,
-        internalType: 'string',
-        name: 'name',
-        type: 'string',
+        internalType: "string",
+        name: "name",
+        type: "string",
       },
       {
         indexed: true,
-        internalType: 'bytes32',
-        name: 'label',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "label",
+        type: "bytes32",
       },
       {
         indexed: false,
-        internalType: 'uint256',
-        name: 'cost',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "cost",
+        type: "uint256",
       },
       {
         indexed: false,
-        internalType: 'uint256',
-        name: 'expires',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "expires",
+        type: "uint256",
       },
     ],
-    name: 'NameRenewed',
-    type: 'event',
+    name: "NameRenewed",
+    type: "event",
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: 'address',
-        name: 'previousOwner',
-        type: 'address',
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
       },
       {
         indexed: true,
-        internalType: 'address',
-        name: 'newOwner',
-        type: 'address',
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
       },
     ],
-    name: 'OwnershipTransferred',
-    type: 'event',
+    name: "OwnershipTransferred",
+    type: "event",
   },
   {
     inputs: [],
-    name: 'MIN_REGISTRATION_DURATION',
+    name: "MIN_REGISTRATION_DURATION",
     outputs: [
       {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'string',
-        name: 'name',
-        type: 'string',
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes32",
+        name: "secret",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "resolver",
+        type: "address",
+      },
+      {
+        internalType: "bytes[]",
+        name: "data",
+        type: "bytes[]",
+      },
+      {
+        internalType: "bool",
+        name: "reverseRecord",
+        type: "bool",
+      },
+      {
+        internalType: "uint16",
+        name: "ownerControlledFuses",
+        type: "uint16",
       },
     ],
-    name: 'available',
+    name: "_register",
     outputs: [
       {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'bytes32',
-        name: 'commitment',
-        type: 'bytes32',
+        internalType: "string",
+        name: "name",
+        type: "string",
       },
     ],
-    name: 'commit',
+    name: "available",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "commitment",
+        type: "bytes32",
+      },
+    ],
+    name: "commit",
     outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'bytes32',
-        name: '',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
       },
     ],
-    name: 'commitments',
+    name: "commitments",
     outputs: [
       {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'string',
-        name: 'name',
-        type: 'string',
+        internalType: "string",
+        name: "name",
+        type: "string",
       },
       {
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
+        internalType: "address",
+        name: "owner",
+        type: "address",
       },
       {
-        internalType: 'uint256',
-        name: 'duration',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
       },
       {
-        internalType: 'bytes32',
-        name: 'secret',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "secret",
+        type: "bytes32",
       },
       {
-        internalType: 'address',
-        name: 'resolver',
-        type: 'address',
+        internalType: "address",
+        name: "resolver",
+        type: "address",
       },
       {
-        internalType: 'bytes[]',
-        name: 'data',
-        type: 'bytes[]',
+        internalType: "bytes[]",
+        name: "data",
+        type: "bytes[]",
       },
       {
-        internalType: 'bool',
-        name: 'reverseRecord',
-        type: 'bool',
+        internalType: "bool",
+        name: "reverseRecord",
+        type: "bool",
       },
       {
-        internalType: 'uint16',
-        name: 'ownerControlledFuses',
-        type: 'uint16',
+        internalType: "uint16",
+        name: "ownerControlledFuses",
+        type: "uint16",
       },
     ],
-    name: 'makeCommitment',
+    name: "makeCommitment",
     outputs: [
       {
-        internalType: 'bytes32',
-        name: '',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
       },
     ],
-    stateMutability: 'pure',
-    type: 'function',
+    stateMutability: "pure",
+    type: "function",
   },
   {
     inputs: [],
-    name: 'maxCommitmentAge',
+    name: "maxCommitmentAge",
     outputs: [
       {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [],
-    name: 'minCommitmentAge',
+    name: "minCommitmentAge",
     outputs: [
       {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'nameWrapper',
-    outputs: [
-      {
-        internalType: 'contract INameWrapper',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'owner',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'prices',
-    outputs: [
-      {
-        internalType: 'contract IPriceOracle',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'address',
-        name: '_token',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: '_to',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: '_amount',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "number",
+        type: "uint256",
       },
     ],
-    name: 'recoverFunds',
+    name: "mintAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "minted",
+    outputs: [
+      {
+        internalType: "uint32",
+        name: "",
+        type: "uint32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "nameWrapper",
+    outputs: [
+      {
+        internalType: "contract INameWrapper",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "prices",
+    outputs: [
+      {
+        internalType: "contract IPriceOracle",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_to",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    name: "recoverFunds",
     outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'string',
-        name: 'name',
-        type: 'string',
+        internalType: "string",
+        name: "name",
+        type: "string",
       },
       {
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
+        internalType: "address",
+        name: "owner",
+        type: "address",
       },
       {
-        internalType: 'uint256',
-        name: 'duration',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
       },
       {
-        internalType: 'bytes32',
-        name: 'secret',
-        type: 'bytes32',
+        internalType: "bytes32",
+        name: "secret",
+        type: "bytes32",
       },
       {
-        internalType: 'address',
-        name: 'resolver',
-        type: 'address',
+        internalType: "address",
+        name: "resolver",
+        type: "address",
       },
       {
-        internalType: 'bytes[]',
-        name: 'data',
-        type: 'bytes[]',
+        internalType: "bytes[]",
+        name: "data",
+        type: "bytes[]",
       },
       {
-        internalType: 'bool',
-        name: 'reverseRecord',
-        type: 'bool',
+        internalType: "bool",
+        name: "reverseRecord",
+        type: "bool",
       },
       {
-        internalType: 'uint16',
-        name: 'ownerControlledFuses',
-        type: 'uint16',
+        internalType: "uint16",
+        name: "ownerControlledFuses",
+        type: "uint16",
       },
     ],
-    name: 'register',
+    name: "register",
     outputs: [],
-    stateMutability: 'payable',
-    type: 'function',
+    stateMutability: "payable",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'string',
-        name: 'name',
-        type: 'string',
+        internalType: "string",
+        name: "name",
+        type: "string",
       },
       {
-        internalType: 'uint256',
-        name: 'duration',
-        type: 'uint256',
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes32",
+        name: "secret",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "resolver",
+        type: "address",
+      },
+      {
+        internalType: "bytes[]",
+        name: "data",
+        type: "bytes[]",
+      },
+      {
+        internalType: "bool",
+        name: "reverseRecord",
+        type: "bool",
+      },
+      {
+        internalType: "uint16",
+        name: "ownerControlledFuses",
+        type: "uint16",
       },
     ],
-    name: 'renew',
-    outputs: [],
-    stateMutability: 'payable',
-    type: 'function',
+    name: "registerFns",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
+      },
+    ],
+    name: "renew",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
+      },
+    ],
+    name: "renewFns",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [],
-    name: 'renounceOwnership',
+    name: "renounceOwnership",
     outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'string',
-        name: 'name',
-        type: 'string',
+        internalType: "string",
+        name: "name",
+        type: "string",
       },
       {
-        internalType: 'uint256',
-        name: 'duration',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
       },
     ],
-    name: 'rentPrice',
+    name: "rentPrice",
     outputs: [
       {
         components: [
           {
-            internalType: 'uint256',
-            name: 'base',
-            type: 'uint256',
+            internalType: "uint256",
+            name: "base",
+            type: "uint256",
           },
           {
-            internalType: 'uint256',
-            name: 'premium',
-            type: 'uint256',
+            internalType: "uint256",
+            name: "premium",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "basePrice",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "premiumPrice",
+            type: "uint256",
           },
         ],
-        internalType: 'struct IPriceOracle.Price',
-        name: 'price',
-        type: 'tuple',
+        internalType: "struct IPriceOracle.Price",
+        name: "price",
+        type: "tuple",
       },
     ],
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [],
-    name: 'reverseRegistrar',
+    name: "reverseRegistrar",
     outputs: [
       {
-        internalType: 'contract ReverseRegistrar',
-        name: '',
-        type: 'address',
+        internalType: "contract ReverseRegistrar",
+        name: "",
+        type: "address",
       },
     ],
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'bytes4',
-        name: 'interfaceID',
-        type: 'bytes4',
+        internalType: "bytes4",
+        name: "interfaceID",
+        type: "bytes4",
       },
     ],
-    name: 'supportsInterface',
+    name: "supportsInterface",
     outputs: [
       {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
-    stateMutability: 'pure',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'newOwner',
-        type: 'address',
-      },
-    ],
-    name: 'transferOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'string',
-        name: 'name',
-        type: 'string',
-      },
-    ],
-    name: 'valid',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
-      },
-    ],
-    stateMutability: 'pure',
-    type: 'function',
+    stateMutability: "pure",
+    type: "function",
   },
   {
     inputs: [],
-    name: 'withdraw',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
+    name: "token",
+    outputs: [
+      {
+        internalType: "contract FNSToken",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
   },
-]
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+    ],
+    name: "valid",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "withdraw",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+] as const;
 
 export class RegistrarController__factory {
-  static readonly abi = _abi
+  static readonly abi = _abi;
   static createInterface(): RegistrarControllerInterface {
-    return new Interface(_abi) as RegistrarControllerInterface
+    return new utils.Interface(_abi) as RegistrarControllerInterface;
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider,
+    signerOrProvider: Signer | Provider
   ): RegistrarController {
-    return new Contract(
-      address,
-      _abi,
-      signerOrProvider,
-    ) as RegistrarController
+    return new Contract(address, _abi, signerOrProvider) as RegistrarController;
   }
 }
