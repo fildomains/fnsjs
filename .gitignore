@@ -1,7 +1,14 @@
+# dependencies
+node_modules
+
 # hardhat
 /cache
 /artifacts
 README.md
 LICENSE
 
+.idea
+yarn-error.log
+.npmrc
 .env.local
+dist

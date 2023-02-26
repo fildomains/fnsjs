@@ -115,5 +115,6 @@
       "esModuleInterop": true
     }
   },
-  "include": ["src/**/*.ts", "./hardhat.config.ts", "./deploy"]
+  "include": ["src/**/*.ts", "./hardhat.config.ts", "./deploy"],
+  "exclude": ["custom-test-env.js", "./scripts/*", "**/*.ignore.ts", "**/*.ignore.tsx"]
 }

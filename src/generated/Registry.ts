@@ -2,686 +2,986 @@
 /* tslint:disable */
 /* eslint-disable */
 import type {
-  EventFragment,
-  FunctionFragment,
-  Result,
-} from '@ethersproject/abi'
-import { Interface } from '@ethersproject/abi'
-import type { Listener, Provider } from '@ethersproject/abstract-provider'
-import type { Signer } from '@ethersproject/abstract-signer'
-import type { BigNumber, BigNumberish } from '@ethersproject/bignumber'
-import type { BytesLike } from '@ethersproject/bytes'
-import type {
   BaseContract,
+  BigNumber,
+  BigNumberish,
+  BytesLike,
   CallOverrides,
   ContractTransaction,
   Overrides,
   PopulatedTransaction,
-} from '@ethersproject/contracts'
+  Signer,
+  utils,
+} from "ethers";
 import type {
+  FunctionFragment,
+  Result,
+  EventFragment,
+} from "@ethersproject/abi";
+import type { Listener, Provider } from "@ethersproject/providers";
+import type {
+  TypedEventFilter,
+  TypedEvent,
+  TypedListener,
   OnEvent,
   PromiseOrValue,
-  TypedEvent,
-  TypedEventFilter,
-  TypedListener,
-} from './common'
+} from "./common";
 
-export interface RegistryInterface extends Interface {
+export interface RegistryInterface extends utils.Interface {
   functions: {
-    'isApprovedForAll(address,address)': FunctionFragment
-    'old()': FunctionFragment
-    'owner(bytes32)': FunctionFragment
-    'recordExists(bytes32)': FunctionFragment
-    'resolver(bytes32)': FunctionFragment
-    'setApprovalForAll(address,bool)': FunctionFragment
-    'setOwner(bytes32,address)': FunctionFragment
-    'setRecord(bytes32,address,address,uint64)': FunctionFragment
-    'setResolver(bytes32,address)': FunctionFragment
-    'setSubnodeOwner(bytes32,bytes32,address)': FunctionFragment
-    'setSubnodeRecord(bytes32,bytes32,address,address,uint64)': FunctionFragment
-    'setTTL(bytes32,uint64)': FunctionFragment
-    'ttl(bytes32)': FunctionFragment
-  }
+    "isApprovedForAll(address,address)": FunctionFragment;
+    "owner(bytes32)": FunctionFragment;
+    "recordExists(bytes32)": FunctionFragment;
+    "resolver(bytes32)": FunctionFragment;
+    "setApprovalForAll(address,bool)": FunctionFragment;
+    "setOwner(bytes32,address)": FunctionFragment;
+    "setRecord(bytes32,address,address,uint64)": FunctionFragment;
+    "setResolver(bytes32,address)": FunctionFragment;
+    "setSubnodeOwner(bytes32,bytes32,address)": FunctionFragment;
+    "setSubnodeRecord(bytes32,bytes32,address,address,uint64)": FunctionFragment;
+    "setTTL(bytes32,uint64)": FunctionFragment;
+    "ttl(bytes32)": FunctionFragment;
+  };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | 'isApprovedForAll'
-      | 'old'
-      | 'owner'
-      | 'recordExists'
-      | 'resolver'
-      | 'setApprovalForAll'
-      | 'setOwner'
-      | 'setRecord'
-      | 'setResolver'
-      | 'setSubnodeOwner'
-      | 'setSubnodeRecord'
-      | 'setTTL'
-      | 'ttl',
-  ): FunctionFragment
+      | "isApprovedForAll"
+      | "owner"
+      | "recordExists"
+      | "resolver"
+      | "setApprovalForAll"
+      | "setOwner"
+      | "setRecord"
+      | "setResolver"
+      | "setSubnodeOwner"
+      | "setSubnodeRecord"
+      | "setTTL"
+      | "ttl"
+  ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: 'isApprovedForAll',
-    values: [PromiseOrValue<string>, PromiseOrValue<string>],
-  ): string
-  encodeFunctionData(functionFragment: 'old', values?: undefined): string
+    functionFragment: "isApprovedForAll",
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
   encodeFunctionData(
-    functionFragment: 'owner',
-    values: [PromiseOrValue<BytesLike>],
-  ): string
+    functionFragment: "owner",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
   encodeFunctionData(
-    functionFragment: 'recordExists',
-    values: [PromiseOrValue<BytesLike>],
-  ): string
+    functionFragment: "recordExists",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
   encodeFunctionData(
-    functionFragment: 'resolver',
-    values: [PromiseOrValue<BytesLike>],
-  ): string
+    functionFragment: "resolver",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
   encodeFunctionData(
-    functionFragment: 'setApprovalForAll',
-    values: [PromiseOrValue<string>, PromiseOrValue<boolean>],
-  ): string
+    functionFragment: "setApprovalForAll",
+    values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
+  ): string;
   encodeFunctionData(
-    functionFragment: 'setOwner',
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>],
-  ): string
+    functionFragment: "setOwner",
+    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
+  ): string;
   encodeFunctionData(
-    functionFragment: 'setRecord',
+    functionFragment: "setRecord",
     values: [
       PromiseOrValue<BytesLike>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-    ],
-  ): string
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
   encodeFunctionData(
-    functionFragment: 'setResolver',
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>],
-  ): string
+    functionFragment: "setResolver",
+    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
+  ): string;
   encodeFunctionData(
-    functionFragment: 'setSubnodeOwner',
+    functionFragment: "setSubnodeOwner",
+    values: [
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setSubnodeRecord",
     values: [
       PromiseOrValue<BytesLike>,
       PromiseOrValue<BytesLike>,
       PromiseOrValue<string>,
-    ],
-  ): string
-  encodeFunctionData(
-    functionFragment: 'setSubnodeRecord',
-    values: [
-      PromiseOrValue<BytesLike>,
-      PromiseOrValue<BytesLike>,
       PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-    ],
-  ): string
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
   encodeFunctionData(
-    functionFragment: 'setTTL',
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<BigNumberish>],
-  ): string
+    functionFragment: "setTTL",
+    values: [PromiseOrValue<BytesLike>, PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(
-    functionFragment: 'ttl',
-    values: [PromiseOrValue<BytesLike>],
-  ): string
+    functionFragment: "ttl",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
 
   decodeFunctionResult(
-    functionFragment: 'isApprovedForAll',
-    data: BytesLike,
-  ): Result
-  decodeFunctionResult(functionFragment: 'old', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result
+    functionFragment: "isApprovedForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'recordExists',
-    data: BytesLike,
-  ): Result
-  decodeFunctionResult(functionFragment: 'resolver', data: BytesLike): Result
+    functionFragment: "recordExists",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "resolver", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'setApprovalForAll',
-    data: BytesLike,
-  ): Result
-  decodeFunctionResult(functionFragment: 'setOwner', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'setRecord', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'setResolver', data: BytesLike): Result
+    functionFragment: "setApprovalForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setOwner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setRecord", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'setSubnodeOwner',
-    data: BytesLike,
-  ): Result
+    functionFragment: "setResolver",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'setSubnodeRecord',
-    data: BytesLike,
-  ): Result
-  decodeFunctionResult(functionFragment: 'setTTL', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'ttl', data: BytesLike): Result
+    functionFragment: "setSubnodeOwner",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setSubnodeRecord",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setTTL", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ttl", data: BytesLike): Result;
 
   events: {
-    'ApprovalForAll(address,address,bool)': EventFragment
-    'NewOwner(bytes32,bytes32,address)': EventFragment
-    'NewResolver(bytes32,address)': EventFragment
-    'NewTTL(bytes32,uint64)': EventFragment
-    'Transfer(bytes32,address)': EventFragment
-  }
+    "ApprovalForAll(address,address,bool)": EventFragment;
+    "NewOwner(bytes32,bytes32,address)": EventFragment;
+    "NewResolver(bytes32,address)": EventFragment;
+    "NewTTL(bytes32,uint64)": EventFragment;
+    "Transfer(bytes32,address)": EventFragment;
+  };
 
-  getEvent(nameOrSignatureOrTopic: 'ApprovalForAll'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'NewOwner'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'NewResolver'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'NewTTL'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'Transfer'): EventFragment
+  getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewOwner"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewResolver"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewTTL"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
 export interface ApprovalForAllEventObject {
-  owner: string
-  operator: string
-  approved: boolean
+  owner: string;
+  operator: string;
+  approved: boolean;
 }
 export type ApprovalForAllEvent = TypedEvent<
   [string, string, boolean],
   ApprovalForAllEventObject
->
+>;
 
-export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>
+export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
 export interface NewOwnerEventObject {
-  node: string
-  label: string
-  owner: string
+  node: string;
+  label: string;
+  owner: string;
 }
 export type NewOwnerEvent = TypedEvent<
   [string, string, string],
   NewOwnerEventObject
->
+>;
 
-export type NewOwnerEventFilter = TypedEventFilter<NewOwnerEvent>
+export type NewOwnerEventFilter = TypedEventFilter<NewOwnerEvent>;
 
 export interface NewResolverEventObject {
-  node: string
-  resolver: string
+  node: string;
+  resolver: string;
 }
 export type NewResolverEvent = TypedEvent<
   [string, string],
   NewResolverEventObject
->
+>;
 
-export type NewResolverEventFilter = TypedEventFilter<NewResolverEvent>
+export type NewResolverEventFilter = TypedEventFilter<NewResolverEvent>;
 
 export interface NewTTLEventObject {
-  node: string
-  ttl: BigNumber
+  node: string;
+  ttl: BigNumber;
 }
-export type NewTTLEvent = TypedEvent<[string, BigNumber], NewTTLEventObject>
+export type NewTTLEvent = TypedEvent<[string, BigNumber], NewTTLEventObject>;
 
-export type NewTTLEventFilter = TypedEventFilter<NewTTLEvent>
+export type NewTTLEventFilter = TypedEventFilter<NewTTLEvent>;
 
 export interface TransferEventObject {
-  node: string
-  owner: string
+  node: string;
+  owner: string;
 }
-export type TransferEvent = TypedEvent<[string, string], TransferEventObject>
+export type TransferEvent = TypedEvent<[string, string], TransferEventObject>;
 
-export type TransferEventFilter = TypedEventFilter<TransferEvent>
+export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
 export interface Registry extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this
-  attach(addressOrName: string): this
-  deployed(): Promise<this>
+  connect(signerOrProvider: Signer | Provider | string): this;
+  attach(addressOrName: string): this;
+  deployed(): Promise<this>;
 
-  interface: RegistryInterface
+  interface: RegistryInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined,
-  ): Promise<Array<TEvent>>
+    toBlock?: string | number | undefined
+  ): Promise<Array<TEvent>>;
 
   listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>,
-  ): Array<TypedListener<TEvent>>
-  listeners(eventName?: string): Array<Listener>
+    eventFilter?: TypedEventFilter<TEvent>
+  ): Array<TypedListener<TEvent>>;
+  listeners(eventName?: string): Array<Listener>;
   removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>,
-  ): this
-  removeAllListeners(eventName?: string): this
-  off: OnEvent<this>
-  on: OnEvent<this>
-  once: OnEvent<this>
-  removeListener: OnEvent<this>
+    eventFilter: TypedEventFilter<TEvent>
+  ): this;
+  removeAllListeners(eventName?: string): this;
+  off: OnEvent<this>;
+  on: OnEvent<this>;
+  once: OnEvent<this>;
+  removeListener: OnEvent<this>;
 
   functions: {
+    /**
+     * Query if an address is an authorized operator for another address.
+     * @param operator The address that acts on behalf of the owner.
+     * @param owner The address that owns the records.
+     */
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<[boolean]>
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
-    old(overrides?: CallOverrides): Promise<[string]>
-
+    /**
+     * Returns the address that owns the specified node.
+     * @param node The specified node.
+     */
     owner(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<[string]>
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
+    /**
+     * Returns whether a record has been imported to the registry.
+     * @param node The specified node.
+     */
     recordExists(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<[boolean]>
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
+    /**
+     * Returns the address of the resolver for the specified node.
+     * @param node The specified node.
+     */
     resolver(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<[string]>
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
+    /**
+     * Enable or disable approval for a third party ("operator") to manage  all of `msg.sender`'s FNS records. Emits the ApprovalForAll event.
+     * @param approved True if the operator is approved, false to revoke approval.
+     * @param operator Address to add to the set of authorized operators.
+     */
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
+    /**
+     * Transfers ownership of a node to a new address. May only be called by the current owner of the node.
+     * @param node The node to transfer ownership of.
+     * @param owner The address of the new owner.
+     */
     setOwner(
       node: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
+    /**
+     * Sets the record for a node.
+     * @param node The node to update.
+     * @param owner The address of the new owner.
+     * @param resolver The address of the resolver.
+     * @param ttl The TTL in seconds.
+     */
     setRecord(
       node: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
       resolver: PromiseOrValue<string>,
       ttl: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
+    /**
+     * Sets the resolver address for the specified node.
+     * @param node The node to update.
+     * @param resolver The address of the resolver.
+     */
     setResolver(
       node: PromiseOrValue<BytesLike>,
       resolver: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
+    /**
+     * Transfers ownership of a subnode keccak256(node, label) to a new address. May only be called by the owner of the parent node.
+     * @param label The hash of the label specifying the subnode.
+     * @param node The parent node.
+     * @param owner The address of the new owner.
+     */
     setSubnodeOwner(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
+    /**
+     * Sets the record for a subnode.
+     * @param label The hash of the label specifying the subnode.
+     * @param node The parent node.
+     * @param owner The address of the new owner.
+     * @param resolver The address of the resolver.
+     * @param ttl The TTL in seconds.
+     */
     setSubnodeRecord(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
       resolver: PromiseOrValue<string>,
       ttl: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
+    /**
+     * Sets the TTL for the specified node.
+     * @param node The node to update.
+     * @param ttl The TTL in seconds.
+     */
     setTTL(
       node: PromiseOrValue<BytesLike>,
       ttl: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<ContractTransaction>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
+    /**
+     * Returns the TTL of a node, and any records associated with it.
+     * @param node The specified node.
+     */
     ttl(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<[BigNumber]>
-  }
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+  };
 
+  /**
+   * Query if an address is an authorized operator for another address.
+   * @param operator The address that acts on behalf of the owner.
+   * @param owner The address that owns the records.
+   */
   isApprovedForAll(
     owner: PromiseOrValue<string>,
     operator: PromiseOrValue<string>,
-    overrides?: CallOverrides,
-  ): Promise<boolean>
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
-  old(overrides?: CallOverrides): Promise<string>
-
+  /**
+   * Returns the address that owns the specified node.
+   * @param node The specified node.
+   */
   owner(
     node: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides,
-  ): Promise<string>
+    overrides?: CallOverrides
+  ): Promise<string>;
 
+  /**
+   * Returns whether a record has been imported to the registry.
+   * @param node The specified node.
+   */
   recordExists(
     node: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides,
-  ): Promise<boolean>
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
+  /**
+   * Returns the address of the resolver for the specified node.
+   * @param node The specified node.
+   */
   resolver(
     node: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides,
-  ): Promise<string>
+    overrides?: CallOverrides
+  ): Promise<string>;
 
+  /**
+   * Enable or disable approval for a third party ("operator") to manage  all of `msg.sender`'s FNS records. Emits the ApprovalForAll event.
+   * @param approved True if the operator is approved, false to revoke approval.
+   * @param operator Address to add to the set of authorized operators.
+   */
   setApprovalForAll(
     operator: PromiseOrValue<string>,
     approved: PromiseOrValue<boolean>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
+  /**
+   * Transfers ownership of a node to a new address. May only be called by the current owner of the node.
+   * @param node The node to transfer ownership of.
+   * @param owner The address of the new owner.
+   */
   setOwner(
     node: PromiseOrValue<BytesLike>,
     owner: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
+  /**
+   * Sets the record for a node.
+   * @param node The node to update.
+   * @param owner The address of the new owner.
+   * @param resolver The address of the resolver.
+   * @param ttl The TTL in seconds.
+   */
   setRecord(
     node: PromiseOrValue<BytesLike>,
     owner: PromiseOrValue<string>,
     resolver: PromiseOrValue<string>,
     ttl: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
+  /**
+   * Sets the resolver address for the specified node.
+   * @param node The node to update.
+   * @param resolver The address of the resolver.
+   */
   setResolver(
     node: PromiseOrValue<BytesLike>,
     resolver: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
+  /**
+   * Transfers ownership of a subnode keccak256(node, label) to a new address. May only be called by the owner of the parent node.
+   * @param label The hash of the label specifying the subnode.
+   * @param node The parent node.
+   * @param owner The address of the new owner.
+   */
   setSubnodeOwner(
     node: PromiseOrValue<BytesLike>,
     label: PromiseOrValue<BytesLike>,
     owner: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
+  /**
+   * Sets the record for a subnode.
+   * @param label The hash of the label specifying the subnode.
+   * @param node The parent node.
+   * @param owner The address of the new owner.
+   * @param resolver The address of the resolver.
+   * @param ttl The TTL in seconds.
+   */
   setSubnodeRecord(
     node: PromiseOrValue<BytesLike>,
     label: PromiseOrValue<BytesLike>,
     owner: PromiseOrValue<string>,
     resolver: PromiseOrValue<string>,
     ttl: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
+  /**
+   * Sets the TTL for the specified node.
+   * @param node The node to update.
+   * @param ttl The TTL in seconds.
+   */
   setTTL(
     node: PromiseOrValue<BytesLike>,
     ttl: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> },
-  ): Promise<ContractTransaction>
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
+  /**
+   * Returns the TTL of a node, and any records associated with it.
+   * @param node The specified node.
+   */
   ttl(
     node: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides,
-  ): Promise<BigNumber>
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   callStatic: {
+    /**
+     * Query if an address is an authorized operator for another address.
+     * @param operator The address that acts on behalf of the owner.
+     * @param owner The address that owns the records.
+     */
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<boolean>
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
-    old(overrides?: CallOverrides): Promise<string>
-
+    /**
+     * Returns the address that owns the specified node.
+     * @param node The specified node.
+     */
     owner(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<string>
+      overrides?: CallOverrides
+    ): Promise<string>;
 
+    /**
+     * Returns whether a record has been imported to the registry.
+     * @param node The specified node.
+     */
     recordExists(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<boolean>
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
+    /**
+     * Returns the address of the resolver for the specified node.
+     * @param node The specified node.
+     */
     resolver(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<string>
+      overrides?: CallOverrides
+    ): Promise<string>;
 
+    /**
+     * Enable or disable approval for a third party ("operator") to manage  all of `msg.sender`'s FNS records. Emits the ApprovalForAll event.
+     * @param approved True if the operator is approved, false to revoke approval.
+     * @param operator Address to add to the set of authorized operators.
+     */
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
-      overrides?: CallOverrides,
-    ): Promise<void>
+      overrides?: CallOverrides
+    ): Promise<void>;
 
+    /**
+     * Transfers ownership of a node to a new address. May only be called by the current owner of the node.
+     * @param node The node to transfer ownership of.
+     * @param owner The address of the new owner.
+     */
     setOwner(
       node: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<void>
+      overrides?: CallOverrides
+    ): Promise<void>;
 
+    /**
+     * Sets the record for a node.
+     * @param node The node to update.
+     * @param owner The address of the new owner.
+     * @param resolver The address of the resolver.
+     * @param ttl The TTL in seconds.
+     */
     setRecord(
       node: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
       resolver: PromiseOrValue<string>,
       ttl: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides,
-    ): Promise<void>
+      overrides?: CallOverrides
+    ): Promise<void>;
 
+    /**
+     * Sets the resolver address for the specified node.
+     * @param node The node to update.
+     * @param resolver The address of the resolver.
+     */
     setResolver(
       node: PromiseOrValue<BytesLike>,
       resolver: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<void>
+      overrides?: CallOverrides
+    ): Promise<void>;
 
+    /**
+     * Transfers ownership of a subnode keccak256(node, label) to a new address. May only be called by the owner of the parent node.
+     * @param label The hash of the label specifying the subnode.
+     * @param node The parent node.
+     * @param owner The address of the new owner.
+     */
     setSubnodeOwner(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<string>
+      overrides?: CallOverrides
+    ): Promise<string>;
 
+    /**
+     * Sets the record for a subnode.
+     * @param label The hash of the label specifying the subnode.
+     * @param node The parent node.
+     * @param owner The address of the new owner.
+     * @param resolver The address of the resolver.
+     * @param ttl The TTL in seconds.
+     */
     setSubnodeRecord(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
       resolver: PromiseOrValue<string>,
       ttl: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides,
-    ): Promise<void>
+      overrides?: CallOverrides
+    ): Promise<void>;
 
+    /**
+     * Sets the TTL for the specified node.
+     * @param node The node to update.
+     * @param ttl The TTL in seconds.
+     */
     setTTL(
       node: PromiseOrValue<BytesLike>,
       ttl: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides,
-    ): Promise<void>
+      overrides?: CallOverrides
+    ): Promise<void>;
 
+    /**
+     * Returns the TTL of a node, and any records associated with it.
+     * @param node The specified node.
+     */
     ttl(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>
-  }
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+  };
 
   filters: {
-    'ApprovalForAll(address,address,bool)'(
+    "ApprovalForAll(address,address,bool)"(
       owner?: PromiseOrValue<string> | null,
       operator?: PromiseOrValue<string> | null,
-      approved?: null,
-    ): ApprovalForAllEventFilter
+      approved?: null
+    ): ApprovalForAllEventFilter;
     ApprovalForAll(
       owner?: PromiseOrValue<string> | null,
       operator?: PromiseOrValue<string> | null,
-      approved?: null,
-    ): ApprovalForAllEventFilter
+      approved?: null
+    ): ApprovalForAllEventFilter;
 
-    'NewOwner(bytes32,bytes32,address)'(
+    "NewOwner(bytes32,bytes32,address)"(
       node?: PromiseOrValue<BytesLike> | null,
       label?: PromiseOrValue<BytesLike> | null,
-      owner?: null,
-    ): NewOwnerEventFilter
+      owner?: null
+    ): NewOwnerEventFilter;
     NewOwner(
       node?: PromiseOrValue<BytesLike> | null,
       label?: PromiseOrValue<BytesLike> | null,
-      owner?: null,
-    ): NewOwnerEventFilter
+      owner?: null
+    ): NewOwnerEventFilter;
 
-    'NewResolver(bytes32,address)'(
+    "NewResolver(bytes32,address)"(
       node?: PromiseOrValue<BytesLike> | null,
-      resolver?: null,
-    ): NewResolverEventFilter
+      resolver?: null
+    ): NewResolverEventFilter;
     NewResolver(
       node?: PromiseOrValue<BytesLike> | null,
-      resolver?: null,
-    ): NewResolverEventFilter
+      resolver?: null
+    ): NewResolverEventFilter;
 
-    'NewTTL(bytes32,uint64)'(
+    "NewTTL(bytes32,uint64)"(
       node?: PromiseOrValue<BytesLike> | null,
-      ttl?: null,
-    ): NewTTLEventFilter
+      ttl?: null
+    ): NewTTLEventFilter;
     NewTTL(
       node?: PromiseOrValue<BytesLike> | null,
-      ttl?: null,
-    ): NewTTLEventFilter
+      ttl?: null
+    ): NewTTLEventFilter;
 
-    'Transfer(bytes32,address)'(
+    "Transfer(bytes32,address)"(
       node?: PromiseOrValue<BytesLike> | null,
-      owner?: null,
-    ): TransferEventFilter
+      owner?: null
+    ): TransferEventFilter;
     Transfer(
       node?: PromiseOrValue<BytesLike> | null,
-      owner?: null,
-    ): TransferEventFilter
-  }
+      owner?: null
+    ): TransferEventFilter;
+  };
 
   estimateGas: {
+    /**
+     * Query if an address is an authorized operator for another address.
+     * @param operator The address that acts on behalf of the owner.
+     * @param owner The address that owns the records.
+     */
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
-    old(overrides?: CallOverrides): Promise<BigNumber>
-
+    /**
+     * Returns the address that owns the specified node.
+     * @param node The specified node.
+     */
     owner(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
+    /**
+     * Returns whether a record has been imported to the registry.
+     * @param node The specified node.
+     */
     recordExists(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
+    /**
+     * Returns the address of the resolver for the specified node.
+     * @param node The specified node.
+     */
     resolver(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
+    /**
+     * Enable or disable approval for a third party ("operator") to manage  all of `msg.sender`'s FNS records. Emits the ApprovalForAll event.
+     * @param approved True if the operator is approved, false to revoke approval.
+     * @param operator Address to add to the set of authorized operators.
+     */
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
+    /**
+     * Transfers ownership of a node to a new address. May only be called by the current owner of the node.
+     * @param node The node to transfer ownership of.
+     * @param owner The address of the new owner.
+     */
     setOwner(
       node: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
+    /**
+     * Sets the record for a node.
+     * @param node The node to update.
+     * @param owner The address of the new owner.
+     * @param resolver The address of the resolver.
+     * @param ttl The TTL in seconds.
+     */
     setRecord(
       node: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
       resolver: PromiseOrValue<string>,
       ttl: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
+    /**
+     * Sets the resolver address for the specified node.
+     * @param node The node to update.
+     * @param resolver The address of the resolver.
+     */
     setResolver(
       node: PromiseOrValue<BytesLike>,
       resolver: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
+    /**
+     * Transfers ownership of a subnode keccak256(node, label) to a new address. May only be called by the owner of the parent node.
+     * @param label The hash of the label specifying the subnode.
+     * @param node The parent node.
+     * @param owner The address of the new owner.
+     */
     setSubnodeOwner(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
+    /**
+     * Sets the record for a subnode.
+     * @param label The hash of the label specifying the subnode.
+     * @param node The parent node.
+     * @param owner The address of the new owner.
+     * @param resolver The address of the resolver.
+     * @param ttl The TTL in seconds.
+     */
     setSubnodeRecord(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
       resolver: PromiseOrValue<string>,
       ttl: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
+    /**
+     * Sets the TTL for the specified node.
+     * @param node The node to update.
+     * @param ttl The TTL in seconds.
+     */
     setTTL(
       node: PromiseOrValue<BytesLike>,
       ttl: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<BigNumber>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
+    /**
+     * Returns the TTL of a node, and any records associated with it.
+     * @param node The specified node.
+     */
     ttl(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<BigNumber>
-  }
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+  };
 
   populateTransaction: {
+    /**
+     * Query if an address is an authorized operator for another address.
+     * @param operator The address that acts on behalf of the owner.
+     * @param owner The address that owns the records.
+     */
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
-    old(overrides?: CallOverrides): Promise<PopulatedTransaction>
-
+    /**
+     * Returns the address that owns the specified node.
+     * @param node The specified node.
+     */
     owner(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
+    /**
+     * Returns whether a record has been imported to the registry.
+     * @param node The specified node.
+     */
     recordExists(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
+    /**
+     * Returns the address of the resolver for the specified node.
+     * @param node The specified node.
+     */
     resolver(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
+    /**
+     * Enable or disable approval for a third party ("operator") to manage  all of `msg.sender`'s FNS records. Emits the ApprovalForAll event.
+     * @param approved True if the operator is approved, false to revoke approval.
+     * @param operator Address to add to the set of authorized operators.
+     */
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
+    /**
+     * Transfers ownership of a node to a new address. May only be called by the current owner of the node.
+     * @param node The node to transfer ownership of.
+     * @param owner The address of the new owner.
+     */
     setOwner(
       node: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
+    /**
+     * Sets the record for a node.
+     * @param node The node to update.
+     * @param owner The address of the new owner.
+     * @param resolver The address of the resolver.
+     * @param ttl The TTL in seconds.
+     */
     setRecord(
       node: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
       resolver: PromiseOrValue<string>,
       ttl: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
+    /**
+     * Sets the resolver address for the specified node.
+     * @param node The node to update.
+     * @param resolver The address of the resolver.
+     */
     setResolver(
       node: PromiseOrValue<BytesLike>,
       resolver: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
+    /**
+     * Transfers ownership of a subnode keccak256(node, label) to a new address. May only be called by the owner of the parent node.
+     * @param label The hash of the label specifying the subnode.
+     * @param node The parent node.
+     * @param owner The address of the new owner.
+     */
     setSubnodeOwner(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
+    /**
+     * Sets the record for a subnode.
+     * @param label The hash of the label specifying the subnode.
+     * @param node The parent node.
+     * @param owner The address of the new owner.
+     * @param resolver The address of the resolver.
+     * @param ttl The TTL in seconds.
+     */
     setSubnodeRecord(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
       owner: PromiseOrValue<string>,
       resolver: PromiseOrValue<string>,
       ttl: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
+    /**
+     * Sets the TTL for the specified node.
+     * @param node The node to update.
+     * @param ttl The TTL in seconds.
+     */
     setTTL(
       node: PromiseOrValue<BytesLike>,
       ttl: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> },
-    ): Promise<PopulatedTransaction>
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
+    /**
+     * Returns the TTL of a node, and any records associated with it.
+     * @param node The specified node.
+     */
     ttl(
       node: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides,
-    ): Promise<PopulatedTransaction>
-  }
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+  };
 }
