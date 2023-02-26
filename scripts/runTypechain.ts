@@ -16,9 +16,9 @@ const overrides = [
 async function main() {
   const cwd = process.cwd()
 
-  const contracts = path.resolve(cwd, './node_modules/@ensdomains/ens-contracts')
+  const contracts = path.resolve(cwd, './node_modules/@fildomains/fns-contracts')
   if (!fs.existsSync(contracts)) {
-    throw new Error('@ensdomains/ens-contracts not found')
+    throw new Error('@fildomains/fns-contracts not found')
   }
 
   if (!fs.existsSync('./cache/json-abis'))
@@ -34,7 +34,6 @@ async function main() {
 
   const importABIs = glob(cwd, [
     `${contracts}/deployments/mainnet/**/+([a-zA-Z0-9_]).json`,
-    './src/ABIs/Multicall.json',
   ])
 
   for (const name of overrides) {

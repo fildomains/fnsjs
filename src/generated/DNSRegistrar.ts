@@ -40,11 +40,14 @@ export declare namespace DNSSEC {
 
 export interface DNSRegistrarInterface extends utils.Interface {
   functions: {
+    "enableNode(bytes)": FunctionFragment;
     "fns()": FunctionFragment;
     "inceptions(bytes32)": FunctionFragment;
     "oracle()": FunctionFragment;
+    "previousRegistrar()": FunctionFragment;
     "proveAndClaim(bytes,(bytes,bytes)[])": FunctionFragment;
     "proveAndClaimWithResolver(bytes,(bytes,bytes)[],address,address)": FunctionFragment;
+    "resolver()": FunctionFragment;
     "setPublicSuffixList(address)": FunctionFragment;
     "suffixes()": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -52,22 +55,33 @@ export interface DNSRegistrarInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "enableNode"
       | "fns"
       | "inceptions"
       | "oracle"
+      | "previousRegistrar"
       | "proveAndClaim"
       | "proveAndClaimWithResolver"
+      | "resolver"
       | "setPublicSuffixList"
       | "suffixes"
       | "supportsInterface"
   ): FunctionFragment;
 
+  encodeFunctionData(
+    functionFragment: "enableNode",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
   encodeFunctionData(functionFragment: "fns", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "inceptions",
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(functionFragment: "oracle", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "previousRegistrar",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "proveAndClaim",
     values: [PromiseOrValue<BytesLike>, DNSSEC.RRSetWithSignatureStruct[]]
@@ -81,6 +95,7 @@ export interface DNSRegistrarInterface extends utils.Interface {
       PromiseOrValue<string>
     ]
   ): string;
+  encodeFunctionData(functionFragment: "resolver", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "setPublicSuffixList",
     values: [PromiseOrValue<string>]
@@ -91,9 +106,14 @@ export interface DNSRegistrarInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
 
+  decodeFunctionResult(functionFragment: "enableNode", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "fns", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "inceptions", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "oracle", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "previousRegistrar",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "proveAndClaim",
     data: BytesLike
@@ -102,6 +122,7 @@ export interface DNSRegistrarInterface extends utils.Interface {
     functionFragment: "proveAndClaimWithResolver",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "resolver", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setPublicSuffixList",
     data: BytesLike
@@ -114,12 +135,10 @@ export interface DNSRegistrarInterface extends utils.Interface {
 
   events: {
     "Claim(bytes32,address,bytes,uint32)": EventFragment;
-    "NewOracle(address)": EventFragment;
     "NewPublicSuffixList(address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Claim"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "NewOracle"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NewPublicSuffixList"): EventFragment;
 }
 
@@ -135,13 +154,6 @@ export type ClaimEvent = TypedEvent<
 >;
 
 export type ClaimEventFilter = TypedEventFilter<ClaimEvent>;
-
-export interface NewOracleEventObject {
-  oracle: string;
-}
-export type NewOracleEvent = TypedEvent<[string], NewOracleEventObject>;
-
-export type NewOracleEventFilter = TypedEventFilter<NewOracleEvent>;
 
 export interface NewPublicSuffixListEventObject {
   suffixes: string;
@@ -181,6 +193,11 @@ export interface DNSRegistrar extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    enableNode(
+      domain: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     fns(overrides?: CallOverrides): Promise<[string]>;
 
     inceptions(
@@ -189,6 +206,8 @@ export interface DNSRegistrar extends BaseContract {
     ): Promise<[number]>;
 
     oracle(overrides?: CallOverrides): Promise<[string]>;
+
+    previousRegistrar(overrides?: CallOverrides): Promise<[string]>;
 
     proveAndClaim(
       name: PromiseOrValue<BytesLike>,
@@ -204,6 +223,8 @@ export interface DNSRegistrar extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    resolver(overrides?: CallOverrides): Promise<[string]>;
+
     setPublicSuffixList(
       _suffixes: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -217,6 +238,11 @@ export interface DNSRegistrar extends BaseContract {
     ): Promise<[boolean]>;
   };
 
+  enableNode(
+    domain: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   fns(overrides?: CallOverrides): Promise<string>;
 
   inceptions(
@@ -225,6 +251,8 @@ export interface DNSRegistrar extends BaseContract {
   ): Promise<number>;
 
   oracle(overrides?: CallOverrides): Promise<string>;
+
+  previousRegistrar(overrides?: CallOverrides): Promise<string>;
 
   proveAndClaim(
     name: PromiseOrValue<BytesLike>,
@@ -240,6 +268,8 @@ export interface DNSRegistrar extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  resolver(overrides?: CallOverrides): Promise<string>;
+
   setPublicSuffixList(
     _suffixes: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -253,6 +283,11 @@ export interface DNSRegistrar extends BaseContract {
   ): Promise<boolean>;
 
   callStatic: {
+    enableNode(
+      domain: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
     fns(overrides?: CallOverrides): Promise<string>;
 
     inceptions(
@@ -261,6 +296,8 @@ export interface DNSRegistrar extends BaseContract {
     ): Promise<number>;
 
     oracle(overrides?: CallOverrides): Promise<string>;
+
+    previousRegistrar(overrides?: CallOverrides): Promise<string>;
 
     proveAndClaim(
       name: PromiseOrValue<BytesLike>,
@@ -275,6 +312,8 @@ export interface DNSRegistrar extends BaseContract {
       addr: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    resolver(overrides?: CallOverrides): Promise<string>;
 
     setPublicSuffixList(
       _suffixes: PromiseOrValue<string>,
@@ -303,9 +342,6 @@ export interface DNSRegistrar extends BaseContract {
       inception?: null
     ): ClaimEventFilter;
 
-    "NewOracle(address)"(oracle?: null): NewOracleEventFilter;
-    NewOracle(oracle?: null): NewOracleEventFilter;
-
     "NewPublicSuffixList(address)"(
       suffixes?: null
     ): NewPublicSuffixListEventFilter;
@@ -313,6 +349,11 @@ export interface DNSRegistrar extends BaseContract {
   };
 
   estimateGas: {
+    enableNode(
+      domain: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     fns(overrides?: CallOverrides): Promise<BigNumber>;
 
     inceptions(
@@ -321,6 +362,8 @@ export interface DNSRegistrar extends BaseContract {
     ): Promise<BigNumber>;
 
     oracle(overrides?: CallOverrides): Promise<BigNumber>;
+
+    previousRegistrar(overrides?: CallOverrides): Promise<BigNumber>;
 
     proveAndClaim(
       name: PromiseOrValue<BytesLike>,
@@ -335,6 +378,8 @@ export interface DNSRegistrar extends BaseContract {
       addr: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    resolver(overrides?: CallOverrides): Promise<BigNumber>;
 
     setPublicSuffixList(
       _suffixes: PromiseOrValue<string>,
@@ -350,6 +395,11 @@ export interface DNSRegistrar extends BaseContract {
   };
 
   populateTransaction: {
+    enableNode(
+      domain: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     fns(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     inceptions(
@@ -358,6 +408,8 @@ export interface DNSRegistrar extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     oracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    previousRegistrar(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     proveAndClaim(
       name: PromiseOrValue<BytesLike>,
@@ -372,6 +424,8 @@ export interface DNSRegistrar extends BaseContract {
       addr: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    resolver(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     setPublicSuffixList(
       _suffixes: PromiseOrValue<string>,

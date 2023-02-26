@@ -38,7 +38,7 @@ export default async function (
     return dnsRegistrarContract?.populateTransaction.proveAndClaim(
       encodedName,
       data,
-      proof,
+      { from: `0x${proof.toString('hex')}` },
     )
   }
 
@@ -46,9 +46,9 @@ export default async function (
     return dnsRegistrarContract?.populateTransaction.proveAndClaimWithResolver(
       encodedName,
       data,
-      proof,
+      `0x${proof.toString('hex')}`,
       resolverContract!.address,
-      address,
+      { from: address },
     )
   }
 }
