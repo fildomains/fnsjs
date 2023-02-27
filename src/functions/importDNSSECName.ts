@@ -32,13 +32,11 @@ export default async function (
     rrset: string
     sig: string
   }>
-  const { proof } = proofData
 
   if (address === EMPTY_ADDRESS) {
     return dnsRegistrarContract?.populateTransaction.proveAndClaim(
       encodedName,
       data,
-      { from: `0x${proof.toString('hex')}` },
     )
   }
 
@@ -46,9 +44,8 @@ export default async function (
     return dnsRegistrarContract?.populateTransaction.proveAndClaimWithResolver(
       encodedName,
       data,
-      `0x${proof.toString('hex')}`,
       resolverContract!.address,
-      { from: address },
+      address,
     )
   }
 }
