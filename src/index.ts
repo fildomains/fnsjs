@@ -443,6 +443,16 @@ export class FNS {
     'getName',
   )
 
+  public getEarnings = this.generateRawFunction<FunctionTypes['getEarnings']>(
+    'getEarnings',
+    ['contracts'],
+  )
+
+  public getShare = this.generateRawFunction<FunctionTypes['getShare']>(
+    'getShare',
+    ['contracts'],
+  )
+
   public getResolver = this.generateRawFunction<FunctionTypes['getResolver']>(
     'getResolver',
     ['contracts'],
@@ -644,4 +654,20 @@ export class FNS {
   public extendWrappedName = this.generateWriteFunction<
     FunctionTypes['extendWrappedName']
   >('renewNames', ['contracts'], 'extendWrappedName')
+
+  // eslint doesn't allow 'claimEarnings', so 'claim'
+  public claimEarnings = this.generateWriteFunction<FunctionTypes['claim']>(
+    'claimEarnings',
+    ['contracts'],
+  )
+
+  public pledge = this.generateWriteFunction<FunctionTypes['pledge']>(
+    'pledge',
+    ['contracts'],
+  )
+
+  public initShare = this.generateWriteFunction<FunctionTypes['initShare']>(
+    'initShare',
+    ['contracts'],
+  )
 }

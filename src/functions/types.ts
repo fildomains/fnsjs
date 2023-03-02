@@ -30,7 +30,9 @@ import type {
   _getText,
 } from './getSpecificRecord'
 import type getSubnames from './getSubnames'
+import type getEarnings from './getEarnings'
 import type getWrapperData from './getWrapperData'
+import type getShare from './getShare'
 import type importDNSSECName from './importDNSSECName'
 import type registerName from './registerName'
 import type {
@@ -50,6 +52,9 @@ import type transferName from './transferName'
 import type transferSubname from './transferSubname'
 import type unwrapName from './unwrapName'
 import type wrapName from './wrapName'
+import type initShare from './initShare'
+import type claim from './claimEarnings'
+import type pledge from './pledge'
 
 type Function = {
   batch: typeof batch
@@ -83,6 +88,8 @@ type Function = {
   _getABI: typeof _getABI
   getSubnames: typeof getSubnames
   getWrapperData: typeof getWrapperData
+  getEarnings: typeof getEarnings
+  getShare: typeof getShare
   importDNSSECName: typeof importDNSSECName
   registerName: typeof registerName
   renewNames: typeof renewNames
@@ -97,6 +104,9 @@ type Function = {
   transferSubname: typeof transferSubname
   unwrapName: typeof unwrapName
   wrapName: typeof wrapName
+  initShare: typeof initShare
+  pledge: typeof pledge
+  claim: typeof claim
 }
 
 export default Function

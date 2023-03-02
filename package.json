@@ -1,6 +1,6 @@
 {
   "name": "@fildomains/fnsjs",
-  "version": "0.48.2",
+  "version": "0.48.4",
   "description": "FNS javascript library for contract interaction",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
@@ -59,7 +59,7 @@
     "type": "git",
     "url": "git+https://github.com/fildomains/fnsjs.git"
   },
-  "author": "ancjf <ancjf@163.com>",
+  "author": "amncjf <amncjf@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/fildomains/fnsjs/issues"

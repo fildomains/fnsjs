@@ -6,7 +6,8 @@ import { namehash } from '../utils/normalise'
 
 type BaseProps = {
   duration: number
-  value: BigNumber
+  value?: BigNumber
+  useFns?: boolean
 }
 
 type WrappedProps = {
@@ -34,7 +35,7 @@ export async function extendWrappedName(
 export default async function (
   { contracts }: FNSArgs<'contracts'>,
   nameOrNames: string | string[],
-  { duration, value }: BaseProps,
+  { duration, value, useFns }: BaseProps,
 ) {
   const names = Array.isArray(nameOrNames) ? nameOrNames : [nameOrNames]
   const labels = names.map((name) => {
@@ -46,9 +47,19 @@ export default async function (
   })
 
   if (labels.length === 1) {
+    if (useFns === true) {
+      const fnsToken = await contracts!.getFNSToken()
+      return fnsToken.populateTransaction.renew(labels[0], duration)
+    }
     const controller = await contracts!.getRegistrarController()
     return controller.populateTransaction.renew(labels[0], duration, { value })
   }
+
+  if (useFns === true) {
+    const fnsToken = await contracts!.getFNSToken()
+    return fnsToken.populateTransaction.renewAll(labels, duration)
+  }
+
   const bulkRenewal = await contracts!.getBulkRenewal()
   return bulkRenewal.populateTransaction.renewAll(labels, duration, { value })
 }

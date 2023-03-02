@@ -42,6 +42,24 @@ describe('renewNames', () => {
     expect(newExpiry.toNumber()).toBe(oldExpiry.add(31536000).toNumber())
   })
 
+  it('should return a renew useFns transaction and succeed', async () => {
+    const name = 'to-be-renewed.fil'
+    const label = name.split('.')[0]
+    const duration = 31536000
+    const baseRegistrar = await fnsInstance.contracts!.getBaseRegistrar()!
+    const oldExpiry = await baseRegistrar.nameExpires(labelhash(label))
+
+    const tx = await fnsInstance.renewNames(name, {
+      duration,
+      addressOrIndex: accounts[0],
+      useFns: true,
+    })
+    await tx.wait()
+
+    const newExpiry = await baseRegistrar.nameExpires(labelhash(label))
+    expect(newExpiry.toNumber()).toBe(oldExpiry.add(31536000).toNumber())
+  })
+
   it('should return a renew transaction and succeed', async () => {
     const names = ['to-be-renewed.fil', 'test123.fil']
     const label = names[0].split('.')[0]
@@ -55,6 +73,24 @@ describe('renewNames', () => {
       value: price.mul(4),
       duration,
       addressOrIndex: accounts[1],
+    })
+    await tx.wait()
+
+    const newExpiry = await baseRegistrar.nameExpires(labelhash(label))
+    expect(newExpiry.toNumber()).toBe(oldExpiry.add(31536000).toNumber())
+  })
+
+  it('should return a renew useFns transaction and succeed', async () => {
+    const names = ['to-be-renewed.fil', 'test123.fil']
+    const label = names[0].split('.')[0]
+    const duration = 31536000
+    const baseRegistrar = await fnsInstance.contracts!.getBaseRegistrar()!
+    const oldExpiry = await baseRegistrar.nameExpires(labelhash(label))
+
+    const tx = await fnsInstance.renewNames(names, {
+      duration,
+      addressOrIndex: accounts[1],
+      useFns: true,
     })
     await tx.wait()
 
