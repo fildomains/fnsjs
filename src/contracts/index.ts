@@ -12,6 +12,9 @@ import type { NameWrapper } from '../generated/NameWrapper'
 import type { PublicResolver } from '../generated/PublicResolver'
 import type { ReverseRegistrar } from '../generated/ReverseRegistrar'
 import type { UniversalResolver } from '../generated/UniversalResolver'
+import type { FNSToken } from '../generated/FNSToken'
+import type { Sunday } from '../generated/Sunday'
+import type { Receiver } from '../generated/Receiver'
 import { ContractAddressFetch } from './getContractAddress'
 import { ContractName } from './types'
 
@@ -81,12 +84,16 @@ export default class ContractManager {
     )
 
   public getRegistrarController =
-    this.generateContractGetter<RegistrarController>(
-      'RegistrarController',
-    )
+    this.generateContractGetter<RegistrarController>('RegistrarController')
 
   public getMulticall = this.generateContractGetter<Multicall>('Multicall')
 
   public getBulkRenewal =
     this.generateContractGetter<BulkRenewal>('BulkRenewal')
+
+  public getFNSToken = this.generateContractGetter<FNSToken>('FNSToken')
+
+  public getSunday = this.generateContractGetter<Sunday>('Sunday')
+
+  public getReceiver = this.generateContractGetter<Receiver>('Receiver')
 }
