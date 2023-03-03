@@ -31,104 +31,160 @@ const hardhatAddress = {
   Multicall: '0x95401dc811bb5740090279Ba06cfA8fcF6113778',
 }
 
+const hyperspaceAddress = {
+  "BaseRegistrarImplementation": "0x595a454758737944679D88895df35d15739B22B3",
+  "BulkRenewal": "0xcf10c14dAC966001B4A4B1575da2385c82c13840",
+  "DNSRegistrar": "0xa10Df431c5e603318Cba63F2B0A3017763DAC5D9",
+  "DNSSECImpl": "0xfFE07217769f78Cd1661572043E9a2d9D13eDef6",
+  "DummyAlgorithm": "0x6439D3887AE110d7416f7f469Ca3b0CCb33f550a",
+  "DummyDigest": "0xb9F417CDff30a40135F526088EF9b63a3727aC47",
+  "DummyOracle": "0xdE3DADe7De39a32A0511e6B29a9b943F53EcBc7c",
+  "ExponentialPremiumPriceOracle": "0xc385A063fE7745BBdCDD0B6A8cEbee42Ab2D1c18",
+  "FNSToken": "0x630a38317b61770Bf30b509e78674B126dff1a1A",
+  "Multicall": "0x7E7315cbef6639906ad07aEb712DAdd10a13aE44",
+  "NameWrapper": "0xd31B036A11B9e4ccF25637dFB75d65f26C3f36d3",
+  "OffchainDNSResolver": "0xa086Bc63F2E22e35Ed802367c0b5b43FD69614A8",
+  "P256SHA256Algorithm": "0xBfcA935c1Eb34A6fDC2a4C3e141dC416aDb926ba",
+  "PublicResolver": "0xD8D047F3F2267FEa988C6D13Ad487EeDcbF3C987",
+  "RSASHA1Algorithm": "0x2b964C8180E531e14C3CA23c4732D4C9C5A4352b",
+  "RSASHA256Algorithm": "0x6B186F15A590Fce06b8285E2e3b0De58993C701f",
+  "Receiver": "0x4c2273372052c3A2f5447E0760bA1c1E6a88f96B",
+  "RegistrarController": "0x883aAa8aB8d82c81d98942204ed0c54ce58617dF",
+  "Registry": "0x0000017bAc246FCC3af455e8fAd20bfCa6017D69",
+  "ReverseRegistrar": "0x027dBB4540F5cBD0b43472b51E3b44E9f623E747",
+  "Root": "0x4aD6D028207D96E158b7CEE5e034f46a47A50eF1",
+  "SHA1Digest": "0x692B632490F11a59BAE9976331108bc02408597c",
+  "SHA256Digest": "0x4F9921E387f1Bb3E8e6d0D2Be889d9FCEB5b356D",
+  "StaticMetadataService": "0x6847b0f743242d92faCF7c3F6f54B537C87CBFa1",
+  "Sunday": "0x4B59D53251B26bC3D1baFc2d85C5eb79Bab2d807",
+  "TLDPublicSuffixList": "0xD7cbD650f301959Cc6d84C2bbB9dF0781FfA9D8d",
+  "TestRegistrar": "0x3E12185EA457aeB1a9D2AcE57D81a6262f976038",
+  "TestUnwrap": "0x51D2902E4e6fDc52451C4CE7f66E73bd84cAC19a",
+  "UniversalResolver": "0x9D05149C961e09003a05Dd431cE2B44187A32aAF"
+}
+
 const addresses: Record<
   ContractName,
   Partial<Record<SupportedNetworkId, string>> | string
 > = {
   /* eslint-disable @typescript-eslint/naming-convention */
   BaseRegistrarImplementation: {
+    '3141': hardhatAddress.BaseRegistrarImplementation,
     '1337': hardhatAddress.BaseRegistrarImplementation,
     '31337': hardhatAddress.BaseRegistrarImplementation,
   },
   RegistrarController: {
+    '3141': hardhatAddress.RegistrarController,
     '1337': hardhatAddress.RegistrarController,
     '31337': hardhatAddress.RegistrarController,
   },
   Multicall: {
+    '3141': hardhatAddress.Multicall,
     '1337': hardhatAddress.Multicall,
     '31337': hardhatAddress.Multicall,
   },
   NameWrapper: {
+    '3141': hardhatAddress.NameWrapper,
     '1337': hardhatAddress.NameWrapper,
     '31337': hardhatAddress.NameWrapper,
   },
   DNSRegistrar: {
+    '3141': hardhatAddress.DNSRegistrar,
     '1337': hardhatAddress.DNSRegistrar,
     '31337': hardhatAddress.DNSRegistrar,
   },
   PublicResolver: {
+    '3141': hardhatAddress.PublicResolver,
     '1337': hardhatAddress.PublicResolver,
     '31337': hardhatAddress.PublicResolver,
   },
   Registry: {
+    '3141': hardhatAddress.Registry,
     '1337': hardhatAddress.Registry,
     '31337': hardhatAddress.Registry,
   },
   ReverseRegistrar: {
+    '3141': hardhatAddress.ReverseRegistrar,
     '1337': hardhatAddress.ReverseRegistrar,
     '31337': hardhatAddress.ReverseRegistrar,
   },
   UniversalResolver: {
+    '3141': hardhatAddress.UniversalResolver,
     '1337': hardhatAddress.UniversalResolver,
     '31337': hardhatAddress.UniversalResolver,
   },
   BulkRenewal: {
+    '3141': hardhatAddress.BulkRenewal,
     '1337': hardhatAddress.BulkRenewal,
     '31337': hardhatAddress.BulkRenewal,
   },
   DNSSECImpl: {
+    '3141': hardhatAddress.DNSSECImpl,
     '1337': hardhatAddress.DNSSECImpl,
     '31337': hardhatAddress.DNSSECImpl,
   },
   P256SHA256Algorithm: {
+    '3141': hardhatAddress.P256SHA256Algorithm,
     '1337': hardhatAddress.P256SHA256Algorithm,
     '31337': hardhatAddress.P256SHA256Algorithm,
   },
   RSASHA256Algorithm: {
+    '3141': hardhatAddress.RSASHA256Algorithm,
     '1337': hardhatAddress.RSASHA256Algorithm,
     '31337': hardhatAddress.RSASHA256Algorithm,
   },
   SHA1Digest: {
+    '3141': hardhatAddress.SHA1Digest,
     '1337': hardhatAddress.SHA1Digest,
     '31337': hardhatAddress.SHA1Digest,
   },
   Sunday: {
+    '3141': hardhatAddress.Sunday,
     '1337': hardhatAddress.Sunday,
     '31337': hardhatAddress.Sunday,
   },
   Receiver: {
+    '3141': hardhatAddress.Receiver,
     '1337': hardhatAddress.Receiver,
     '31337': hardhatAddress.Receiver,
   },
   SHA256Digest: {
+    '3141': hardhatAddress.SHA256Digest,
     '1337': hardhatAddress.SHA256Digest,
     '31337': hardhatAddress.SHA256Digest,
   },
   TLDPublicSuffixList: {
+    '3141': hardhatAddress.TLDPublicSuffixList,
     '1337': hardhatAddress.TLDPublicSuffixList,
     '31337': hardhatAddress.TLDPublicSuffixList,
   },
   FNSToken: {
+    '3141': hardhatAddress.FNSToken,
     '1337': hardhatAddress.FNSToken,
     '31337': hardhatAddress.FNSToken,
   },
   OffchainDNSResolver: {
+    '3141': hardhatAddress.OffchainDNSResolver,
     '1337': hardhatAddress.OffchainDNSResolver,
     '31337': hardhatAddress.OffchainDNSResolver,
   },
   RSASHA1Algorithm: {
+    '3141': hardhatAddress.RSASHA1Algorithm,
     '1337': hardhatAddress.RSASHA1Algorithm,
     '31337': hardhatAddress.RSASHA1Algorithm,
   },
   Root: {
+    '3141': hardhatAddress.Root,
     '1337': hardhatAddress.Root,
     '31337': hardhatAddress.Root,
   },
   StaticMetadataService: {
+    '3141': hardhatAddress.StaticMetadataService,
     '1337': hardhatAddress.StaticMetadataService,
     '31337': hardhatAddress.StaticMetadataService,
   },
   TestRegistrar: {
+    '3141': hardhatAddress.TestRegistrar,
     '1337': hardhatAddress.TestRegistrar,
     '31337': hardhatAddress.TestRegistrar,
   },

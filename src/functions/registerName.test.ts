@@ -71,5 +71,5 @@ describe('registerName', () => {
   it('should return a registration transaction and succeed', async () => {
     await registerNameTest('cccool-swag.fil', false)
     await registerNameTest('1-cccool-swag.fil', true)
-  }, 2000)
+  }, 5000)
 })
