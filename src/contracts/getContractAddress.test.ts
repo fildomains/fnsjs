@@ -32,7 +32,49 @@ const hardhatAddress = {
   Multicall: '0x95401dc811bb5740090279Ba06cfA8fcF6113778',
 }
 
+const hyperspaceAddress = {
+  "BaseRegistrarImplementation": "0x595a454758737944679D88895df35d15739B22B3",
+  "BulkRenewal": "0xcf10c14dAC966001B4A4B1575da2385c82c13840",
+  "DNSRegistrar": "0xa10Df431c5e603318Cba63F2B0A3017763DAC5D9",
+  "DNSSECImpl": "0xfFE07217769f78Cd1661572043E9a2d9D13eDef6",
+  "DummyAlgorithm": "0x6439D3887AE110d7416f7f469Ca3b0CCb33f550a",
+  "DummyDigest": "0xb9F417CDff30a40135F526088EF9b63a3727aC47",
+  "DummyOracle": "0xdE3DADe7De39a32A0511e6B29a9b943F53EcBc7c",
+  "ExponentialPremiumPriceOracle": "0xc385A063fE7745BBdCDD0B6A8cEbee42Ab2D1c18",
+  "FNSToken": "0x630a38317b61770Bf30b509e78674B126dff1a1A",
+  "Multicall": "0x7E7315cbef6639906ad07aEb712DAdd10a13aE44",
+  "NameWrapper": "0xd31B036A11B9e4ccF25637dFB75d65f26C3f36d3",
+  "OffchainDNSResolver": "0xa086Bc63F2E22e35Ed802367c0b5b43FD69614A8",
+  "P256SHA256Algorithm": "0xBfcA935c1Eb34A6fDC2a4C3e141dC416aDb926ba",
+  "PublicResolver": "0xD8D047F3F2267FEa988C6D13Ad487EeDcbF3C987",
+  "RSASHA1Algorithm": "0x2b964C8180E531e14C3CA23c4732D4C9C5A4352b",
+  "RSASHA256Algorithm": "0x6B186F15A590Fce06b8285E2e3b0De58993C701f",
+  "Receiver": "0x4c2273372052c3A2f5447E0760bA1c1E6a88f96B",
+  "RegistrarController": "0x883aAa8aB8d82c81d98942204ed0c54ce58617dF",
+  "Registry": "0x0000017bAc246FCC3af455e8fAd20bfCa6017D69",
+  "ReverseRegistrar": "0x027dBB4540F5cBD0b43472b51E3b44E9f623E747",
+  "Root": "0x4aD6D028207D96E158b7CEE5e034f46a47A50eF1",
+  "SHA1Digest": "0x692B632490F11a59BAE9976331108bc02408597c",
+  "SHA256Digest": "0x4F9921E387f1Bb3E8e6d0D2Be889d9FCEB5b356D",
+  "StaticMetadataService": "0x6847b0f743242d92faCF7c3F6f54B537C87CBFa1",
+  "Sunday": "0x4B59D53251B26bC3D1baFc2d85C5eb79Bab2d807",
+  "TLDPublicSuffixList": "0xD7cbD650f301959Cc6d84C2bbB9dF0781FfA9D8d",
+  "TestRegistrar": "0x3E12185EA457aeB1a9D2AcE57D81a6262f976038",
+  "TestUnwrap": "0x51D2902E4e6fDc52451C4CE7f66E73bd84cAC19a",
+  "UniversalResolver": "0x9D05149C961e09003a05Dd431cE2B44187A32aAF"
+}
+
 describe('getContractAddress', () => {
+  it('get contract address of the network 3141', async () => {
+    const address = getContractAddress('1337')
+
+    for (const name of Object.keys(address)) {
+      expect(address(name as ContractName)).toEqual(
+          hyperspaceAddress[name as keyof typeof hyperspaceAddress],
+      )
+    }
+  })
+
   it('get contract address of the network 1337', async () => {
     const address = getContractAddress('1337')
 

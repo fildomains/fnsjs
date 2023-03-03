@@ -1,8 +1,4 @@
 export type SupportedNetworkId =
-  | '1'
-  | '3'
-  | '4'
-  | '5'
   | '314'
   | '3141'
   | '1337'
