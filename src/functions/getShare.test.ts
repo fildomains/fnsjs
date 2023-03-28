@@ -21,6 +21,7 @@ describe('getShare', () => {
   })
 
   it('should get the share for an address and week', async () => {
+    await provider.send('evm_mine', [])
     let week = await getWeek(provider)
     const day = await getDay(provider)
 

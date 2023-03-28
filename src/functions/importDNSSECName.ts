@@ -26,24 +26,19 @@ export default async function (
   const oracle = new NewOracle(registrarOracle, provider!)
   const proofData = await oracle.getProofData(proverResult)
   const encodedName = `0x${packet.name.encode(name).toString('hex')}`
-  const data = proofData.rrsets.map((x) =>
-    Object.values(x),
-  ) as unknown as Array<{
-    rrset: string
-    sig: string
-  }>
+  const { rrsets } = proofData
 
   if (address === EMPTY_ADDRESS) {
     return dnsRegistrarContract?.populateTransaction.proveAndClaim(
       encodedName,
-      data,
+      rrsets,
     )
   }
 
   if (address) {
     return dnsRegistrarContract?.populateTransaction.proveAndClaimWithResolver(
       encodedName,
-      data,
+      rrsets,
       resolverContract!.address,
       address,
     )

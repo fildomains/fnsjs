@@ -23,6 +23,7 @@ describe('getEarnings', () => {
   })
 
   it('should get the earnings for an address and week', async () => {
+    await provider.send('evm_mine', [])
     let week = await getWeek(provider)
     const day = await getDay(provider)
 

@@ -1,8 +1,4 @@
-export type SupportedNetworkId =
-  | '314'
-  | '3141'
-  | '1337'
-  | '31337'
+export type SupportedNetworkId = '1' | '5' | '314' | '3141' | '1337' | '31337'
 
 export type ContractName =
   | 'BaseRegistrarImplementation'

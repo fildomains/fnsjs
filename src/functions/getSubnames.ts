@@ -76,9 +76,9 @@ const largeQuery = async (
 
   const finalQuery = gqlInstance.gql`
     query getSubnames(
-      $id: ID! 
+      $id: String! 
       $first: Int
-      $lastCreatedAt: BigInt
+      $lastCreatedAt: String
       $lastLabelName: String
       $orderBy: Domain_orderBy 
       $orderDirection: OrderDirection

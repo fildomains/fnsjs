@@ -6,7 +6,7 @@ import { namehash } from './utils/normalise'
 
 describe('GqlManager', () => {
   const queryWithoutId = `
-query getNames($id: ID!, $expiryDate: Int) {
+query getNames($id: String!, $expiryDate: Int) {
     account(id: $id) {
       registrations(first: 1000, where: { expiryDate_gt: $expiryDate }) {
         registrationDate

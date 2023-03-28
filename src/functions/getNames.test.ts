@@ -1,6 +1,70 @@
 import { FNS } from '..'
 import setup from '../tests/setup'
 import { Name } from './getNames'
+import { encodeFuses } from '../utils/fuses'
+
+const wrappedNames: {
+  label: string
+  namedOwner: string
+  data?: any[]
+  reverseRecord?: boolean
+  fuses?: number
+  subnames?: {
+    label: string
+    namedOwner: string
+    fuses?: number
+    expiry?: number
+  }[]
+  duration?: number
+}[] = [
+  {
+    label: 'wrapped',
+    namedOwner: 'owner',
+    reverseRecord: false,
+  },
+  {
+    label: 'wrapped-with-subnames',
+    namedOwner: 'owner',
+    subnames: [
+      { label: 'test', namedOwner: 'owner2' },
+      { label: 'legacy', namedOwner: 'owner2' },
+      { label: 'xyz', namedOwner: 'owner2' },
+      { label: 'addr', namedOwner: 'owner2' },
+    ],
+  },
+  {
+    label: 'expired-wrapped',
+    namedOwner: 'owner',
+    subnames: [{ label: 'test', namedOwner: 'owner2' }],
+    duration: 2419200,
+  },
+  {
+    label: 'wrapped-with-expiring-subnames',
+    namedOwner: 'owner',
+    fuses: encodeFuses({
+      child: {
+        named: ['CANNOT_UNWRAP'],
+      },
+    }),
+    subnames: [
+      {
+        label: 'test',
+        namedOwner: 'owner2',
+        expiry: Math.floor(Date.now() / 1000),
+      },
+      {
+        label: 'test1',
+        namedOwner: 'owner2',
+        expiry: 0,
+      },
+      {
+        label: 'recent-pcc',
+        namedOwner: 'owner2',
+        expiry: Math.floor(Date.now() / 1000),
+      },
+    ],
+  },
+]
 
 let fnsInstance: FNS
 
@@ -172,13 +236,25 @@ describe('getNames', () => {
     })
     expect(pageFive).toHaveLength(totalOwnedNames % 10)
   })
-  it('should get wrapped domains for an address with pagination', async () => {
+  it('should get wrapped domains for an address with pagination, and filter out pcc expired names', async () => {
     const pageOne = await fnsInstance.getNames({
       address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       type: 'wrappedOwner',
       page: 0,
     })
-    expect(pageOne).toHaveLength(8)
+
+    const nameCout = wrappedNames.reduce<number>((count, name) => {
+      if (name.namedOwner === 'owner2') count += 1
+      ;(name.subnames || []).forEach((subname: any) => {
+        if (subname.namedOwner === 'owner2') count += 1
+      })
+      return count
+    }, 0)
+
+    // length of page one should be all the names on 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC
+    // minus 1 for the PCC expired name.
+    // the result here implies that the PCC expired name is not returned
+    expect(pageOne).toHaveLength(nameCout)
   })
   describe('orderBy', () => {
     describe('registrations', () => {

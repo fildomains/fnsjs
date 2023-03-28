@@ -6,7 +6,9 @@ import { namehash } from '../utils/normalise'
 import {
   AbiChanged,
   AddrChanged,
+  AuthorisationChanged,
   ContenthashChanged,
+  ExpiryExtended,
   FusesSet,
   InterfaceChanged,
   MulticoinAddrChanged,
@@ -36,6 +38,7 @@ type DomainEvent =
   | 'NameWrapped'
   | 'NameUnwrapped'
   | 'FusesSet'
+  | 'ExpiryExtended'
 type RegistrationEvent = 'NameRegistered' | 'NameRenewed' | 'NameTransferred'
 type ResolverEvent =
   | 'AddrChanged'
@@ -46,6 +49,7 @@ type ResolverEvent =
   | 'TextChanged'
   | 'ContenthashChanged'
   | 'InterfaceChanged'
+  | 'AuthorisationChanged'
   | 'VersionChanged'
 
 type EventTypes = 'Domain' | 'Registration' | 'Resolver'
@@ -73,6 +77,7 @@ const eventFormat: {
     }),
     NameUnwrapped: (args: NameUnwrapped) => ({ owner: args.owner.id }),
     FusesSet: (args: FusesSet) => ({ fuses: args.fuses }),
+    ExpiryExtended: (args: ExpiryExtended) => ({ expiryDate: args.expiryDate }),
   },
   Registration: {
     NameRegistered: (args: NameRegistered) => ({
@@ -117,6 +122,11 @@ const eventFormat: {
     InterfaceChanged: (args: InterfaceChanged) => ({
       interfaceId: args.interfaceID,
       implementer: args.implementer,
+    }),
+    AuthorisationChanged: (args: AuthorisationChanged) => ({
+      owner: args.owner,
+      target: args.target,
+      isAuthorized: args.isAuthorized,
     }),
     VersionChanged: (args: VersionChanged) => ({ version: args.version }),
   },
@@ -176,6 +186,7 @@ export async function getHistory(
             }
             ...on NameWrapped {
               fuses
+              expiryDate
               owner {
                 id
               }
@@ -187,6 +198,9 @@ export async function getHistory(
             }
             ...on FusesSet {
               fuses
+            }
+            ...on ExpiryExtended {
+              expiryDate
             }
           }
           registration {
@@ -246,6 +260,11 @@ export async function getHistory(
               ...on InterfaceChanged {
                 interfaceID
                 implementer
+              }
+              ...on AuthorisationChanged {
+                owner
+                target
+                isAuthorized
               }
               ...on VersionChanged {
                 version

@@ -124,6 +124,20 @@ describe('getProfile', () => {
       expect(result).toBeUndefined()
     })
   })
+  describe('with an old resolver', () => {
+    it('should use fallback methods for a name with an older resolver (no multicall)', async () => {
+      const result = await fnsInstance.getProfile('with-legacy-resolver.fil')
+      expect(result).toBeDefined()
+      if (result) {
+        expect(result.address).toBe(
+          '0x70997970C51812dc3A010C7d01b50e0d17dc79C8',
+        )
+        expect(result.resolverAddress).toBe(
+          deploymentAddresses.NoMulticallResolver,
+        )
+      }
+    })
+  })
   describe('with invalid resolver', () => {
     it('should fail gracefully for a name with invalid resolver', async () => {
       const tx = await fnsInstance.setResolver('test123.fil', {

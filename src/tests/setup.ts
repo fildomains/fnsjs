@@ -26,7 +26,7 @@ const createFNS = (graphURI: string, useReal?: boolean) =>
 
 export default async (useReal?: boolean) => {
   const { graphURI, providerURI, chainId } = {
-    graphURI: 'http://localhost:8000/subgraphs/name/fns/hardhat',
+    graphURI: 'http://localhost:5678/hardhat',
     providerURI: 'http://localhost:8545',
     chainId: 31337,
   }
