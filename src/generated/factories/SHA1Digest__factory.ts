@@ -2,9 +2,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
-import type { SHA1Digest, SHA1DigestInterface } from "../SHA1Digest";
+import { Interface } from '@ethersproject/abi'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Contract } from '@ethersproject/contracts'
+import type { Provider } from '@ethersproject/providers'
+import type { SHA1Digest, SHA1DigestInterface } from '../SHA1Digest'
 
 const _abi = [
   {
@@ -31,17 +33,17 @@ const _abi = [
     stateMutability: "pure",
     type: "function",
   },
-] as const;
+] as const
 
 export class SHA1Digest__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): SHA1DigestInterface {
-    return new utils.Interface(_abi) as SHA1DigestInterface;
+    return new Interface(_abi) as SHA1DigestInterface
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
   ): SHA1Digest {
-    return new Contract(address, _abi, signerOrProvider) as SHA1Digest;
+    return new Contract(address, _abi, signerOrProvider) as SHA1Digest
   }
 }

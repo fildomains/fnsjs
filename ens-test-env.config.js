@@ -17,7 +17,8 @@ module.exports = {
   deployCommand: 'pnpm hardhat deploy',
   scripts: [
     {
-      command: 'pnpm test',
+      command:
+        process.env.STATIC_FNS === 'true' ? 'pnpm test:static' : 'pnpm test',
       name: 'jest',
       prefixColor: 'yellow.bold',
       finishOnExit: true,

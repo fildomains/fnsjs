@@ -2,12 +2,14 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Interface } from '@ethersproject/abi'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Contract } from '@ethersproject/contracts'
+import type { Provider } from '@ethersproject/providers'
 import type {
   TLDPublicSuffixList,
   TLDPublicSuffixListInterface,
-} from "../TLDPublicSuffixList";
+} from '../TLDPublicSuffixList'
 
 const _abi = [
   {
@@ -29,17 +31,17 @@ const _abi = [
     stateMutability: "view",
     type: "function",
   },
-] as const;
+] as const
 
 export class TLDPublicSuffixList__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): TLDPublicSuffixListInterface {
-    return new utils.Interface(_abi) as TLDPublicSuffixListInterface;
+    return new Interface(_abi) as TLDPublicSuffixListInterface
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
   ): TLDPublicSuffixList {
-    return new Contract(address, _abi, signerOrProvider) as TLDPublicSuffixList;
+    return new Contract(address, _abi, signerOrProvider) as TLDPublicSuffixList
   }
 }

@@ -2,6 +2,7 @@ import fs from 'fs'
 import fsp from 'fs/promises'
 import path from 'path'
 import { glob, runTypeChain } from 'typechain'
+import replace from 'replace-in-file'
 
 const overrides = [
   'RegistrarController',
@@ -12,6 +13,40 @@ const overrides = [
   'UniversalResolver',
   'BulkRenewal',
 ]
+
+async function replaceFIle() {
+  replace.sync({
+    files: 'src/generated/factories/*.ts',
+    from: /import { Contract, Signer, utils } from "ethers";\n/g,
+    to: 'import { Interface } from \'@ethersproject/abi\'\n' +
+        'import { Signer } from \'@ethersproject/abstract-signer\'\n' +
+        'import { Contract } from \'@ethersproject/contracts\'\n',
+  })
+
+  replace.sync({
+    files: 'src/generated/factories/*.ts',
+    from: /utils\.Interface\(_abi\)/g,
+    to: 'Interface\(_abi\)',
+  })
+
+  replace.sync({
+    files: 'src/generated/factories/*.ts',
+    from: /from\ "/g,
+    to: 'from\ \'',
+  })
+
+  replace.sync({
+    files: 'src/generated/factories/*.ts',
+    from: /";/g,
+    to: '\'',
+  })
+
+  replace.sync({
+    files: 'src/generated/factories/*.ts',
+    from: /;\n/g,
+    to: '\n',
+  })
+}
 
 async function main() {
   const cwd = process.cwd()
@@ -33,7 +68,7 @@ async function main() {
   ])
 
   const importABIs = glob(cwd, [
-    `${contracts}/deployments/mainnet/**/+([a-zA-Z0-9_]).json`,
+    `${contracts}/deployments/filecoin/+([a-zA-Z0-9_]).json`,
   ])
 
   for (const name of overrides) {
@@ -64,6 +99,8 @@ async function main() {
     outDir: './src/generated',
     target: 'ethers-v5',
   })
+
+  await replaceFIle()
 }
 
 main()

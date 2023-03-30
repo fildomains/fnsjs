@@ -2,9 +2,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
-import type { DummyOracle, DummyOracleInterface } from "../DummyOracle";
+import { Interface } from '@ethersproject/abi'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Contract } from '@ethersproject/contracts'
+import type { Provider } from '@ethersproject/providers'
+import type { DummyOracle, DummyOracleInterface } from '../DummyOracle'
 
 const _abi = [
   {
@@ -171,17 +173,17 @@ const _abi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-] as const;
+] as const
 
 export class DummyOracle__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): DummyOracleInterface {
-    return new utils.Interface(_abi) as DummyOracleInterface;
+    return new Interface(_abi) as DummyOracleInterface
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
   ): DummyOracle {
-    return new Contract(address, _abi, signerOrProvider) as DummyOracle;
+    return new Contract(address, _abi, signerOrProvider) as DummyOracle
   }
 }

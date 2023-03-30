@@ -2,9 +2,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
-import type { DNSRegistrar, DNSRegistrarInterface } from "../DNSRegistrar";
+import { Interface } from '@ethersproject/abi'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Contract } from '@ethersproject/contracts'
+import type { Provider } from '@ethersproject/providers'
+import type { DNSRegistrar, DNSRegistrarInterface } from '../DNSRegistrar'
 
 const _abi = [
   {
@@ -329,17 +331,17 @@ const _abi = [
     stateMutability: "pure",
     type: "function",
   },
-] as const;
+] as const
 
 export class DNSRegistrar__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): DNSRegistrarInterface {
-    return new utils.Interface(_abi) as DNSRegistrarInterface;
+    return new Interface(_abi) as DNSRegistrarInterface
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
   ): DNSRegistrar {
-    return new Contract(address, _abi, signerOrProvider) as DNSRegistrar;
+    return new Contract(address, _abi, signerOrProvider) as DNSRegistrar
   }
 }

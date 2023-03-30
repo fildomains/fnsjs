@@ -2,9 +2,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
-import type { Registry, RegistryInterface } from "../Registry";
+import { Interface } from '@ethersproject/abi'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Contract } from '@ethersproject/contracts'
+import type { Provider } from '@ethersproject/providers'
+import type { Registry, RegistryInterface } from '../Registry'
 
 const _abi = [
   {
@@ -381,17 +383,17 @@ const _abi = [
     stateMutability: "view",
     type: "function",
   },
-] as const;
+] as const
 
 export class Registry__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): RegistryInterface {
-    return new utils.Interface(_abi) as RegistryInterface;
+    return new Interface(_abi) as RegistryInterface
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
   ): Registry {
-    return new Contract(address, _abi, signerOrProvider) as Registry;
+    return new Contract(address, _abi, signerOrProvider) as Registry
   }
 }

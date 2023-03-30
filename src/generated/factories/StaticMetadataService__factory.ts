@@ -2,12 +2,14 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Interface } from '@ethersproject/abi'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Contract } from '@ethersproject/contracts'
+import type { Provider } from '@ethersproject/providers'
 import type {
   StaticMetadataService,
   StaticMetadataServiceInterface,
-} from "../StaticMetadataService";
+} from '../StaticMetadataService'
 
 const _abi = [
   {
@@ -40,12 +42,12 @@ const _abi = [
     stateMutability: "view",
     type: "function",
   },
-] as const;
+] as const
 
 export class StaticMetadataService__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): StaticMetadataServiceInterface {
-    return new utils.Interface(_abi) as StaticMetadataServiceInterface;
+    return new Interface(_abi) as StaticMetadataServiceInterface
   }
   static connect(
     address: string,
@@ -55,6 +57,6 @@ export class StaticMetadataService__factory {
       address,
       _abi,
       signerOrProvider
-    ) as StaticMetadataService;
+    ) as StaticMetadataService
   }
 }

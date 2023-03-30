@@ -2,12 +2,14 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Interface } from '@ethersproject/abi'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Contract } from '@ethersproject/contracts'
+import type { Provider } from '@ethersproject/providers'
 import type {
   BaseRegistrarImplementation,
   BaseRegistrarImplementationInterface,
-} from "../BaseRegistrarImplementation";
+} from '../BaseRegistrarImplementation'
 
 const _abi = [
   {
@@ -738,12 +740,12 @@ const _abi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-] as const;
+] as const
 
 export class BaseRegistrarImplementation__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): BaseRegistrarImplementationInterface {
-    return new utils.Interface(_abi) as BaseRegistrarImplementationInterface;
+    return new Interface(_abi) as BaseRegistrarImplementationInterface
   }
   static connect(
     address: string,
@@ -753,6 +755,6 @@ export class BaseRegistrarImplementation__factory {
       address,
       _abi,
       signerOrProvider
-    ) as BaseRegistrarImplementation;
+    ) as BaseRegistrarImplementation
   }
 }

@@ -2,12 +2,14 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Interface } from '@ethersproject/abi'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Contract } from '@ethersproject/contracts'
+import type { Provider } from '@ethersproject/providers'
 import type {
   ExponentialPremiumPriceOracle,
   ExponentialPremiumPriceOracleInterface,
-} from "../ExponentialPremiumPriceOracle";
+} from '../ExponentialPremiumPriceOracle'
 
 const _abi = [
   {
@@ -334,12 +336,12 @@ const _abi = [
     stateMutability: "view",
     type: "function",
   },
-] as const;
+] as const
 
 export class ExponentialPremiumPriceOracle__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): ExponentialPremiumPriceOracleInterface {
-    return new utils.Interface(_abi) as ExponentialPremiumPriceOracleInterface;
+    return new Interface(_abi) as ExponentialPremiumPriceOracleInterface
   }
   static connect(
     address: string,
@@ -349,6 +351,6 @@ export class ExponentialPremiumPriceOracle__factory {
       address,
       _abi,
       signerOrProvider
-    ) as ExponentialPremiumPriceOracle;
+    ) as ExponentialPremiumPriceOracle
   }
 }

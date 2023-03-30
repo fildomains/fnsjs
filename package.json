@@ -1,6 +1,6 @@
 {
   "name": "@fildomains/fnsjs",
-  "version": "0.50.0",
+  "version": "0.52.0",
   "description": "FNS javascript library for contract interaction",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
@@ -89,13 +89,11 @@
     "cbor": "^8.1.0",
     "dns-packet": "^5.3.1",
     "graphql": "^16.3.0",
-    "graphql-request": "5.1.1-next.2",
-    "idna-uts46-hx": "3.4.0",
+    "graphql-request": "5.1.0",
     "pako": "^2.1.0",
     "traverse": "^0.6.6"
   },
   "devDependencies": {
-    "@fildomains/fns-contracts": "^0.0.9",
     "@ensdomains/buffer": "^0.0.13",
     "@ensdomains/ens-contracts": "^0.0.17",
     "@ethersproject/abi": "^5.6.4",
@@ -111,6 +109,7 @@
     "@ethersproject/strings": "^5.7.0",
     "@ethersproject/transactions": "^5.7.0",
     "@ethersproject/web": "^5.7.1",
+    "@fildomains/fns-contracts": "^0.0.9",
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers",
     "@openzeppelin/contracts": "^4.5.0",
     "@openzeppelin/test-helpers": "^0.5.16",
@@ -147,6 +146,7 @@
     "node-fetch": "^3.2.6",
     "node-fetch-commonjs": "^3.1.1",
     "prettier": "^2.6.0",
+    "replace-in-file": "^6.3.5",
     "shx": "^0.3.4",
     "solc": "^0.8.13",
     "ts-jest": "^27.1.4",

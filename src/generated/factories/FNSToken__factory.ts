@@ -2,9 +2,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
-import type { FNSToken, FNSTokenInterface } from "../FNSToken";
+import { Interface } from '@ethersproject/abi'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Contract } from '@ethersproject/contracts'
+import type { Provider } from '@ethersproject/providers'
+import type { FNSToken, FNSTokenInterface } from '../FNSToken'
 
 const _abi = [
   {
@@ -1130,17 +1132,17 @@ const _abi = [
     stateMutability: "payable",
     type: "receive",
   },
-] as const;
+] as const
 
 export class FNSToken__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): FNSTokenInterface {
-    return new utils.Interface(_abi) as FNSTokenInterface;
+    return new Interface(_abi) as FNSTokenInterface
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
   ): FNSToken {
-    return new Contract(address, _abi, signerOrProvider) as FNSToken;
+    return new Contract(address, _abi, signerOrProvider) as FNSToken
   }
 }

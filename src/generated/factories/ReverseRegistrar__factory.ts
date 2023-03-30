@@ -2,12 +2,14 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Interface } from '@ethersproject/abi'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Contract } from '@ethersproject/contracts'
+import type { Provider } from '@ethersproject/providers'
 import type {
   ReverseRegistrar,
   ReverseRegistrarInterface,
-} from "../ReverseRegistrar";
+} from '../ReverseRegistrar'
 
 const _abi = [
   {
@@ -344,17 +346,17 @@ const _abi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-] as const;
+] as const
 
 export class ReverseRegistrar__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): ReverseRegistrarInterface {
-    return new utils.Interface(_abi) as ReverseRegistrarInterface;
+    return new Interface(_abi) as ReverseRegistrarInterface
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
   ): ReverseRegistrar {
-    return new Contract(address, _abi, signerOrProvider) as ReverseRegistrar;
+    return new Contract(address, _abi, signerOrProvider) as ReverseRegistrar
   }
 }

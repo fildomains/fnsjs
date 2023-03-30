@@ -2,12 +2,14 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Interface } from '@ethersproject/abi'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Contract } from '@ethersproject/contracts'
+import type { Provider } from '@ethersproject/providers'
 import type {
   PublicResolver,
   PublicResolverInterface,
-} from "../PublicResolver";
+} from '../PublicResolver'
 
 const _abi = [
   {
@@ -1021,17 +1023,17 @@ const _abi = [
     stateMutability: "view",
     type: "function",
   },
-] as const;
+] as const
 
 export class PublicResolver__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): PublicResolverInterface {
-    return new utils.Interface(_abi) as PublicResolverInterface;
+    return new Interface(_abi) as PublicResolverInterface
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
   ): PublicResolver {
-    return new Contract(address, _abi, signerOrProvider) as PublicResolver;
+    return new Contract(address, _abi, signerOrProvider) as PublicResolver
   }
 }

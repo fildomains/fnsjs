@@ -2,9 +2,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
-import type { Sunday, SundayInterface } from "../Sunday";
+import { Interface } from '@ethersproject/abi'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Contract } from '@ethersproject/contracts'
+import type { Provider } from '@ethersproject/providers'
+import type { Sunday, SundayInterface } from '../Sunday'
 
 const _abi = [
   {
@@ -625,14 +627,14 @@ const _abi = [
     stateMutability: "payable",
     type: "receive",
   },
-] as const;
+] as const
 
 export class Sunday__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): SundayInterface {
-    return new utils.Interface(_abi) as SundayInterface;
+    return new Interface(_abi) as SundayInterface
   }
   static connect(address: string, signerOrProvider: Signer | Provider): Sunday {
-    return new Contract(address, _abi, signerOrProvider) as Sunday;
+    return new Contract(address, _abi, signerOrProvider) as Sunday
   }
 }

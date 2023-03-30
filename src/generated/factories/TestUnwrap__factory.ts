@@ -6,7 +6,7 @@ import { Interface } from '@ethersproject/abi'
 import { Signer } from '@ethersproject/abstract-signer'
 import { Contract } from '@ethersproject/contracts'
 import type { Provider } from '@ethersproject/providers'
-import type { Root, RootInterface } from '../Root'
+import type { TestUnwrap, TestUnwrapInterface } from '../TestUnwrap'
 
 const _abi = [
   {
@@ -16,28 +16,14 @@ const _abi = [
         name: "_fns",
         type: "address",
       },
+      {
+        internalType: "contract IBaseRegistrar",
+        name: "_registrar",
+        type: "address",
+      },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "controller",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "bool",
-        name: "enabled",
-        type: "bool",
-      },
-    ],
-    name: "ControllerChanged",
-    type: "event",
   },
   {
     anonymous: false,
@@ -59,19 +45,6 @@ const _abi = [
     type: "event",
   },
   {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "bytes32",
-        name: "label",
-        type: "bytes32",
-      },
-    ],
-    name: "TLDLocked",
-    type: "event",
-  },
-  {
     inputs: [
       {
         internalType: "address",
@@ -79,7 +52,7 @@ const _abi = [
         type: "address",
       },
     ],
-    name: "controllers",
+    name: "approvedWrapper",
     outputs: [
       {
         internalType: "bool",
@@ -104,32 +77,13 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "label",
-        type: "bytes32",
-      },
-    ],
-    name: "lock",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
-    name: "locked",
+    inputs: [],
+    name: "owner",
     outputs: [
       {
-        internalType: "bool",
+        internalType: "address",
         name: "",
-        type: "bool",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -137,10 +91,10 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "owner",
+    name: "registrar",
     outputs: [
       {
-        internalType: "address",
+        internalType: "contract IBaseRegistrar",
         name: "",
         type: "address",
       },
@@ -158,69 +112,62 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "controller",
-        type: "address",
+        internalType: "bytes32",
+        name: "parentNode",
+        type: "bytes32",
       },
       {
-        internalType: "bool",
-        name: "enabled",
-        type: "bool",
+        internalType: "string",
+        name: "label",
+        type: "string",
       },
-    ],
-    name: "setController",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
       {
         internalType: "address",
         name: "resolver",
         type: "address",
       },
+      {
+        internalType: "uint64",
+        name: "ttl",
+        type: "uint64",
+      },
+      {
+        internalType: "uint32",
+        name: "fuses",
+        type: "uint32",
+      },
+      {
+        internalType: "uint64",
+        name: "expiry",
+        type: "uint64",
+      },
     ],
-    name: "setResolver",
+    name: "setSubnodeRecord",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "bytes32",
-        name: "label",
-        type: "bytes32",
-      },
       {
         internalType: "address",
-        name: "owner",
+        name: "wrapper",
         type: "address",
       },
-    ],
-    name: "setSubnodeOwner",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes4",
-        name: "interfaceID",
-        type: "bytes4",
-      },
-    ],
-    name: "supportsInterface",
-    outputs: [
       {
         internalType: "bool",
-        name: "",
+        name: "approved",
         type: "bool",
       },
     ],
-    stateMutability: "pure",
+    name: "setWrapperApproval",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -236,14 +183,83 @@ const _abi = [
     stateMutability: "nonpayable",
     type: "function",
   },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "label",
+        type: "string",
+      },
+      {
+        internalType: "address",
+        name: "wrappedOwner",
+        type: "address",
+      },
+      {
+        internalType: "uint32",
+        name: "fuses",
+        type: "uint32",
+      },
+      {
+        internalType: "uint64",
+        name: "expiry",
+        type: "uint64",
+      },
+      {
+        internalType: "address",
+        name: "resolver",
+        type: "address",
+      },
+    ],
+    name: "wrap2LD",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes",
+        name: "name",
+        type: "bytes",
+      },
+      {
+        internalType: "address",
+        name: "wrappedOwner",
+        type: "address",
+      },
+      {
+        internalType: "uint32",
+        name: "fuses",
+        type: "uint32",
+      },
+      {
+        internalType: "uint64",
+        name: "expiry",
+        type: "uint64",
+      },
+      {
+        internalType: "bytes",
+        name: "extraData",
+        type: "bytes",
+      },
+    ],
+    name: "wrapFromUpgrade",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
 ] as const
 
-export class Root__factory {
+export class TestUnwrap__factory {
   static readonly abi = _abi
-  static createInterface(): RootInterface {
-    return new Interface(_abi) as RootInterface
+  static createInterface(): TestUnwrapInterface {
+    return new Interface(_abi) as TestUnwrapInterface
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): Root {
-    return new Contract(address, _abi, signerOrProvider) as Root
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): TestUnwrap {
+    return new Contract(address, _abi, signerOrProvider) as TestUnwrap
   }
 }

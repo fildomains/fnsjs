@@ -2,9 +2,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
-import type { DNSSECImpl, DNSSECImplInterface } from "../DNSSECImpl";
+import { Interface } from '@ethersproject/abi'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Contract } from '@ethersproject/contracts'
+import type { Provider } from '@ethersproject/providers'
+import type { DNSSECImpl, DNSSECImplInterface } from '../DNSSECImpl'
 
 const _abi = [
   {
@@ -380,17 +382,17 @@ const _abi = [
     stateMutability: "view",
     type: "function",
   },
-] as const;
+] as const
 
 export class DNSSECImpl__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): DNSSECImplInterface {
-    return new utils.Interface(_abi) as DNSSECImplInterface;
+    return new Interface(_abi) as DNSSECImplInterface
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
   ): DNSSECImpl {
-    return new Contract(address, _abi, signerOrProvider) as DNSSECImpl;
+    return new Contract(address, _abi, signerOrProvider) as DNSSECImpl
   }
 }

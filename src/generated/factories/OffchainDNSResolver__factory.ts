@@ -2,12 +2,14 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Interface } from '@ethersproject/abi'
+import { Signer } from '@ethersproject/abstract-signer'
+import { Contract } from '@ethersproject/contracts'
+import type { Provider } from '@ethersproject/providers'
 import type {
   OffchainDNSResolver,
   OffchainDNSResolverInterface,
-} from "../OffchainDNSResolver";
+} from '../OffchainDNSResolver'
 
 const _abi = [
   {
@@ -160,17 +162,17 @@ const _abi = [
     stateMutability: "view",
     type: "function",
   },
-] as const;
+] as const
 
 export class OffchainDNSResolver__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): OffchainDNSResolverInterface {
-    return new utils.Interface(_abi) as OffchainDNSResolverInterface;
+    return new Interface(_abi) as OffchainDNSResolverInterface
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
   ): OffchainDNSResolver {
-    return new Contract(address, _abi, signerOrProvider) as OffchainDNSResolver;
+    return new Contract(address, _abi, signerOrProvider) as OffchainDNSResolver
   }
 }
