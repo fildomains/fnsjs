@@ -1,4 +1,7 @@
-import { formatsByCoinType, formatsByName } from '@ensdomains/address-encoder'
+import {
+  formatsByCoinType as ensFormatsByCoinType,
+  formatsByName as ensFormatsByName,
+} from '@ensdomains/address-encoder'
 import { isBytesLike } from '@ethersproject/bytes'
 import { toUtf8Bytes } from '@ethersproject/strings'
 import type { BigNumberish } from 'ethers'
@@ -24,6 +27,32 @@ export type RecordOptions = {
   coinTypes?: RecordItem[]
   abi?: ABIItem
 }
+
+function filAddrEncoder(data: Buffer): string {
+  return ensFormatsByCoinType[461].encoder(data)
+}
+
+function filAddrDecoder(data: string): Buffer {
+  console.log('data:', data)
+  if (data.startsWith('0x') || data.startsWith('0X')) {
+    return ensFormatsByCoinType[60].decoder(data)
+  }
+
+  return ensFormatsByCoinType[461].decoder(data)
+}
+
+const filFormat = {
+  coinType: 461,
+  decoder: filAddrDecoder,
+  encoder: filAddrEncoder,
+  name: 'FIL',
+}
+
+export const formatsByName = ensFormatsByName
+formatsByName.FIL = filFormat
+
+export const formatsByCoinType = ensFormatsByCoinType
+formatsByCoinType[461] = filFormat
 
 export const generateSetAddr = (
   namehash: string,
