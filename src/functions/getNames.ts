@@ -153,7 +153,7 @@ const getNames = async (
   if (type === 'all') {
     finalQuery = gqlInstance.gql`
       query getNames(
-        $id: ID!
+        $id: String!
         $expiryDate: Int
       ) {
         account(id: $id) {
@@ -196,7 +196,7 @@ const getNames = async (
     if (typeof page !== 'number') {
       finalQuery = gqlInstance.gql`
         query getNames(
-          $id: ID! 
+          $id: String! 
           $orderBy: Domain_orderBy 
           $orderDirection: OrderDirection
         ) {
@@ -219,7 +219,7 @@ const getNames = async (
     } else {
       finalQuery = gqlInstance.gql`
         query getNames(
-          $id: ID!
+          $id: String!
           $first: Int
           $skip: Int
           $orderBy: Domain_orderBy
@@ -250,7 +250,7 @@ const getNames = async (
     if (typeof page !== 'number') {
       finalQuery = gqlInstance.gql`
       query getNames(
-        $id: ID!
+        $id: String!
         $orderBy: WrappedDomain_orderBy
         $orderDirection: OrderDirection
         $expiryDate: Int
@@ -278,7 +278,7 @@ const getNames = async (
     } else {
       finalQuery = gqlInstance.gql`
       query getNames(
-        $id: ID!
+        $id: String!
         $first: Int
         $skip: Int
         $orderBy: WrappedDomain_orderBy
@@ -312,7 +312,7 @@ const getNames = async (
   } else if (typeof page !== 'number') {
     finalQuery = gqlInstance.gql`
         query getNames(
-          $id: ID!
+          $id: String!
           $orderBy: Registration_orderBy
           $orderDirection: OrderDirection
           $expiryDate: Int
@@ -342,7 +342,7 @@ const getNames = async (
   } else {
     finalQuery = gqlInstance.gql`
         query getNames(
-          $id: ID!
+          $id: String!
           $first: Int
           $skip: Int
           $orderBy: Registration_orderBy
