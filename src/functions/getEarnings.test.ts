@@ -44,8 +44,8 @@ describe('getEarnings', () => {
 
     week = await getWeek(provider)
     result = await fnsInstance.getEarnings(accounts[0], week)
-    expect(result!.fil.toNumber()).toBeGreaterThanOrEqual(0)
-    expect(result!.fns.toNumber()).toBeGreaterThanOrEqual(0)
+    expect(result!.fil.gt(0)).toEqual(true)
+    expect(result!.fns.eq(0)).toEqual(true)
     expect(result!.inited).toEqual(true)
   })
 })

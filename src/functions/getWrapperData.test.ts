@@ -58,7 +58,7 @@ describe('getWrapperData', () => {
       expect(result.child.CANNOT_CREATE_SUBDOMAIN).toBe(true)
       expect(result.child.CANNOT_SET_TTL).toBe(true)
       expect(result.child.CANNOT_APPROVE).toBe(true)
-      expect(result.parent.IS_DOT_ETH).toBe(true)
+      expect(result.parent.IS_DOT_FIL).toBe(true)
     }
   })
   it('should return correct expiry', async () => {

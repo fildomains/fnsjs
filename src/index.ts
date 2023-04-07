@@ -433,12 +433,6 @@ export class FNS {
     'getProfile',
   )
 
-  public getRecords = this.generateFunction<FunctionTypes['getRecords']>(
-    'initialGetters',
-    ['getProfile'],
-    'getRecords',
-  )
-
   public getName = this.generateRawFunction<FunctionTypes['getName']>(
     'initialGetters',
     ['contracts'],

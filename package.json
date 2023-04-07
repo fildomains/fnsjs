@@ -1,6 +1,6 @@
 {
   "name": "@fildomains/fnsjs",
-  "version": "0.52.2",
+  "version": "0.52.4",
   "description": "FNS javascript library for contract interaction",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",

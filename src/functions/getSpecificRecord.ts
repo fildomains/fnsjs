@@ -1,7 +1,7 @@
-import { formatsByCoinType, formatsByName } from '@ensdomains/address-encoder'
 import { BigNumber } from '@ethersproject/bignumber'
 import { arrayify, hexStripZeros, isBytesLike } from '@ethersproject/bytes'
 import { toUtf8String } from '@ethersproject/strings'
+import { formatsByCoinType, formatsByName } from '../utils/recordHelpers'
 import { FNSArgs } from '..'
 import { decodeContenthash } from '../utils/contentHash'
 import { namehash } from '../utils/normalise'
@@ -120,12 +120,12 @@ export const _getAddr = {
     bypassFormat?: boolean,
   ) => {
     if (!coinType) {
-      coinType = 60
+      coinType = 461
     }
 
     const publicResolver = await contracts?.getPublicResolver()!
 
-    if (coinType === 60 || coinType === '60') {
+    if (coinType === 461 || coinType === '461') {
       return {
         to: '0x0000000000000000000000000000000000000000',
         data: publicResolver.interface.encodeFunctionData('addr(bytes32)', [
@@ -170,7 +170,7 @@ export const _getAddr = {
   ) => {
     let returnCoinType = true
     if (!coinType) {
-      coinType = 60
+      coinType = 461
       returnCoinType = false
     }
 
@@ -184,7 +184,7 @@ export const _getAddr = {
 
     let response: string
 
-    if (coinType === 60 || coinType === '60') {
+    if (coinType === 461 || coinType === '461') {
       ;[response] = publicResolver.interface.decodeFunctionResult(
         'addr(bytes32)',
         data,

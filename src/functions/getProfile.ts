@@ -1,11 +1,11 @@
-import { formatsByName } from '@ensdomains/address-encoder'
 import { defaultAbiCoder } from '@ethersproject/abi'
+import { isAddress } from '@ethersproject/address'
 import { hexStripZeros, isBytesLike } from '@ethersproject/bytes'
+import { formatsByName } from '../utils/recordHelpers'
 import { FNSArgs } from '..'
 import { decodeContenthash, DecodedContentHash } from '../utils/contentHash'
 import { hexEncodeName } from '../utils/hexEncodedName'
 import { namehash } from '../utils/normalise'
-import { parseInputType } from '../utils/validation'
 
 type InternalProfileOptions = {
   contentHash?: boolean | string | DecodedContentHash
@@ -101,10 +101,10 @@ const makeMulticallData = async (
     })
   }
 
-  if (!calls.find((x) => x!.key === '60')) {
+  if (!calls.find((x) => x!.key === '461')) {
     calls.push({
-      key: '60',
-      data: await _getAddr.raw(name, '60', true),
+      key: '461',
+      data: await _getAddr.raw(name, '461', true),
       type: 'addr' as const,
     })
   }
@@ -339,7 +339,7 @@ const getDataForName = async (
   const filteredRecordData = recordData.filter((x) => x)
 
   const matchAddress =
-    filteredRecordData[filteredCalls.findIndex((x) => x.key === '60')]
+    filteredRecordData[filteredCalls.findIndex((x) => x.key === '461')]
 
   return {
     address:
@@ -653,13 +653,9 @@ export default async function (
     }
   }
 
-  const inputType = parseInputType(nameOrAddress)
+  const inputIsAddress = isAddress(nameOrAddress)
 
-  if (inputType.type === 'unknown' || inputType.info === 'unsupported') {
-    throw new Error('Invalid input type')
-  }
-
-  if (inputType.type === 'address') {
+  if (inputIsAddress) {
     return getProfileFromAddress(
       {
         contracts,

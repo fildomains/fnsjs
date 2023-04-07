@@ -29,11 +29,10 @@ export type RecordOptions = {
 }
 
 function filAddrEncoder(data: Buffer): string {
-  return ensFormatsByCoinType[461].encoder(data)
+  return ensFormatsByCoinType[60].encoder(data)
 }
 
 function filAddrDecoder(data: string): Buffer {
-  console.log('data:', data)
   if (data.startsWith('0x') || data.startsWith('0X')) {
     return ensFormatsByCoinType[60].decoder(data)
   }
@@ -67,7 +66,8 @@ export const generateSetAddr = (
     coinTypeInstance = formatsByName[coinType.toUpperCase()]
   }
   const inputCoinType = coinTypeInstance.coinType
-  const encodedAddress = coinTypeInstance.decoder(address)
+  const encodedAddress =
+    address !== '' ? coinTypeInstance.decoder(address) : '0x'
   return resolver?.interface.encodeFunctionData(
     'setAddr(bytes32,uint256,bytes)',
     [namehash, inputCoinType, encodedAddress],

@@ -1,5 +1,5 @@
-import { formatsByCoinType } from '@ensdomains/address-encoder'
 import { hexStripZeros } from '@ethersproject/bytes'
+import { formatsByCoinType } from '../utils/recordHelpers'
 import { FNSArgs } from '..'
 import { decodeContenthash } from '../utils/contentHash'
 import { namehash } from '../utils/normalise'
@@ -295,7 +295,7 @@ export async function getHistory(
   const resolverHistory = mapEvents(
     // remove duplicate events for FIL cointype
     resolverEvents.filter(
-      (event: any) => !event.coinType || event.coinType !== '60',
+      (event: any) => !event.coinType || event.coinType !== '461',
     ),
     'Resolver',
   )

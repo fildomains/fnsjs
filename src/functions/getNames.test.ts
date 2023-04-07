@@ -1,3 +1,4 @@
+import { BigNumber } from '@ethersproject/bignumber'
 import { FNS } from '..'
 import setup from '../tests/setup'
 import { Name } from './getNames'
@@ -39,6 +40,16 @@ const wrappedNames: {
     duration: 2419200,
   },
   {
+    label: 'wrapped-big-duration',
+    namedOwner: 'owner3',
+    duration: Math.floor((8640000000000000 - Date.now()) / 1000),
+  },
+  {
+    label: 'wrapped-max-duration',
+    namedOwner: 'owner3',
+    duration: BigNumber.from('18446744073709'),
+  },
+  {
     label: 'wrapped-with-expiring-subnames',
     namedOwner: 'owner',
     fuses: encodeFuses({
@@ -61,15 +72,19 @@ const wrappedNames: {
         label: 'recent-pcc',
         namedOwner: 'owner2',
         expiry: Math.floor(Date.now() / 1000),
+        fuses: 0,
       },
     ],
   },
 ]
 
 let fnsInstance: FNS
+let provider: ethers.providers.JsonRpcProvider
+let accounts: string[]
 
 beforeAll(async () => {
-  ;({ fnsInstance } = await setup())
+  ;({ fnsInstance, provider } = await setup())
+  accounts = await provider.listAccounts()
 })
 
 const testProperties = (obj: object, ...properties: string[]) =>
@@ -255,6 +270,70 @@ describe('getNames', () => {
     // minus 1 for the PCC expired name.
     // the result here implies that the PCC expired name is not returned
     expect(pageOne).toHaveLength(nameCout)
+  })
+
+  describe('resolved addresses', () => {
+    /* eslint-disable @typescript-eslint/naming-convention */
+    const RESOLVED_ADDRESS_COUNT: { [key: string]: number } = {
+      '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266': 1,
+      '0x70997970C51812dc3A010C7d01b50e0d17dc79C8': 23,
+      '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC': 35,
+    }
+    /* eslint-enable @typescript-eslint/naming-convention */
+
+    it('should get the names that resolve to an address by labelName', async () => {
+      const ADDRESSES = [accounts[0], accounts[1], accounts[2]]
+      for (const ADDRESS of ADDRESSES) {
+        const pageOne = await fnsInstance.getNames({
+          address: ADDRESS,
+          type: 'resolvedAddress',
+          orderBy: 'labelName',
+          orderDirection: 'asc',
+        })
+        expect(pageOne.length).toBe(RESOLVED_ADDRESS_COUNT[ADDRESS])
+        let prevLabelName = pageOne[0].labelName
+        for (const name of pageOne) {
+          expect(
+            !!name.labelName &&
+              prevLabelName &&
+              name.labelName >= prevLabelName,
+          ).toBe(true)
+          prevLabelName = name.labelName
+          const profile = await fnsInstance.getProfile(name.name)
+          const eth = profile?.records?.coinTypes?.find(
+            (coin) => coin.coin === 'FIL',
+          )
+          expect((eth as any).addr).toBe(ADDRESS)
+        }
+      }
+    })
+
+    it('should get the names that resolve to an address by creationDate', async () => {
+      const ADDRESSES = [accounts[0], accounts[1], accounts[2]]
+      for (const ADDRESS of ADDRESSES) {
+        const pageOne = await fnsInstance.getNames({
+          address: ADDRESS,
+          type: 'resolvedAddress',
+          orderBy: 'createdAt',
+          orderDirection: 'desc',
+        })
+        expect(pageOne.length).toBe(RESOLVED_ADDRESS_COUNT[ADDRESS])
+        let prevCreatedAt = pageOne[0].createdAt?.getTime()
+        for (const name of pageOne) {
+          expect(
+            !!name.createdAt &&
+              !!prevCreatedAt &&
+              name.createdAt.getTime() <= prevCreatedAt,
+          ).toBe(true)
+          prevCreatedAt = name.createdAt?.getTime()
+          const profile = await fnsInstance.getProfile(name.name)
+          const eth = profile?.records?.coinTypes?.find(
+            (coin) => coin.coin === 'FIL',
+          )
+          expect((eth as any).addr).toBe(ADDRESS)
+        }
+      }
+    })
   })
   describe('orderBy', () => {
     describe('registrations', () => {
