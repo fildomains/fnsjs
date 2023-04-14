@@ -32,6 +32,12 @@ import type getSubnames from './getSubnames'
 import type getEarnings from './getEarnings'
 import type getWrapperData from './getWrapperData'
 import type getShare from './getShare'
+import type getSundayBalance from './getSundayBalance'
+import type getSundaySupply from './getSundaySupply'
+import type getSundayPaused from './getSundayPaused'
+import type getBalance from './getBalance'
+import type getFnsBalance from './getFnsBalance'
+import type getFnsSupply from './getFnsSupply'
 import type importDNSSECName from './importDNSSECName'
 import type registerName from './registerName'
 import type {
@@ -54,6 +60,7 @@ import type wrapName from './wrapName'
 import type initShare from './initShare'
 import type claim from './claimEarnings'
 import type pledge from './pledge'
+import type withdrawal from './withdrawal'
 
 type Function = {
   batch: typeof batch
@@ -88,6 +95,12 @@ type Function = {
   getWrapperData: typeof getWrapperData
   getEarnings: typeof getEarnings
   getShare: typeof getShare
+  getSundayBalance: typeof getSundayBalance
+  getSundaySupply: typeof getSundaySupply
+  getSundayPaused: typeof getSundayPaused
+  getFnsBalance: typeof getFnsBalance
+  getBalance: typeof getBalance
+  getFnsSupply: typeof getFnsSupply
   importDNSSECName: typeof importDNSSECName
   registerName: typeof registerName
   renewNames: typeof renewNames
@@ -104,6 +117,7 @@ type Function = {
   wrapName: typeof wrapName
   initShare: typeof initShare
   pledge: typeof pledge
+  withdrawal: typeof withdrawal
   claim: typeof claim
 }
 

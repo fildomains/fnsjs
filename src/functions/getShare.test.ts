@@ -36,7 +36,7 @@ describe('getShare', () => {
     // Saturday
     await advanceTime(provider, (6 - day) * 24 * 3600)
 
-    await fnsInstance.initShare()
+    await fnsInstance.initShare(null)
 
     week = await getWeek(provider)
     result = await fnsInstance.getShare(week)

@@ -101,10 +101,10 @@ const makeMulticallData = async (
     })
   }
 
-  if (!calls.find((x) => x!.key === '461')) {
+  if (!calls.find((x) => x!.key === '60')) {
     calls.push({
-      key: '461',
-      data: await _getAddr.raw(name, '461', true),
+      key: '60',
+      data: await _getAddr.raw(name, '60', true),
       type: 'addr' as const,
     })
   }
@@ -339,7 +339,7 @@ const getDataForName = async (
   const filteredRecordData = recordData.filter((x) => x)
 
   const matchAddress =
-    filteredRecordData[filteredCalls.findIndex((x) => x.key === '461')]
+    filteredRecordData[filteredCalls.findIndex((x) => x.key === '60')]
 
   return {
     address:

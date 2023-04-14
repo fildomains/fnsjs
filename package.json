@@ -1,6 +1,6 @@
 {
   "name": "@fildomains/fnsjs",
-  "version": "0.52.4",
+  "version": "0.52.10",
   "description": "FNS javascript library for contract interaction",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
@@ -86,6 +86,7 @@
     "@ensdomains/content-hash": "^2.5.7",
     "@ensdomains/dnsprovejs": "^0.4.1",
     "@ensdomains/dnssecoraclejs": "^0.2.7",
+    "@glif/filecoin-address": "^2.0.43",
     "cbor": "^8.1.0",
     "dns-packet": "^5.3.1",
     "graphql": "^16.3.0",

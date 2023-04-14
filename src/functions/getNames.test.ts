@@ -1,4 +1,4 @@
-import { BigNumber } from '@ethersproject/bignumber'
+import { ethers } from 'ethers'
 import { FNS } from '..'
 import setup from '../tests/setup'
 import { Name } from './getNames'
@@ -47,7 +47,7 @@ const wrappedNames: {
   {
     label: 'wrapped-max-duration',
     namedOwner: 'owner3',
-    duration: BigNumber.from('18446744073709'),
+    duration: 18446744073709,
   },
   {
     label: 'wrapped-with-expiring-subnames',
@@ -284,6 +284,7 @@ describe('getNames', () => {
     it('should get the names that resolve to an address by labelName', async () => {
       const ADDRESSES = [accounts[0], accounts[1], accounts[2]]
       for (const ADDRESS of ADDRESSES) {
+        // eslint-disable-next-line no-await-in-loop
         const pageOne = await fnsInstance.getNames({
           address: ADDRESS,
           type: 'resolvedAddress',
@@ -299,9 +300,10 @@ describe('getNames', () => {
               name.labelName >= prevLabelName,
           ).toBe(true)
           prevLabelName = name.labelName
+          // eslint-disable-next-line no-await-in-loop
           const profile = await fnsInstance.getProfile(name.name)
           const eth = profile?.records?.coinTypes?.find(
-            (coin) => coin.coin === 'FIL',
+            (coin) => coin.coin === 'ETH',
           )
           expect((eth as any).addr).toBe(ADDRESS)
         }
@@ -311,6 +313,7 @@ describe('getNames', () => {
     it('should get the names that resolve to an address by creationDate', async () => {
       const ADDRESSES = [accounts[0], accounts[1], accounts[2]]
       for (const ADDRESS of ADDRESSES) {
+        // eslint-disable-next-line no-await-in-loop
         const pageOne = await fnsInstance.getNames({
           address: ADDRESS,
           type: 'resolvedAddress',
@@ -326,9 +329,10 @@ describe('getNames', () => {
               name.createdAt.getTime() <= prevCreatedAt,
           ).toBe(true)
           prevCreatedAt = name.createdAt?.getTime()
+          // eslint-disable-next-line no-await-in-loop
           const profile = await fnsInstance.getProfile(name.name)
           const eth = profile?.records?.coinTypes?.find(
-            (coin) => coin.coin === 'FIL',
+            (coin) => coin.coin === 'ETH',
           )
           expect((eth as any).addr).toBe(ADDRESS)
         }

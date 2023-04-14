@@ -295,7 +295,7 @@ export async function getHistory(
   const resolverHistory = mapEvents(
     // remove duplicate events for FIL cointype
     resolverEvents.filter(
-      (event: any) => !event.coinType || event.coinType !== '461',
+      (event: any) => !event.coinType || event.coinType !== '60',
     ),
     'Resolver',
   )

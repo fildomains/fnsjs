@@ -73,17 +73,21 @@ describe('registerName', () => {
     await registerNameTest('1-cccool-swag.fil', true)
   }, 5000)
 
-  it('decoder filecoin by ethereum format', async () => {
-    expect(
-      formatsByName.FIL.decoder(
-        '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
-      ).toString('hex'),
-    ).toEqual('f39fd6e51aad88f6f4ce6ab8827279cfffb92266')
+  it('decoder filecoin address', async () => {
+    let address = formatsByName.FIL.decoder(
+      'f410f6op5nzi2vwepn5gonk4ie4tzz773sitggxp4hiy',
+    )
 
-    expect(
-      formatsByCoinType[461]
-        .decoder('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')
-        .toString('hex'),
-    ).toEqual('f39fd6e51aad88f6f4ce6ab8827279cfffb92266')
+    expect(formatsByName.FIL.encoder(address)).toEqual(
+      'f410f6op5nzi2vwepn5gonk4ie4tzz773sitggxp4hiy',
+    )
+
+    address = formatsByCoinType[461].decoder(
+      'f410f6op5nzi2vwepn5gonk4ie4tzz773sitggxp4hiy',
+    )
+
+    expect(formatsByCoinType[461].encoder(address)).toEqual(
+      'f410f6op5nzi2vwepn5gonk4ie4tzz773sitggxp4hiy',
+    )
   })
 })

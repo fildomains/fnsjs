@@ -120,12 +120,12 @@ export const _getAddr = {
     bypassFormat?: boolean,
   ) => {
     if (!coinType) {
-      coinType = 461
+      coinType = 60
     }
 
     const publicResolver = await contracts?.getPublicResolver()!
 
-    if (coinType === 461 || coinType === '461') {
+    if (coinType === 60 || coinType === '60') {
       return {
         to: '0x0000000000000000000000000000000000000000',
         data: publicResolver.interface.encodeFunctionData('addr(bytes32)', [
@@ -170,7 +170,7 @@ export const _getAddr = {
   ) => {
     let returnCoinType = true
     if (!coinType) {
-      coinType = 461
+      coinType = 60
       returnCoinType = false
     }
 
@@ -184,7 +184,7 @@ export const _getAddr = {
 
     let response: string
 
-    if (coinType === 461 || coinType === '461') {
+    if (coinType === 60 || coinType === '60') {
       ;[response] = publicResolver.interface.decodeFunctionResult(
         'addr(bytes32)',
         data,

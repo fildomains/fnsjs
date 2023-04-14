@@ -63,10 +63,10 @@ export const makeCommitmentData = ({
 
   if (reverseRecord) {
     if (!records) {
-      records = { coinTypes: [{ key: 'FIL', value: owner }] }
-    } else if (!records.coinTypes?.find((c) => c.key === 'FIL')) {
+      records = { coinTypes: [{ key: 'ETH', value: owner }] }
+    } else if (!records.coinTypes?.find((c) => c.key === 'ETH')) {
       if (!records.coinTypes) records.coinTypes = []
-      records.coinTypes.push({ key: 'FIL', value: owner })
+      records.coinTypes.push({ key: 'ETH', value: owner })
     }
   }
 

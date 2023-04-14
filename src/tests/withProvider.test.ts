@@ -18,7 +18,6 @@ describe('withProvider', () => {
     const addr = await fnsInstance.getAddr('with-profile.fil')
     expect(addr).toBeTruthy()
 
-    console.log('addr:', addr)
     try {
       await fnsInstance.withProvider(providerFake).getOwner('with-profile.fil')
       expect(false).toBeTruthy()

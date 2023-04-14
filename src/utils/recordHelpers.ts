@@ -4,6 +4,7 @@ import {
 } from '@ensdomains/address-encoder'
 import { isBytesLike } from '@ethersproject/bytes'
 import { toUtf8Bytes } from '@ethersproject/strings'
+import { newFromString, Address } from '@glif/filecoin-address'
 import type { BigNumberish } from 'ethers'
 import type { PublicResolver } from '../generated'
 import { encodeContenthash } from './contentHash'
@@ -29,15 +30,13 @@ export type RecordOptions = {
 }
 
 function filAddrEncoder(data: Buffer): string {
-  return ensFormatsByCoinType[60].encoder(data)
+  const address = new Address(new Uint8Array(data))
+  return address.toString()
 }
 
 function filAddrDecoder(data: string): Buffer {
-  if (data.startsWith('0x') || data.startsWith('0X')) {
-    return ensFormatsByCoinType[60].decoder(data)
-  }
-
-  return ensFormatsByCoinType[461].decoder(data)
+  const addr = newFromString(data)
+  return Buffer.from(addr.bytes)
 }
 
 const filFormat = {
@@ -47,10 +46,10 @@ const filFormat = {
   name: 'FIL',
 }
 
-export const formatsByName = ensFormatsByName
+export const formatsByName = { ...ensFormatsByName }
 formatsByName.FIL = filFormat
 
-export const formatsByCoinType = ensFormatsByCoinType
+export const formatsByCoinType = { ...ensFormatsByCoinType }
 formatsByCoinType[461] = filFormat
 
 export const generateSetAddr = (

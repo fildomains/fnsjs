@@ -449,6 +449,32 @@ export class FNS {
     ['contracts'],
   )
 
+  public getSundayBalance = this.generateRawFunction<
+    FunctionTypes['getSundayBalance']
+  >('getSundayBalance', ['contracts'])
+
+  public getSundaySupply = this.generateRawFunction<
+    FunctionTypes['getSundaySupply']
+  >('getSundaySupply', ['contracts'])
+
+  public getFnsBalance = this.generateRawFunction<
+    FunctionTypes['getFnsBalance']
+  >('getFnsBalance', ['contracts'])
+
+  public getBalance = this.generateRawFunction<FunctionTypes['getBalance']>(
+    'getBalance',
+    ['contracts'],
+  )
+
+  public getFnsSupply = this.generateRawFunction<FunctionTypes['getFnsSupply']>(
+    'getFnsSupply',
+    ['contracts'],
+  )
+
+  public getSundayPaused = this.generateRawFunction<
+    FunctionTypes['getSundayPaused']
+  >('getSundayPaused', ['contracts'])
+
   public getResolver = this.generateRawFunction<FunctionTypes['getResolver']>(
     'getResolver',
     ['contracts'],
@@ -659,6 +685,11 @@ export class FNS {
 
   public pledge = this.generateWriteFunction<FunctionTypes['pledge']>(
     'pledge',
+    ['contracts'],
+  )
+
+  public withdrawal = this.generateWriteFunction<FunctionTypes['withdrawal']>(
+    'withdrawal',
     ['contracts'],
   )
 

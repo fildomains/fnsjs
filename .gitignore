@@ -12,3 +12,4 @@ yarn-error.log
 .npmrc
 .env.local
 dist
+package-lock.json
