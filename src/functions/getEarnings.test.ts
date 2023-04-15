@@ -45,7 +45,7 @@ describe('getEarnings', () => {
 
     result = await fnsInstance.getEarnings(accounts[0], 0)
     expect(result!.fil.gt(0)).toEqual(true)
-    expect(result!.fns.eq(0)).toEqual(true)
+    expect(result!.fns.gt(0)).toEqual(true)
     expect(result!.inited).toEqual(true)
     await expect(fnsInstance.pledge(100)).rejects.toThrow()
     await expect(fnsInstance.withdrawal(100)).rejects.toThrow()
@@ -62,7 +62,7 @@ describe('getEarnings', () => {
 
     result = await fnsInstance.getEarnings(accounts[0], 0)
     expect(result!.fil.gt(0)).toEqual(true)
-    expect(result!.fns.eq(0)).toEqual(true)
+    expect(result!.fns.gt(0)).toEqual(true)
     expect(result!.inited).toEqual(true)
   })
 })

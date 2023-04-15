@@ -41,7 +41,7 @@ describe('getShare', () => {
     week = await getWeek(provider)
     result = await fnsInstance.getShare(week)
     expect(result!.fil.gt(0)).toEqual(true)
-    expect(result!.fns.eq(0)).toEqual(true)
+    expect(result!.fns.gt(0)).toEqual(true)
     expect(result!.inited).toEqual(true)
   })
 })
