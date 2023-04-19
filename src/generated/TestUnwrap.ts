@@ -38,7 +38,7 @@ export interface TestUnwrapInterface extends utils.Interface {
     "setWrapperApproval(address,bool)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "wrap2LD(string,address,uint32,uint64,address)": FunctionFragment;
-    "wrapFromUpgrade(bytes,address,uint32,uint64,bytes)": FunctionFragment;
+    "wrapFromUpgrade(bytes,address,uint32,uint64,address,bytes)": FunctionFragment;
   };
 
   getFunction(
@@ -103,6 +103,7 @@ export interface TestUnwrapInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
       PromiseOrValue<BytesLike>
     ]
   ): string;
@@ -207,10 +208,10 @@ export interface TestUnwrap extends BaseContract {
       parentNode: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<string>,
       newOwner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      ttl: PromiseOrValue<BigNumberish>,
-      fuses: PromiseOrValue<BigNumberish>,
-      expiry: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<string>,
+      arg4: PromiseOrValue<BigNumberish>,
+      arg5: PromiseOrValue<BigNumberish>,
+      arg6: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -231,18 +232,19 @@ export interface TestUnwrap extends BaseContract {
     wrap2LD(
       label: PromiseOrValue<string>,
       wrappedOwner: PromiseOrValue<string>,
-      fuses: PromiseOrValue<BigNumberish>,
-      expiry: PromiseOrValue<BigNumberish>,
-      resolver: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<BigNumberish>,
+      arg4: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     wrapFromUpgrade(
       name: PromiseOrValue<BytesLike>,
       wrappedOwner: PromiseOrValue<string>,
-      fuses: PromiseOrValue<BigNumberish>,
-      expiry: PromiseOrValue<BigNumberish>,
-      extraData: PromiseOrValue<BytesLike>,
+      arg2: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<BigNumberish>,
+      arg4: PromiseOrValue<string>,
+      arg5: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
@@ -272,10 +274,10 @@ export interface TestUnwrap extends BaseContract {
     parentNode: PromiseOrValue<BytesLike>,
     label: PromiseOrValue<string>,
     newOwner: PromiseOrValue<string>,
-    resolver: PromiseOrValue<string>,
-    ttl: PromiseOrValue<BigNumberish>,
-    fuses: PromiseOrValue<BigNumberish>,
-    expiry: PromiseOrValue<BigNumberish>,
+    arg3: PromiseOrValue<string>,
+    arg4: PromiseOrValue<BigNumberish>,
+    arg5: PromiseOrValue<BigNumberish>,
+    arg6: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -296,18 +298,19 @@ export interface TestUnwrap extends BaseContract {
   wrap2LD(
     label: PromiseOrValue<string>,
     wrappedOwner: PromiseOrValue<string>,
-    fuses: PromiseOrValue<BigNumberish>,
-    expiry: PromiseOrValue<BigNumberish>,
-    resolver: PromiseOrValue<string>,
+    arg2: PromiseOrValue<BigNumberish>,
+    arg3: PromiseOrValue<BigNumberish>,
+    arg4: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   wrapFromUpgrade(
     name: PromiseOrValue<BytesLike>,
     wrappedOwner: PromiseOrValue<string>,
-    fuses: PromiseOrValue<BigNumberish>,
-    expiry: PromiseOrValue<BigNumberish>,
-    extraData: PromiseOrValue<BytesLike>,
+    arg2: PromiseOrValue<BigNumberish>,
+    arg3: PromiseOrValue<BigNumberish>,
+    arg4: PromiseOrValue<string>,
+    arg5: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -335,10 +338,10 @@ export interface TestUnwrap extends BaseContract {
       parentNode: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<string>,
       newOwner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      ttl: PromiseOrValue<BigNumberish>,
-      fuses: PromiseOrValue<BigNumberish>,
-      expiry: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<string>,
+      arg4: PromiseOrValue<BigNumberish>,
+      arg5: PromiseOrValue<BigNumberish>,
+      arg6: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -359,18 +362,19 @@ export interface TestUnwrap extends BaseContract {
     wrap2LD(
       label: PromiseOrValue<string>,
       wrappedOwner: PromiseOrValue<string>,
-      fuses: PromiseOrValue<BigNumberish>,
-      expiry: PromiseOrValue<BigNumberish>,
-      resolver: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<BigNumberish>,
+      arg4: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     wrapFromUpgrade(
       name: PromiseOrValue<BytesLike>,
       wrappedOwner: PromiseOrValue<string>,
-      fuses: PromiseOrValue<BigNumberish>,
-      expiry: PromiseOrValue<BigNumberish>,
-      extraData: PromiseOrValue<BytesLike>,
+      arg2: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<BigNumberish>,
+      arg4: PromiseOrValue<string>,
+      arg5: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -412,10 +416,10 @@ export interface TestUnwrap extends BaseContract {
       parentNode: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<string>,
       newOwner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      ttl: PromiseOrValue<BigNumberish>,
-      fuses: PromiseOrValue<BigNumberish>,
-      expiry: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<string>,
+      arg4: PromiseOrValue<BigNumberish>,
+      arg5: PromiseOrValue<BigNumberish>,
+      arg6: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -436,18 +440,19 @@ export interface TestUnwrap extends BaseContract {
     wrap2LD(
       label: PromiseOrValue<string>,
       wrappedOwner: PromiseOrValue<string>,
-      fuses: PromiseOrValue<BigNumberish>,
-      expiry: PromiseOrValue<BigNumberish>,
-      resolver: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<BigNumberish>,
+      arg4: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     wrapFromUpgrade(
       name: PromiseOrValue<BytesLike>,
       wrappedOwner: PromiseOrValue<string>,
-      fuses: PromiseOrValue<BigNumberish>,
-      expiry: PromiseOrValue<BigNumberish>,
-      extraData: PromiseOrValue<BytesLike>,
+      arg2: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<BigNumberish>,
+      arg4: PromiseOrValue<string>,
+      arg5: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
@@ -478,10 +483,10 @@ export interface TestUnwrap extends BaseContract {
       parentNode: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<string>,
       newOwner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      ttl: PromiseOrValue<BigNumberish>,
-      fuses: PromiseOrValue<BigNumberish>,
-      expiry: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<string>,
+      arg4: PromiseOrValue<BigNumberish>,
+      arg5: PromiseOrValue<BigNumberish>,
+      arg6: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -502,18 +507,19 @@ export interface TestUnwrap extends BaseContract {
     wrap2LD(
       label: PromiseOrValue<string>,
       wrappedOwner: PromiseOrValue<string>,
-      fuses: PromiseOrValue<BigNumberish>,
-      expiry: PromiseOrValue<BigNumberish>,
-      resolver: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<BigNumberish>,
+      arg4: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     wrapFromUpgrade(
       name: PromiseOrValue<BytesLike>,
       wrappedOwner: PromiseOrValue<string>,
-      fuses: PromiseOrValue<BigNumberish>,
-      expiry: PromiseOrValue<BigNumberish>,
-      extraData: PromiseOrValue<BytesLike>,
+      arg2: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<BigNumberish>,
+      arg4: PromiseOrValue<string>,
+      arg5: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

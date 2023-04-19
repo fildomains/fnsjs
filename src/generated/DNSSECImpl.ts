@@ -217,7 +217,7 @@ export interface DNSSECImpl extends BaseContract {
 
     "verifyRRSet((bytes,bytes)[],uint256)"(
       input: DNSSEC.RRSetWithSignatureStruct[],
-      now: PromiseOrValue<BigNumberish>,
+      _now: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string, number] & { rrs: string; inception: number }>;
 
@@ -270,7 +270,7 @@ export interface DNSSECImpl extends BaseContract {
 
   "verifyRRSet((bytes,bytes)[],uint256)"(
     input: DNSSEC.RRSetWithSignatureStruct[],
-    now: PromiseOrValue<BigNumberish>,
+    _now: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<[string, number] & { rrs: string; inception: number }>;
 
@@ -323,7 +323,7 @@ export interface DNSSECImpl extends BaseContract {
 
     "verifyRRSet((bytes,bytes)[],uint256)"(
       input: DNSSEC.RRSetWithSignatureStruct[],
-      now: PromiseOrValue<BigNumberish>,
+      _now: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string, number] & { rrs: string; inception: number }>;
 
@@ -391,7 +391,7 @@ export interface DNSSECImpl extends BaseContract {
 
     "verifyRRSet((bytes,bytes)[],uint256)"(
       input: DNSSEC.RRSetWithSignatureStruct[],
-      now: PromiseOrValue<BigNumberish>,
+      _now: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -445,7 +445,7 @@ export interface DNSSECImpl extends BaseContract {
 
     "verifyRRSet((bytes,bytes)[],uint256)"(
       input: DNSSEC.RRSetWithSignatureStruct[],
-      now: PromiseOrValue<BigNumberish>,
+      _now: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

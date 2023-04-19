@@ -257,11 +257,11 @@ export interface ExponentialPremiumPriceOracle extends BaseContract {
   functions: {
     /**
      * Returns the premium price at current time elapsed
+     * @param _startPremium starting price
      * @param elapsed time past since expiry
-     * @param startPremium starting price
      */
     decayedPremium(
-      startPremium: PromiseOrValue<BigNumberish>,
+      _startPremium: PromiseOrValue<BigNumberish>,
       elapsed: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
@@ -334,11 +334,11 @@ export interface ExponentialPremiumPriceOracle extends BaseContract {
 
   /**
    * Returns the premium price at current time elapsed
+   * @param _startPremium starting price
    * @param elapsed time past since expiry
-   * @param startPremium starting price
    */
   decayedPremium(
-    startPremium: PromiseOrValue<BigNumberish>,
+    _startPremium: PromiseOrValue<BigNumberish>,
     elapsed: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
@@ -411,11 +411,11 @@ export interface ExponentialPremiumPriceOracle extends BaseContract {
   callStatic: {
     /**
      * Returns the premium price at current time elapsed
+     * @param _startPremium starting price
      * @param elapsed time past since expiry
-     * @param startPremium starting price
      */
     decayedPremium(
-      startPremium: PromiseOrValue<BigNumberish>,
+      _startPremium: PromiseOrValue<BigNumberish>,
       elapsed: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -510,11 +510,11 @@ export interface ExponentialPremiumPriceOracle extends BaseContract {
   estimateGas: {
     /**
      * Returns the premium price at current time elapsed
+     * @param _startPremium starting price
      * @param elapsed time past since expiry
-     * @param startPremium starting price
      */
     decayedPremium(
-      startPremium: PromiseOrValue<BigNumberish>,
+      _startPremium: PromiseOrValue<BigNumberish>,
       elapsed: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -588,11 +588,11 @@ export interface ExponentialPremiumPriceOracle extends BaseContract {
   populateTransaction: {
     /**
      * Returns the premium price at current time elapsed
+     * @param _startPremium starting price
      * @param elapsed time past since expiry
-     * @param startPremium starting price
      */
     decayedPremium(
-      startPremium: PromiseOrValue<BigNumberish>,
+      _startPremium: PromiseOrValue<BigNumberish>,
       elapsed: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

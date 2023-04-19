@@ -218,7 +218,7 @@ export interface DNSRegistrar extends BaseContract {
     proveAndClaimWithResolver(
       name: PromiseOrValue<BytesLike>,
       input: DNSSEC.RRSetWithSignatureStruct[],
-      resolver: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
       addr: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -263,7 +263,7 @@ export interface DNSRegistrar extends BaseContract {
   proveAndClaimWithResolver(
     name: PromiseOrValue<BytesLike>,
     input: DNSSEC.RRSetWithSignatureStruct[],
-    resolver: PromiseOrValue<string>,
+    _resolver: PromiseOrValue<string>,
     addr: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -308,7 +308,7 @@ export interface DNSRegistrar extends BaseContract {
     proveAndClaimWithResolver(
       name: PromiseOrValue<BytesLike>,
       input: DNSSEC.RRSetWithSignatureStruct[],
-      resolver: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
       addr: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -374,7 +374,7 @@ export interface DNSRegistrar extends BaseContract {
     proveAndClaimWithResolver(
       name: PromiseOrValue<BytesLike>,
       input: DNSSEC.RRSetWithSignatureStruct[],
-      resolver: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
       addr: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -420,7 +420,7 @@ export interface DNSRegistrar extends BaseContract {
     proveAndClaimWithResolver(
       name: PromiseOrValue<BytesLike>,
       input: DNSSEC.RRSetWithSignatureStruct[],
-      resolver: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
       addr: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

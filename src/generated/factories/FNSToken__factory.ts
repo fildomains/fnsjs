@@ -954,6 +954,11 @@ const _abi = [
         name: "total",
         type: "uint256",
       },
+      {
+        internalType: "uint256",
+        name: "totalFns",
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
     type: "function",

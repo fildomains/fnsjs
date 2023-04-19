@@ -36,6 +36,7 @@ import type getSundayBalance from './getSundayBalance'
 import type getSundaySupply from './getSundaySupply'
 import type getSundayPaused from './getSundayPaused'
 import type getBalance from './getBalance'
+import type getCurrentBlockTimestamp from './getCurrentBlockTimestamp'
 import type getFnsBalance from './getFnsBalance'
 import type getFnsSupply from './getFnsSupply'
 import type importDNSSECName from './importDNSSECName'
@@ -100,6 +101,7 @@ type Function = {
   getSundayPaused: typeof getSundayPaused
   getFnsBalance: typeof getFnsBalance
   getBalance: typeof getBalance
+  getCurrentBlockTimestamp: typeof getCurrentBlockTimestamp
   getFnsSupply: typeof getFnsSupply
   importDNSSECName: typeof importDNSSECName
   registerName: typeof registerName

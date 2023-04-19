@@ -77,6 +77,7 @@ export interface MulticallInterface extends utils.Interface {
     "aggregate3((address,bool,bytes)[])": FunctionFragment;
     "aggregate3Value((address,bool,uint256,bytes)[])": FunctionFragment;
     "blockAndAggregate((address,bytes)[])": FunctionFragment;
+    "getBalance(address)": FunctionFragment;
     "getBasefee()": FunctionFragment;
     "getBlockHash(uint256)": FunctionFragment;
     "getBlockNumber()": FunctionFragment;
@@ -97,6 +98,7 @@ export interface MulticallInterface extends utils.Interface {
       | "aggregate3"
       | "aggregate3Value"
       | "blockAndAggregate"
+      | "getBalance"
       | "getBasefee"
       | "getBlockHash"
       | "getBlockNumber"
@@ -126,6 +128,10 @@ export interface MulticallInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "blockAndAggregate",
     values: [Multicall.CallStruct[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getBalance",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "getBasefee",
@@ -186,6 +192,7 @@ export interface MulticallInterface extends utils.Interface {
     functionFragment: "blockAndAggregate",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getBalance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getBasefee", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getBlockHash",
@@ -278,6 +285,11 @@ export interface Multicall extends BaseContract {
       calls: Multicall.CallStruct[],
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    getBalance(
+      addr: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { balance: BigNumber }>;
 
     /**
      * Gets the base fee of the given blockCan revert if the BASEFEE opcode is not implemented by the given chain
@@ -385,6 +397,11 @@ export interface Multicall extends BaseContract {
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  getBalance(
+    addr: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   /**
    * Gets the base fee of the given blockCan revert if the BASEFEE opcode is not implemented by the given chain
    */
@@ -482,6 +499,11 @@ export interface Multicall extends BaseContract {
         returnData: Multicall.ResultStructOutput[];
       }
     >;
+
+    getBalance(
+      addr: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     /**
      * Gets the base fee of the given blockCan revert if the BASEFEE opcode is not implemented by the given chain
@@ -582,6 +604,11 @@ export interface Multicall extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    getBalance(
+      addr: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     /**
      * Gets the base fee of the given blockCan revert if the BASEFEE opcode is not implemented by the given chain
      */
@@ -671,6 +698,11 @@ export interface Multicall extends BaseContract {
     blockAndAggregate(
       calls: Multicall.CallStruct[],
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    getBalance(
+      addr: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     /**

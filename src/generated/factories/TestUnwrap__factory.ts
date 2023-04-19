@@ -128,22 +128,22 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "resolver",
+        name: "",
         type: "address",
       },
       {
         internalType: "uint64",
-        name: "ttl",
+        name: "",
         type: "uint64",
       },
       {
         internalType: "uint32",
-        name: "fuses",
+        name: "",
         type: "uint32",
       },
       {
         internalType: "uint64",
-        name: "expiry",
+        name: "",
         type: "uint64",
       },
     ],
@@ -197,17 +197,17 @@ const _abi = [
       },
       {
         internalType: "uint32",
-        name: "fuses",
+        name: "",
         type: "uint32",
       },
       {
         internalType: "uint64",
-        name: "expiry",
+        name: "",
         type: "uint64",
       },
       {
         internalType: "address",
-        name: "resolver",
+        name: "",
         type: "address",
       },
     ],
@@ -230,17 +230,22 @@ const _abi = [
       },
       {
         internalType: "uint32",
-        name: "fuses",
+        name: "",
         type: "uint32",
       },
       {
         internalType: "uint64",
-        name: "expiry",
+        name: "",
         type: "uint64",
       },
       {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
         internalType: "bytes",
-        name: "extraData",
+        name: "",
         type: "bytes",
       },
     ],

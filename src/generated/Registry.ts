@@ -249,11 +249,11 @@ export interface Registry extends BaseContract {
   functions: {
     /**
      * Query if an address is an authorized operator for another address.
+     * @param _owner The address that owns the records.
      * @param operator The address that acts on behalf of the owner.
-     * @param owner The address that owns the records.
      */
     isApprovedForAll(
-      owner: PromiseOrValue<string>,
+      _owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
@@ -298,79 +298,79 @@ export interface Registry extends BaseContract {
 
     /**
      * Transfers ownership of a node to a new address. May only be called by the current owner of the node.
+     * @param _owner The address of the new owner.
      * @param node The node to transfer ownership of.
-     * @param owner The address of the new owner.
      */
     setOwner(
       node: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
+      _owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     /**
      * Sets the record for a node.
+     * @param _owner The address of the new owner.
+     * @param _resolver The address of the resolver.
+     * @param _ttl The TTL in seconds.
      * @param node The node to update.
-     * @param owner The address of the new owner.
-     * @param resolver The address of the resolver.
-     * @param ttl The TTL in seconds.
      */
     setRecord(
       node: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      ttl: PromiseOrValue<BigNumberish>,
+      _owner: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
+      _ttl: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     /**
      * Sets the resolver address for the specified node.
+     * @param _resolver The address of the resolver.
      * @param node The node to update.
-     * @param resolver The address of the resolver.
      */
     setResolver(
       node: PromiseOrValue<BytesLike>,
-      resolver: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     /**
      * Transfers ownership of a subnode keccak256(node, label) to a new address. May only be called by the owner of the parent node.
+     * @param _owner The address of the new owner.
      * @param label The hash of the label specifying the subnode.
      * @param node The parent node.
-     * @param owner The address of the new owner.
      */
     setSubnodeOwner(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
+      _owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     /**
      * Sets the record for a subnode.
+     * @param _owner The address of the new owner.
+     * @param _resolver The address of the resolver.
+     * @param _ttl The TTL in seconds.
      * @param label The hash of the label specifying the subnode.
      * @param node The parent node.
-     * @param owner The address of the new owner.
-     * @param resolver The address of the resolver.
-     * @param ttl The TTL in seconds.
      */
     setSubnodeRecord(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      ttl: PromiseOrValue<BigNumberish>,
+      _owner: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
+      _ttl: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     /**
      * Sets the TTL for the specified node.
+     * @param _ttl The TTL in seconds.
      * @param node The node to update.
-     * @param ttl The TTL in seconds.
      */
     setTTL(
       node: PromiseOrValue<BytesLike>,
-      ttl: PromiseOrValue<BigNumberish>,
+      _ttl: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -386,11 +386,11 @@ export interface Registry extends BaseContract {
 
   /**
    * Query if an address is an authorized operator for another address.
+   * @param _owner The address that owns the records.
    * @param operator The address that acts on behalf of the owner.
-   * @param owner The address that owns the records.
    */
   isApprovedForAll(
-    owner: PromiseOrValue<string>,
+    _owner: PromiseOrValue<string>,
     operator: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<boolean>;
@@ -435,79 +435,79 @@ export interface Registry extends BaseContract {
 
   /**
    * Transfers ownership of a node to a new address. May only be called by the current owner of the node.
+   * @param _owner The address of the new owner.
    * @param node The node to transfer ownership of.
-   * @param owner The address of the new owner.
    */
   setOwner(
     node: PromiseOrValue<BytesLike>,
-    owner: PromiseOrValue<string>,
+    _owner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   /**
    * Sets the record for a node.
+   * @param _owner The address of the new owner.
+   * @param _resolver The address of the resolver.
+   * @param _ttl The TTL in seconds.
    * @param node The node to update.
-   * @param owner The address of the new owner.
-   * @param resolver The address of the resolver.
-   * @param ttl The TTL in seconds.
    */
   setRecord(
     node: PromiseOrValue<BytesLike>,
-    owner: PromiseOrValue<string>,
-    resolver: PromiseOrValue<string>,
-    ttl: PromiseOrValue<BigNumberish>,
+    _owner: PromiseOrValue<string>,
+    _resolver: PromiseOrValue<string>,
+    _ttl: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   /**
    * Sets the resolver address for the specified node.
+   * @param _resolver The address of the resolver.
    * @param node The node to update.
-   * @param resolver The address of the resolver.
    */
   setResolver(
     node: PromiseOrValue<BytesLike>,
-    resolver: PromiseOrValue<string>,
+    _resolver: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   /**
    * Transfers ownership of a subnode keccak256(node, label) to a new address. May only be called by the owner of the parent node.
+   * @param _owner The address of the new owner.
    * @param label The hash of the label specifying the subnode.
    * @param node The parent node.
-   * @param owner The address of the new owner.
    */
   setSubnodeOwner(
     node: PromiseOrValue<BytesLike>,
     label: PromiseOrValue<BytesLike>,
-    owner: PromiseOrValue<string>,
+    _owner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   /**
    * Sets the record for a subnode.
+   * @param _owner The address of the new owner.
+   * @param _resolver The address of the resolver.
+   * @param _ttl The TTL in seconds.
    * @param label The hash of the label specifying the subnode.
    * @param node The parent node.
-   * @param owner The address of the new owner.
-   * @param resolver The address of the resolver.
-   * @param ttl The TTL in seconds.
    */
   setSubnodeRecord(
     node: PromiseOrValue<BytesLike>,
     label: PromiseOrValue<BytesLike>,
-    owner: PromiseOrValue<string>,
-    resolver: PromiseOrValue<string>,
-    ttl: PromiseOrValue<BigNumberish>,
+    _owner: PromiseOrValue<string>,
+    _resolver: PromiseOrValue<string>,
+    _ttl: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   /**
    * Sets the TTL for the specified node.
+   * @param _ttl The TTL in seconds.
    * @param node The node to update.
-   * @param ttl The TTL in seconds.
    */
   setTTL(
     node: PromiseOrValue<BytesLike>,
-    ttl: PromiseOrValue<BigNumberish>,
+    _ttl: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -523,11 +523,11 @@ export interface Registry extends BaseContract {
   callStatic: {
     /**
      * Query if an address is an authorized operator for another address.
+     * @param _owner The address that owns the records.
      * @param operator The address that acts on behalf of the owner.
-     * @param owner The address that owns the records.
      */
     isApprovedForAll(
-      owner: PromiseOrValue<string>,
+      _owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
@@ -572,79 +572,79 @@ export interface Registry extends BaseContract {
 
     /**
      * Transfers ownership of a node to a new address. May only be called by the current owner of the node.
+     * @param _owner The address of the new owner.
      * @param node The node to transfer ownership of.
-     * @param owner The address of the new owner.
      */
     setOwner(
       node: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
+      _owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     /**
      * Sets the record for a node.
+     * @param _owner The address of the new owner.
+     * @param _resolver The address of the resolver.
+     * @param _ttl The TTL in seconds.
      * @param node The node to update.
-     * @param owner The address of the new owner.
-     * @param resolver The address of the resolver.
-     * @param ttl The TTL in seconds.
      */
     setRecord(
       node: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      ttl: PromiseOrValue<BigNumberish>,
+      _owner: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
+      _ttl: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     /**
      * Sets the resolver address for the specified node.
+     * @param _resolver The address of the resolver.
      * @param node The node to update.
-     * @param resolver The address of the resolver.
      */
     setResolver(
       node: PromiseOrValue<BytesLike>,
-      resolver: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     /**
      * Transfers ownership of a subnode keccak256(node, label) to a new address. May only be called by the owner of the parent node.
+     * @param _owner The address of the new owner.
      * @param label The hash of the label specifying the subnode.
      * @param node The parent node.
-     * @param owner The address of the new owner.
      */
     setSubnodeOwner(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
+      _owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<string>;
 
     /**
      * Sets the record for a subnode.
+     * @param _owner The address of the new owner.
+     * @param _resolver The address of the resolver.
+     * @param _ttl The TTL in seconds.
      * @param label The hash of the label specifying the subnode.
      * @param node The parent node.
-     * @param owner The address of the new owner.
-     * @param resolver The address of the resolver.
-     * @param ttl The TTL in seconds.
      */
     setSubnodeRecord(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      ttl: PromiseOrValue<BigNumberish>,
+      _owner: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
+      _ttl: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     /**
      * Sets the TTL for the specified node.
+     * @param _ttl The TTL in seconds.
      * @param node The node to update.
-     * @param ttl The TTL in seconds.
      */
     setTTL(
       node: PromiseOrValue<BytesLike>,
-      ttl: PromiseOrValue<BigNumberish>,
+      _ttl: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -712,11 +712,11 @@ export interface Registry extends BaseContract {
   estimateGas: {
     /**
      * Query if an address is an authorized operator for another address.
+     * @param _owner The address that owns the records.
      * @param operator The address that acts on behalf of the owner.
-     * @param owner The address that owns the records.
      */
     isApprovedForAll(
-      owner: PromiseOrValue<string>,
+      _owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -761,79 +761,79 @@ export interface Registry extends BaseContract {
 
     /**
      * Transfers ownership of a node to a new address. May only be called by the current owner of the node.
+     * @param _owner The address of the new owner.
      * @param node The node to transfer ownership of.
-     * @param owner The address of the new owner.
      */
     setOwner(
       node: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
+      _owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     /**
      * Sets the record for a node.
+     * @param _owner The address of the new owner.
+     * @param _resolver The address of the resolver.
+     * @param _ttl The TTL in seconds.
      * @param node The node to update.
-     * @param owner The address of the new owner.
-     * @param resolver The address of the resolver.
-     * @param ttl The TTL in seconds.
      */
     setRecord(
       node: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      ttl: PromiseOrValue<BigNumberish>,
+      _owner: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
+      _ttl: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     /**
      * Sets the resolver address for the specified node.
+     * @param _resolver The address of the resolver.
      * @param node The node to update.
-     * @param resolver The address of the resolver.
      */
     setResolver(
       node: PromiseOrValue<BytesLike>,
-      resolver: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     /**
      * Transfers ownership of a subnode keccak256(node, label) to a new address. May only be called by the owner of the parent node.
+     * @param _owner The address of the new owner.
      * @param label The hash of the label specifying the subnode.
      * @param node The parent node.
-     * @param owner The address of the new owner.
      */
     setSubnodeOwner(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
+      _owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     /**
      * Sets the record for a subnode.
+     * @param _owner The address of the new owner.
+     * @param _resolver The address of the resolver.
+     * @param _ttl The TTL in seconds.
      * @param label The hash of the label specifying the subnode.
      * @param node The parent node.
-     * @param owner The address of the new owner.
-     * @param resolver The address of the resolver.
-     * @param ttl The TTL in seconds.
      */
     setSubnodeRecord(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      ttl: PromiseOrValue<BigNumberish>,
+      _owner: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
+      _ttl: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     /**
      * Sets the TTL for the specified node.
+     * @param _ttl The TTL in seconds.
      * @param node The node to update.
-     * @param ttl The TTL in seconds.
      */
     setTTL(
       node: PromiseOrValue<BytesLike>,
-      ttl: PromiseOrValue<BigNumberish>,
+      _ttl: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -850,11 +850,11 @@ export interface Registry extends BaseContract {
   populateTransaction: {
     /**
      * Query if an address is an authorized operator for another address.
+     * @param _owner The address that owns the records.
      * @param operator The address that acts on behalf of the owner.
-     * @param owner The address that owns the records.
      */
     isApprovedForAll(
-      owner: PromiseOrValue<string>,
+      _owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -899,79 +899,79 @@ export interface Registry extends BaseContract {
 
     /**
      * Transfers ownership of a node to a new address. May only be called by the current owner of the node.
+     * @param _owner The address of the new owner.
      * @param node The node to transfer ownership of.
-     * @param owner The address of the new owner.
      */
     setOwner(
       node: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
+      _owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     /**
      * Sets the record for a node.
+     * @param _owner The address of the new owner.
+     * @param _resolver The address of the resolver.
+     * @param _ttl The TTL in seconds.
      * @param node The node to update.
-     * @param owner The address of the new owner.
-     * @param resolver The address of the resolver.
-     * @param ttl The TTL in seconds.
      */
     setRecord(
       node: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      ttl: PromiseOrValue<BigNumberish>,
+      _owner: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
+      _ttl: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     /**
      * Sets the resolver address for the specified node.
+     * @param _resolver The address of the resolver.
      * @param node The node to update.
-     * @param resolver The address of the resolver.
      */
     setResolver(
       node: PromiseOrValue<BytesLike>,
-      resolver: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     /**
      * Transfers ownership of a subnode keccak256(node, label) to a new address. May only be called by the owner of the parent node.
+     * @param _owner The address of the new owner.
      * @param label The hash of the label specifying the subnode.
      * @param node The parent node.
-     * @param owner The address of the new owner.
      */
     setSubnodeOwner(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
+      _owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     /**
      * Sets the record for a subnode.
+     * @param _owner The address of the new owner.
+     * @param _resolver The address of the resolver.
+     * @param _ttl The TTL in seconds.
      * @param label The hash of the label specifying the subnode.
      * @param node The parent node.
-     * @param owner The address of the new owner.
-     * @param resolver The address of the resolver.
-     * @param ttl The TTL in seconds.
      */
     setSubnodeRecord(
       node: PromiseOrValue<BytesLike>,
       label: PromiseOrValue<BytesLike>,
-      owner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      ttl: PromiseOrValue<BigNumberish>,
+      _owner: PromiseOrValue<string>,
+      _resolver: PromiseOrValue<string>,
+      _ttl: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     /**
      * Sets the TTL for the specified node.
+     * @param _ttl The TTL in seconds.
      * @param node The node to update.
-     * @param ttl The TTL in seconds.
      */
     setTTL(
       node: PromiseOrValue<BytesLike>,
-      ttl: PromiseOrValue<BigNumberish>,
+      _ttl: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

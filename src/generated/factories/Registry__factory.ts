@@ -125,7 +125,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "owner",
+        name: "_owner",
         type: "address",
       },
       {
@@ -229,7 +229,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "owner",
+        name: "_owner",
         type: "address",
       },
     ],
@@ -247,17 +247,17 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "owner",
+        name: "_owner",
         type: "address",
       },
       {
         internalType: "address",
-        name: "resolver",
+        name: "_resolver",
         type: "address",
       },
       {
         internalType: "uint64",
-        name: "ttl",
+        name: "_ttl",
         type: "uint64",
       },
     ],
@@ -275,7 +275,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "resolver",
+        name: "_resolver",
         type: "address",
       },
     ],
@@ -298,7 +298,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "owner",
+        name: "_owner",
         type: "address",
       },
     ],
@@ -327,17 +327,17 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "owner",
+        name: "_owner",
         type: "address",
       },
       {
         internalType: "address",
-        name: "resolver",
+        name: "_resolver",
         type: "address",
       },
       {
         internalType: "uint64",
-        name: "ttl",
+        name: "_ttl",
         type: "uint64",
       },
     ],
@@ -355,7 +355,7 @@ const _abi = [
       },
       {
         internalType: "uint64",
-        name: "ttl",
+        name: "_ttl",
         type: "uint64",
       },
     ],

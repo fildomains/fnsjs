@@ -93,7 +93,7 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "startPremium",
+        name: "_startPremium",
         type: "uint256",
       },
       {

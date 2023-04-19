@@ -398,13 +398,13 @@ export interface Sunday extends BaseContract {
     ): Promise<ContractTransaction>;
 
     getEarnings(
-      w: PromiseOrValue<BigNumberish>,
+      _week: PromiseOrValue<BigNumberish>,
       addr: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[Sunday.ShareStructOutput]>;
 
     getShare(
-      w: PromiseOrValue<BigNumberish>,
+      _week: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[Sunday.ShareStructOutput]>;
 
@@ -553,13 +553,13 @@ export interface Sunday extends BaseContract {
   ): Promise<ContractTransaction>;
 
   getEarnings(
-    w: PromiseOrValue<BigNumberish>,
+    _week: PromiseOrValue<BigNumberish>,
     addr: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<Sunday.ShareStructOutput>;
 
   getShare(
-    w: PromiseOrValue<BigNumberish>,
+    _week: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<Sunday.ShareStructOutput>;
 
@@ -706,13 +706,13 @@ export interface Sunday extends BaseContract {
     ): Promise<boolean>;
 
     getEarnings(
-      w: PromiseOrValue<BigNumberish>,
+      _week: PromiseOrValue<BigNumberish>,
       addr: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<Sunday.ShareStructOutput>;
 
     getShare(
-      w: PromiseOrValue<BigNumberish>,
+      _week: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<Sunday.ShareStructOutput>;
 
@@ -917,13 +917,13 @@ export interface Sunday extends BaseContract {
     ): Promise<BigNumber>;
 
     getEarnings(
-      w: PromiseOrValue<BigNumberish>,
+      _week: PromiseOrValue<BigNumberish>,
       addr: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getShare(
-      w: PromiseOrValue<BigNumberish>,
+      _week: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1073,13 +1073,13 @@ export interface Sunday extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getEarnings(
-      w: PromiseOrValue<BigNumberish>,
+      _week: PromiseOrValue<BigNumberish>,
       addr: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getShare(
-      w: PromiseOrValue<BigNumberish>,
+      _week: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

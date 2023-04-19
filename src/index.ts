@@ -77,10 +77,10 @@ interface WriteFunction<F extends (...args: any) => any> extends Function {
 
 /* eslint-disable @typescript-eslint/naming-convention */
 export const graphURIEndpoints: Record<string, string> = {
-  1: 'http://api.fildomains.com:5678/mainnet',
-  5: 'http://api.fildomains.com:5678/goerli',
-  314: 'http://api.fildomains.com:5678/filecoin',
-  3141: 'http://api.fildomains.com:5678/hyperspace',
+  1: 'https://api.fildomains.com:5678/mainnet',
+  5: 'https://api.fildomains.com:5678/goerli',
+  314: 'https://api.fildomains.com:5678/filecoin',
+  3141: 'https://api.fildomains.com:5678/hyperspace',
   1337: 'http://localhost:5678/localhost',
   31337: 'http://localhost:5678/hardhat',
 }
@@ -466,6 +466,10 @@ export class FNS {
     ['contracts'],
   )
 
+  public getCurrentBlockTimestamp = this.generateRawFunction<
+    FunctionTypes['getCurrentBlockTimestamp']
+  >('getCurrentBlockTimestamp', ['contracts'])
+
   public getFnsSupply = this.generateRawFunction<FunctionTypes['getFnsSupply']>(
     'getFnsSupply',
     ['contracts'],
@@ -560,7 +564,7 @@ export class FNS {
 
   public getPrice = this.generateRawFunction<FunctionTypes['getPrice']>(
     'initialGetters',
-    ['contracts', 'multicallWrapper'],
+    ['contracts'],
     'getPrice',
   )
 

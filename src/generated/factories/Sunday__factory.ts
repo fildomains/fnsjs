@@ -299,7 +299,7 @@ const _abi = [
     inputs: [
       {
         internalType: "uint64",
-        name: "w",
+        name: "_week",
         type: "uint64",
       },
       {
@@ -340,7 +340,7 @@ const _abi = [
     inputs: [
       {
         internalType: "uint64",
-        name: "w",
+        name: "_week",
         type: "uint64",
       },
     ],
