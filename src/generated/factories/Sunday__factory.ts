@@ -12,6 +12,11 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "contract FNS",
+        name: "_fns",
+        type: "address",
+      },
+      {
         internalType: "address",
         name: "_fnsToken",
         type: "address",
@@ -48,6 +53,12 @@ const _abi = [
   {
     anonymous: false,
     inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
       {
         indexed: true,
         internalType: "address",
@@ -239,7 +250,13 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
     name: "claimEarnings",
     outputs: [],
     stateMutability: "nonpayable",
@@ -296,6 +313,19 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "fns",
+    outputs: [
+      {
+        internalType: "contract FNS",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint64",
@@ -331,6 +361,19 @@ const _abi = [
         internalType: "struct Sunday.share",
         name: "",
         type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getNameWrapper",
+    outputs: [
+      {
+        internalType: "contract INameWrapper",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -443,6 +486,25 @@ const _abi = [
   {
     inputs: [],
     name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "ownerOf",
     outputs: [
       {
         internalType: "address",

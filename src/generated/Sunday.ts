@@ -46,17 +46,20 @@ export interface SundayInterface extends utils.Interface {
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "claimEarnings()": FunctionFragment;
+    "claimEarnings(uint256)": FunctionFragment;
     "day()": FunctionFragment;
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
+    "fns()": FunctionFragment;
     "getEarnings(uint64,address)": FunctionFragment;
+    "getNameWrapper()": FunctionFragment;
     "getShare(uint64)": FunctionFragment;
     "increaseAllowance(address,uint256)": FunctionFragment;
     "initShare()": FunctionFragment;
     "mint(address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
+    "ownerOf(uint256)": FunctionFragment;
     "paused()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -79,13 +82,16 @@ export interface SundayInterface extends utils.Interface {
       | "day"
       | "decimals"
       | "decreaseAllowance"
+      | "fns"
       | "getEarnings"
+      | "getNameWrapper"
       | "getShare"
       | "increaseAllowance"
       | "initShare"
       | "mint"
       | "name"
       | "owner"
+      | "ownerOf"
       | "paused"
       | "renounceOwnership"
       | "supportsInterface"
@@ -113,7 +119,7 @@ export interface SundayInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "claimEarnings",
-    values?: undefined
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "day", values?: undefined): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
@@ -121,9 +127,14 @@ export interface SundayInterface extends utils.Interface {
     functionFragment: "decreaseAllowance",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
+  encodeFunctionData(functionFragment: "fns", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getEarnings",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getNameWrapper",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getShare",
@@ -140,6 +151,10 @@ export interface SundayInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "ownerOf",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -190,8 +205,13 @@ export interface SundayInterface extends utils.Interface {
     functionFragment: "decreaseAllowance",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "fns", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getEarnings",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getNameWrapper",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getShare", data: BytesLike): Result;
@@ -203,6 +223,7 @@ export interface SundayInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
@@ -232,7 +253,7 @@ export interface SundayInterface extends utils.Interface {
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
-    "Earnings(address,uint64,uint256,uint256)": EventFragment;
+    "Earnings(uint256,address,uint64,uint256,uint256)": EventFragment;
     "Init(uint64,uint256,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Paused(address)": EventFragment;
@@ -262,13 +283,14 @@ export type ApprovalEvent = TypedEvent<
 export type ApprovalEventFilter = TypedEventFilter<ApprovalEvent>;
 
 export interface EarningsEventObject {
+  tokenId: BigNumber;
   addr: string;
   week: BigNumber;
   fil: BigNumber;
   fns: BigNumber;
 }
 export type EarningsEvent = TypedEvent<
-  [string, BigNumber, BigNumber, BigNumber],
+  [BigNumber, string, BigNumber, BigNumber, BigNumber],
   EarningsEventObject
 >;
 
@@ -378,6 +400,7 @@ export interface Sunday extends BaseContract {
     ): Promise<[BigNumber]>;
 
     claimEarnings(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -397,11 +420,15 @@ export interface Sunday extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    fns(overrides?: CallOverrides): Promise<[string]>;
+
     getEarnings(
       _week: PromiseOrValue<BigNumberish>,
       addr: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[Sunday.ShareStructOutput]>;
+
+    getNameWrapper(overrides?: CallOverrides): Promise<[string]>;
 
     getShare(
       _week: PromiseOrValue<BigNumberish>,
@@ -441,6 +468,11 @@ export interface Sunday extends BaseContract {
      * Returns the address of the current owner.
      */
     owner(overrides?: CallOverrides): Promise<[string]>;
+
+    ownerOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     /**
      * Returns true if the contract is paused, and false otherwise.
@@ -533,6 +565,7 @@ export interface Sunday extends BaseContract {
   ): Promise<BigNumber>;
 
   claimEarnings(
+    tokenId: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -552,11 +585,15 @@ export interface Sunday extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  fns(overrides?: CallOverrides): Promise<string>;
+
   getEarnings(
     _week: PromiseOrValue<BigNumberish>,
     addr: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<Sunday.ShareStructOutput>;
+
+  getNameWrapper(overrides?: CallOverrides): Promise<string>;
 
   getShare(
     _week: PromiseOrValue<BigNumberish>,
@@ -596,6 +633,11 @@ export interface Sunday extends BaseContract {
    * Returns the address of the current owner.
    */
   owner(overrides?: CallOverrides): Promise<string>;
+
+  ownerOf(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   /**
    * Returns true if the contract is paused, and false otherwise.
@@ -687,7 +729,10 @@ export interface Sunday extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    claimEarnings(overrides?: CallOverrides): Promise<void>;
+    claimEarnings(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     day(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -705,11 +750,15 @@ export interface Sunday extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    fns(overrides?: CallOverrides): Promise<string>;
+
     getEarnings(
       _week: PromiseOrValue<BigNumberish>,
       addr: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<Sunday.ShareStructOutput>;
+
+    getNameWrapper(overrides?: CallOverrides): Promise<string>;
 
     getShare(
       _week: PromiseOrValue<BigNumberish>,
@@ -747,6 +796,11 @@ export interface Sunday extends BaseContract {
      * Returns the address of the current owner.
      */
     owner(overrides?: CallOverrides): Promise<string>;
+
+    ownerOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     /**
      * Returns true if the contract is paused, and false otherwise.
@@ -822,13 +876,15 @@ export interface Sunday extends BaseContract {
       value?: null
     ): ApprovalEventFilter;
 
-    "Earnings(address,uint64,uint256,uint256)"(
+    "Earnings(uint256,address,uint64,uint256,uint256)"(
+      tokenId?: PromiseOrValue<BigNumberish> | null,
       addr?: PromiseOrValue<string> | null,
       week?: null,
       fil?: null,
       fns?: null
     ): EarningsEventFilter;
     Earnings(
+      tokenId?: PromiseOrValue<BigNumberish> | null,
       addr?: PromiseOrValue<string> | null,
       week?: null,
       fil?: null,
@@ -897,6 +953,7 @@ export interface Sunday extends BaseContract {
     ): Promise<BigNumber>;
 
     claimEarnings(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -916,11 +973,15 @@ export interface Sunday extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    fns(overrides?: CallOverrides): Promise<BigNumber>;
+
     getEarnings(
       _week: PromiseOrValue<BigNumberish>,
       addr: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    getNameWrapper(overrides?: CallOverrides): Promise<BigNumber>;
 
     getShare(
       _week: PromiseOrValue<BigNumberish>,
@@ -960,6 +1021,11 @@ export interface Sunday extends BaseContract {
      * Returns the address of the current owner.
      */
     owner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    ownerOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     /**
      * Returns true if the contract is paused, and false otherwise.
@@ -1053,6 +1119,7 @@ export interface Sunday extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     claimEarnings(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1072,11 +1139,15 @@ export interface Sunday extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    fns(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getEarnings(
       _week: PromiseOrValue<BigNumberish>,
       addr: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    getNameWrapper(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getShare(
       _week: PromiseOrValue<BigNumberish>,
@@ -1116,6 +1187,11 @@ export interface Sunday extends BaseContract {
      * Returns the address of the current owner.
      */
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    ownerOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     /**
      * Returns true if the contract is paused, and false otherwise.

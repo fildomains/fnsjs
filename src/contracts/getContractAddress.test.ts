@@ -1,6 +1,5 @@
-import { ContractName } from './types'
+import { ContractName, SupportedNetworkId } from './types'
 import { getContractAddress } from './getContractAddress'
-import { SupportedNetworkId } from '../../dist/types/contracts/types'
 
 const hardhatAddress = {
   Registry: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
@@ -94,36 +93,36 @@ const filecoinAddress = {
   UniversalResolver: '0x8A7CF6e19082B5431Ec44c0cfF9CE09611aD2Edb',
 }
 
-const goerliAddress = {
-  BaseRegistrarImplementation: '0xf1082d257c0771957d28544e3d3500e6854c5f34',
+const calibrationAddress = {
+  BaseRegistrarImplementation: '0xF1082D257c0771957D28544e3d3500E6854C5f34',
   BulkRenewal: '0xd1fA99Bde6a85378df590B24188376280fA7919A',
-  DNSRegistrar: '0xD7cbD650f301959Cc6d84C2bbB9dF0781FfA9D8d',
-  DNSSECImpl: '0xb9F417CDff30a40135F526088EF9b63a3727aC47',
-  DummyAlgorithm: '0x6B186F15A590Fce06b8285E2e3b0De58993C701f',
-  DummyDigest: '0x4F9921E387f1Bb3E8e6d0D2Be889d9FCEB5b356D',
+  DNSRegistrar: '0x4e949BDfA4B3925925d033268889E2Cbf32B27Bb',
+  DNSSECImpl: '0x6439D3887AE110d7416f7f469Ca3b0CCb33f550a',
+  DummyAlgorithm: '0xcf10c14dAC966001B4A4B1575da2385c82c13840',
+  DummyDigest: '0xBfcA935c1Eb34A6fDC2a4C3e141dC416aDb926ba',
   DummyOracle: '0x9F645Ab6e26BC8642BE83613Ca78E8093cd7fCc3',
   ExponentialPremiumPriceOracle: '0xd1a0e79BD7f7A14647ec9212393f149718B25eAd',
   FNSToken: '0x6847b0f743242d92faCF7c3F6f54B537C87CBFa1',
-  Multicall: '0xaDB8054064F8666048EbAf75faEBf3083785F74b',
+  Multicall: '0xa086Bc63F2E22e35Ed802367c0b5b43FD69614A8',
   NameWrapper: '0x595a454758737944679D88895df35d15739B22B3',
-  OffchainDNSResolver: '0x6378DA240ae18FB0a3Bd05C7b187A443658Df92a',
-  P256SHA256Algorithm: '0x2b964C8180E531e14C3CA23c4732D4C9C5A4352b',
+  OffchainDNSResolver: '0x9E54Ae8A44A951AE452e3De70c638114Fd935835',
+  P256SHA256Algorithm: '0x7aFe3908705B07966B6c1Fc8FC2fb08D8a99ae72',
   PublicResolver: '0xCfcaFd81269768b02aedd5bE1D5CcAd528274D2D',
   RSASHA1Algorithm: '0x15Af8BCC2C859Fffd36655a609249Ea49068c34A',
-  RSASHA256Algorithm: '0xcf10c14dAC966001B4A4B1575da2385c82c13840',
+  RSASHA256Algorithm: '0x2bf0621b85D9f4C58723FaE608aeD8E78d59BbD0',
   Receiver: '0x430aF5D22aE20BEa99abf5b9aFd7E366DE743Ba6',
   RegistrarController: '0x8b083755e6aa0a7F80E99A1BA58C6cb611F815A7',
   Registry: '0x0000017bAc246FCC3af455e8fAd20bfCa6017D69',
   ReverseRegistrar: '0x9ea9063BddE87051461e9A2d73c53556025b865a',
   Root: '0x4aD6D028207D96E158b7CEE5e034f46a47A50eF1',
-  SHA1Digest: '0x6439D3887AE110d7416f7f469Ca3b0CCb33f550a',
-  SHA256Digest: '0x692B632490F11a59BAE9976331108bc02408597c',
+  SHA1Digest: '0x2b964C8180E531e14C3CA23c4732D4C9C5A4352b',
+  SHA256Digest: '0x6B186F15A590Fce06b8285E2e3b0De58993C701f',
   StaticMetadataService: '0x317E8d4CEacaf030B4B93D87C06Cc6C1B23C333b',
   Sunday: '0xd31B036A11B9e4ccF25637dFB75d65f26C3f36d3',
-  TLDPublicSuffixList: '0xa086Bc63F2E22e35Ed802367c0b5b43FD69614A8',
-  TestRegistrar: '0x3Edb5b572631614a1Ef9f3d66F74fc5c083eb0Ca',
-  TestUnwrap: '0x791adC8Dfe5367307Cad85A7a9453d55D90a1b43',
-  UniversalResolver: '0x7E7315cbef6639906ad07aEb712DAdd10a13aE44',
+  TLDPublicSuffixList: '0x222dB8a2cC29F8F3b6C91ef3777fCA86bFE1b5dd',
+  TestRegistrar: '0x7B6079A318D42E998B3FdaCCA7edcFCFe454b74a',
+  TestUnwrap: '0xD7cbD650f301959Cc6d84C2bbB9dF0781FfA9D8d',
+  UniversalResolver: '0x6378DA240ae18FB0a3Bd05C7b187A443658Df92a',
 }
 
 function testAddress(addresses: any, networkId: SupportedNetworkId) {
@@ -148,16 +147,16 @@ function testAddress(addresses: any, networkId: SupportedNetworkId) {
 }
 
 describe('getContractAddress', () => {
-  it('get contract address of the network 5', async () => {
-    testAddress(goerliAddress, '5')
-  })
-
   it('get contract address of the network 314', async () => {
     testAddress(filecoinAddress, '314')
   })
 
   it('get contract address of the network 3141', async () => {
     testAddress(hyperspaceAddress, '3141')
+  })
+
+  it('get contract address of the network 314159', async () => {
+    testAddress(calibrationAddress, '314159')
   })
 
   it('get contract address of the network 1337', async () => {

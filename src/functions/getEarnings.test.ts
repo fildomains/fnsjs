@@ -2,6 +2,7 @@ import { ethers } from 'ethers'
 import { FNS } from '..'
 import setup from '../tests/setup'
 import { getDay, getWeek, advanceTime } from '../utils/format'
+import { namehash } from '../utils/normalise'
 
 let fnsInstance: FNS
 let revert: Awaited<ReturnType<typeof setup>>['revert']
@@ -22,9 +23,55 @@ describe('getEarnings', () => {
     await revert()
   })
 
+  async function registerNameTest(name: string, useFns: boolean | undefined) {
+    const duration = 31536000
+    const { customData, ...commitPopTx } =
+      await fnsInstance.commitName.populateTransaction(name, {
+        duration,
+        owner: accounts[0],
+        addressOrIndex: accounts[0],
+      })
+    const commitTx = await provider.getSigner().sendTransaction(commitPopTx)
+    await commitTx.wait()
+
+    await provider.send('evm_increaseTime', [60])
+    await provider.send('evm_mine', [])
+
+    const { secret } = customData!
+
+    if (useFns === true) {
+      const tx = await fnsInstance.registerName(name, {
+        secret,
+        duration,
+        owner: accounts[0],
+        addressOrIndex: accounts[0],
+        useFns: true,
+      })
+      await tx.wait()
+    } else {
+      const controller = await fnsInstance.contracts!.getRegistrarController()!
+      const [price] = await controller.rentPrice(name, duration)
+
+      const tx = await fnsInstance.registerName(name, {
+        secret,
+        duration,
+        owner: accounts[0],
+        addressOrIndex: accounts[0],
+        value: price,
+      })
+      await tx.wait()
+    }
+
+    const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
+    const owner = await nameWrapper.ownerOf(namehash(name))
+    expect(owner).toBe(accounts[0])
+  }
+
   it('should get the earnings for an address and week', async () => {
     await provider.send('evm_mine', [])
     const day = await getDay(provider)
+
+    await registerNameTest('fildomains.fil', false)
 
     let result = await fnsInstance.getEarnings(accounts[0], 0)
     expect(result).toEqual({
@@ -41,7 +88,7 @@ describe('getEarnings', () => {
     // Monday
     await advanceTime(provider, 24 * 3600)
     expect(await fnsInstance.getSundayPaused()).toEqual(false)
-    await fnsInstance.claimEarnings(null)
+    await fnsInstance.claimEarnings(namehash('fildomains.fil'))
 
     result = await fnsInstance.getEarnings(accounts[0], 0)
     expect(result!.fil.gt(0)).toEqual(true)
@@ -58,7 +105,7 @@ describe('getEarnings', () => {
     // Monday
     await advanceTime(provider, 24 * 3600)
     expect(await fnsInstance.getSundayPaused()).toEqual(false)
-    await fnsInstance.claimEarnings(null)
+    await fnsInstance.claimEarnings(namehash('fildomains.fil'))
 
     result = await fnsInstance.getEarnings(accounts[0], 0)
     expect(result!.fil.gt(0)).toEqual(true)
