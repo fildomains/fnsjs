@@ -44,6 +44,11 @@ const _abi = [
         name: "_nameWrapper",
         type: "address",
       },
+      {
+        internalType: "address payable",
+        name: "_fnsToken",
+        type: "address",
+      },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
@@ -430,7 +435,7 @@ const _abi = [
         type: "uint256",
       },
     ],
-    stateMutability: "view",
+    stateMutability: "pure",
     type: "function",
   },
   {

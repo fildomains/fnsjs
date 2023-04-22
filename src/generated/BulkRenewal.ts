@@ -103,7 +103,9 @@ export interface BulkRenewal extends BaseContract {
       names: PromiseOrValue<string>[],
       duration: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<[BigNumber] & { total: BigNumber }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { total: BigNumber; totalFns: BigNumber }
+    >;
 
     supportsInterface(
       interfaceID: PromiseOrValue<BytesLike>,
@@ -123,7 +125,9 @@ export interface BulkRenewal extends BaseContract {
     names: PromiseOrValue<string>[],
     duration: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  ): Promise<
+    [BigNumber, BigNumber] & { total: BigNumber; totalFns: BigNumber }
+  >;
 
   supportsInterface(
     interfaceID: PromiseOrValue<BytesLike>,
@@ -143,7 +147,9 @@ export interface BulkRenewal extends BaseContract {
       names: PromiseOrValue<string>[],
       duration: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<
+      [BigNumber, BigNumber] & { total: BigNumber; totalFns: BigNumber }
+    >;
 
     supportsInterface(
       interfaceID: PromiseOrValue<BytesLike>,

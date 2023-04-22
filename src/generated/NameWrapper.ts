@@ -31,14 +31,18 @@ export interface NameWrapperInterface extends utils.Interface {
   functions: {
     "_tokens(uint256)": FunctionFragment;
     "allFusesBurned(bytes32,uint32)": FunctionFragment;
+    "approve(address,uint256)": FunctionFragment;
     "balanceOf(address,uint256)": FunctionFragment;
     "balanceOfBatch(address[],uint256[])": FunctionFragment;
+    "canExtendSubnames(bytes32,address)": FunctionFragment;
     "canModifyName(bytes32,address)": FunctionFragment;
     "controllers(address)": FunctionFragment;
     "extendExpiry(bytes32,bytes32,uint64)": FunctionFragment;
     "fns()": FunctionFragment;
+    "getApproved(uint256)": FunctionFragment;
     "getData(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
+    "isWrapped(bytes32,bytes32)": FunctionFragment;
     "isWrapped(bytes32)": FunctionFragment;
     "metadataService()": FunctionFragment;
     "name()": FunctionFragment;
@@ -68,8 +72,7 @@ export interface NameWrapperInterface extends utils.Interface {
     "transferOwnership(address)": FunctionFragment;
     "unwrap(bytes32,bytes32,address)": FunctionFragment;
     "unwrap2LD(bytes32,address,address)": FunctionFragment;
-    "upgrade(bytes32,string,address,address)": FunctionFragment;
-    "upgrade2LD(string,address,address)": FunctionFragment;
+    "upgrade(bytes,bytes)": FunctionFragment;
     "upgradeContract()": FunctionFragment;
     "uri(uint256)": FunctionFragment;
     "wrap(bytes,address,address)": FunctionFragment;
@@ -80,15 +83,19 @@ export interface NameWrapperInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "_tokens"
       | "allFusesBurned"
+      | "approve"
       | "balanceOf"
       | "balanceOfBatch"
+      | "canExtendSubnames"
       | "canModifyName"
       | "controllers"
       | "extendExpiry"
       | "fns"
+      | "getApproved"
       | "getData"
       | "isApprovedForAll"
-      | "isWrapped"
+      | "isWrapped(bytes32,bytes32)"
+      | "isWrapped(bytes32)"
       | "metadataService"
       | "name"
       | "names"
@@ -118,7 +125,6 @@ export interface NameWrapperInterface extends utils.Interface {
       | "unwrap"
       | "unwrap2LD"
       | "upgrade"
-      | "upgrade2LD"
       | "upgradeContract"
       | "uri"
       | "wrap"
@@ -134,12 +140,20 @@ export interface NameWrapperInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "approve",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "balanceOf",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "balanceOfBatch",
     values: [PromiseOrValue<string>[], PromiseOrValue<BigNumberish>[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "canExtendSubnames",
+    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "canModifyName",
@@ -159,6 +173,10 @@ export interface NameWrapperInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "fns", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "getApproved",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getData",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -167,7 +185,11 @@ export interface NameWrapperInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "isWrapped",
+    functionFragment: "isWrapped(bytes32,bytes32)",
+    values: [PromiseOrValue<BytesLike>, PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isWrapped(bytes32)",
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
@@ -334,20 +356,7 @@ export interface NameWrapperInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "upgrade",
-    values: [
-      PromiseOrValue<BytesLike>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>
-    ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "upgrade2LD",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>
-    ]
+    values: [PromiseOrValue<BytesLike>, PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
     functionFragment: "upgradeContract",
@@ -380,9 +389,14 @@ export interface NameWrapperInterface extends utils.Interface {
     functionFragment: "allFusesBurned",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "balanceOfBatch",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "canExtendSubnames",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -398,12 +412,23 @@ export interface NameWrapperInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "fns", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getApproved",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "getData", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "isWrapped", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "isWrapped(bytes32,bytes32)",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isWrapped(bytes32)",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "metadataService",
     data: BytesLike
@@ -484,7 +509,6 @@ export interface NameWrapperInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "unwrap", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "unwrap2LD", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "upgrade", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "upgrade2LD", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "upgradeContract",
     data: BytesLike
@@ -494,6 +518,7 @@ export interface NameWrapperInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "wrap2LD", data: BytesLike): Result;
 
   events: {
+    "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
     "ControllerChanged(address,bool)": EventFragment;
     "ExpiryExtended(bytes32,uint64)": EventFragment;
@@ -506,6 +531,7 @@ export interface NameWrapperInterface extends utils.Interface {
     "URI(string,uint256)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ControllerChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ExpiryExtended"): EventFragment;
@@ -517,6 +543,18 @@ export interface NameWrapperInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "TransferSingle"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "URI"): EventFragment;
 }
+
+export interface ApprovalEventObject {
+  owner: string;
+  approved: string;
+  tokenId: BigNumber;
+}
+export type ApprovalEvent = TypedEvent<
+  [string, string, BigNumber],
+  ApprovalEventObject
+>;
+
+export type ApprovalEventFilter = TypedEventFilter<ApprovalEvent>;
 
 export interface ApprovalForAllEventObject {
   account: string;
@@ -672,6 +710,12 @@ export interface NameWrapper extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    approve(
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     balanceOf(
       account: PromiseOrValue<string>,
       id: PromiseOrValue<BigNumberish>,
@@ -683,6 +727,12 @@ export interface NameWrapper extends BaseContract {
       ids: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<[BigNumber[]]>;
+
+    canExtendSubnames(
+      node: PromiseOrValue<BytesLike>,
+      addr: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     canModifyName(
       node: PromiseOrValue<BytesLike>,
@@ -704,6 +754,11 @@ export interface NameWrapper extends BaseContract {
 
     fns(overrides?: CallOverrides): Promise<[string]>;
 
+    getApproved(
+      id: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string] & { operator: string }>;
+
     getData(
       id: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -721,7 +776,13 @@ export interface NameWrapper extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    isWrapped(
+    "isWrapped(bytes32,bytes32)"(
+      parentNode: PromiseOrValue<BytesLike>,
+      labelhash: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    "isWrapped(bytes32)"(
       node: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
@@ -897,17 +958,8 @@ export interface NameWrapper extends BaseContract {
     ): Promise<ContractTransaction>;
 
     upgrade(
-      parentNode: PromiseOrValue<BytesLike>,
-      label: PromiseOrValue<string>,
-      wrappedOwner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    upgrade2LD(
-      label: PromiseOrValue<string>,
-      wrappedOwner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
+      _name: PromiseOrValue<BytesLike>,
+      extraData: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -919,7 +971,7 @@ export interface NameWrapper extends BaseContract {
     ): Promise<[string]>;
 
     wrap(
-      name: PromiseOrValue<BytesLike>,
+      _name: PromiseOrValue<BytesLike>,
       wrappedOwner: PromiseOrValue<string>,
       resolver: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -945,6 +997,12 @@ export interface NameWrapper extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  approve(
+    to: PromiseOrValue<string>,
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   balanceOf(
     account: PromiseOrValue<string>,
     id: PromiseOrValue<BigNumberish>,
@@ -956,6 +1014,12 @@ export interface NameWrapper extends BaseContract {
     ids: PromiseOrValue<BigNumberish>[],
     overrides?: CallOverrides
   ): Promise<BigNumber[]>;
+
+  canExtendSubnames(
+    node: PromiseOrValue<BytesLike>,
+    addr: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   canModifyName(
     node: PromiseOrValue<BytesLike>,
@@ -977,6 +1041,11 @@ export interface NameWrapper extends BaseContract {
 
   fns(overrides?: CallOverrides): Promise<string>;
 
+  getApproved(
+    id: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   getData(
     id: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -994,7 +1063,13 @@ export interface NameWrapper extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  isWrapped(
+  "isWrapped(bytes32,bytes32)"(
+    parentNode: PromiseOrValue<BytesLike>,
+    labelhash: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  "isWrapped(bytes32)"(
     node: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<boolean>;
@@ -1170,17 +1245,8 @@ export interface NameWrapper extends BaseContract {
   ): Promise<ContractTransaction>;
 
   upgrade(
-    parentNode: PromiseOrValue<BytesLike>,
-    label: PromiseOrValue<string>,
-    wrappedOwner: PromiseOrValue<string>,
-    resolver: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  upgrade2LD(
-    label: PromiseOrValue<string>,
-    wrappedOwner: PromiseOrValue<string>,
-    resolver: PromiseOrValue<string>,
+    _name: PromiseOrValue<BytesLike>,
+    extraData: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1192,7 +1258,7 @@ export interface NameWrapper extends BaseContract {
   ): Promise<string>;
 
   wrap(
-    name: PromiseOrValue<BytesLike>,
+    _name: PromiseOrValue<BytesLike>,
     wrappedOwner: PromiseOrValue<string>,
     resolver: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1218,6 +1284,12 @@ export interface NameWrapper extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    approve(
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     balanceOf(
       account: PromiseOrValue<string>,
       id: PromiseOrValue<BigNumberish>,
@@ -1229,6 +1301,12 @@ export interface NameWrapper extends BaseContract {
       ids: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<BigNumber[]>;
+
+    canExtendSubnames(
+      node: PromiseOrValue<BytesLike>,
+      addr: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     canModifyName(
       node: PromiseOrValue<BytesLike>,
@@ -1250,6 +1328,11 @@ export interface NameWrapper extends BaseContract {
 
     fns(overrides?: CallOverrides): Promise<string>;
 
+    getApproved(
+      id: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
     getData(
       id: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1267,7 +1350,13 @@ export interface NameWrapper extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    isWrapped(
+    "isWrapped(bytes32,bytes32)"(
+      parentNode: PromiseOrValue<BytesLike>,
+      labelhash: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    "isWrapped(bytes32)"(
       node: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<boolean>;
@@ -1441,17 +1530,8 @@ export interface NameWrapper extends BaseContract {
     ): Promise<void>;
 
     upgrade(
-      parentNode: PromiseOrValue<BytesLike>,
-      label: PromiseOrValue<string>,
-      wrappedOwner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    upgrade2LD(
-      label: PromiseOrValue<string>,
-      wrappedOwner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
+      _name: PromiseOrValue<BytesLike>,
+      extraData: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1463,7 +1543,7 @@ export interface NameWrapper extends BaseContract {
     ): Promise<string>;
 
     wrap(
-      name: PromiseOrValue<BytesLike>,
+      _name: PromiseOrValue<BytesLike>,
       wrappedOwner: PromiseOrValue<string>,
       resolver: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1475,10 +1555,21 @@ export interface NameWrapper extends BaseContract {
       ownerControlledFuses: PromiseOrValue<BigNumberish>,
       resolver: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<BigNumber>;
   };
 
   filters: {
+    "Approval(address,address,uint256)"(
+      owner?: PromiseOrValue<string> | null,
+      approved?: PromiseOrValue<string> | null,
+      tokenId?: PromiseOrValue<BigNumberish> | null
+    ): ApprovalEventFilter;
+    Approval(
+      owner?: PromiseOrValue<string> | null,
+      approved?: PromiseOrValue<string> | null,
+      tokenId?: PromiseOrValue<BigNumberish> | null
+    ): ApprovalEventFilter;
+
     "ApprovalForAll(address,address,bool)"(
       account?: PromiseOrValue<string> | null,
       operator?: PromiseOrValue<string> | null,
@@ -1599,6 +1690,12 @@ export interface NameWrapper extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    approve(
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     balanceOf(
       account: PromiseOrValue<string>,
       id: PromiseOrValue<BigNumberish>,
@@ -1608,6 +1705,12 @@ export interface NameWrapper extends BaseContract {
     balanceOfBatch(
       accounts: PromiseOrValue<string>[],
       ids: PromiseOrValue<BigNumberish>[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    canExtendSubnames(
+      node: PromiseOrValue<BytesLike>,
+      addr: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1631,6 +1734,11 @@ export interface NameWrapper extends BaseContract {
 
     fns(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getApproved(
+      id: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getData(
       id: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1642,7 +1750,13 @@ export interface NameWrapper extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    isWrapped(
+    "isWrapped(bytes32,bytes32)"(
+      parentNode: PromiseOrValue<BytesLike>,
+      labelhash: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "isWrapped(bytes32)"(
       node: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1818,17 +1932,8 @@ export interface NameWrapper extends BaseContract {
     ): Promise<BigNumber>;
 
     upgrade(
-      parentNode: PromiseOrValue<BytesLike>,
-      label: PromiseOrValue<string>,
-      wrappedOwner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    upgrade2LD(
-      label: PromiseOrValue<string>,
-      wrappedOwner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
+      _name: PromiseOrValue<BytesLike>,
+      extraData: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1840,7 +1945,7 @@ export interface NameWrapper extends BaseContract {
     ): Promise<BigNumber>;
 
     wrap(
-      name: PromiseOrValue<BytesLike>,
+      _name: PromiseOrValue<BytesLike>,
       wrappedOwner: PromiseOrValue<string>,
       resolver: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1867,6 +1972,12 @@ export interface NameWrapper extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    approve(
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     balanceOf(
       account: PromiseOrValue<string>,
       id: PromiseOrValue<BigNumberish>,
@@ -1876,6 +1987,12 @@ export interface NameWrapper extends BaseContract {
     balanceOfBatch(
       accounts: PromiseOrValue<string>[],
       ids: PromiseOrValue<BigNumberish>[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    canExtendSubnames(
+      node: PromiseOrValue<BytesLike>,
+      addr: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1899,6 +2016,11 @@ export interface NameWrapper extends BaseContract {
 
     fns(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    getApproved(
+      id: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getData(
       id: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1910,7 +2032,13 @@ export interface NameWrapper extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    isWrapped(
+    "isWrapped(bytes32,bytes32)"(
+      parentNode: PromiseOrValue<BytesLike>,
+      labelhash: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "isWrapped(bytes32)"(
       node: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -2086,17 +2214,8 @@ export interface NameWrapper extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     upgrade(
-      parentNode: PromiseOrValue<BytesLike>,
-      label: PromiseOrValue<string>,
-      wrappedOwner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    upgrade2LD(
-      label: PromiseOrValue<string>,
-      wrappedOwner: PromiseOrValue<string>,
-      resolver: PromiseOrValue<string>,
+      _name: PromiseOrValue<BytesLike>,
+      extraData: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -2108,7 +2227,7 @@ export interface NameWrapper extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     wrap(
-      name: PromiseOrValue<BytesLike>,
+      _name: PromiseOrValue<BytesLike>,
       wrappedOwner: PromiseOrValue<string>,
       resolver: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }

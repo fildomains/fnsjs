@@ -1,6 +1,6 @@
 {
   "name": "@fildomains/fnsjs",
-  "version": "0.52.17",
+  "version": "1.0.0",
   "description": "FNS javascript library for contract interaction",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
@@ -110,7 +110,7 @@
     "@ethersproject/strings": "^5.7.0",
     "@ethersproject/transactions": "^5.7.0",
     "@ethersproject/web": "^5.7.1",
-    "@fildomains/fns-contracts": "^0.0.9",
+    "@fildomains/fns-contracts": "^1.0.0",
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers",
     "@openzeppelin/contracts": "^4.5.0",
     "@openzeppelin/test-helpers": "^0.5.16",

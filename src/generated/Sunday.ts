@@ -59,7 +59,6 @@ export interface SundayInterface extends utils.Interface {
     "mint(address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
-    "ownerOf(uint256)": FunctionFragment;
     "paused()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -91,7 +90,6 @@ export interface SundayInterface extends utils.Interface {
       | "mint"
       | "name"
       | "owner"
-      | "ownerOf"
       | "paused"
       | "renounceOwnership"
       | "supportsInterface"
@@ -151,10 +149,6 @@ export interface SundayInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "ownerOf",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -223,7 +217,6 @@ export interface SundayInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
@@ -469,11 +462,6 @@ export interface Sunday extends BaseContract {
      */
     owner(overrides?: CallOverrides): Promise<[string]>;
 
-    ownerOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     /**
      * Returns true if the contract is paused, and false otherwise.
      */
@@ -634,11 +622,6 @@ export interface Sunday extends BaseContract {
    */
   owner(overrides?: CallOverrides): Promise<string>;
 
-  ownerOf(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   /**
    * Returns true if the contract is paused, and false otherwise.
    */
@@ -796,11 +779,6 @@ export interface Sunday extends BaseContract {
      * Returns the address of the current owner.
      */
     owner(overrides?: CallOverrides): Promise<string>;
-
-    ownerOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
 
     /**
      * Returns true if the contract is paused, and false otherwise.
@@ -1022,11 +1000,6 @@ export interface Sunday extends BaseContract {
      */
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
-    ownerOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     /**
      * Returns true if the contract is paused, and false otherwise.
      */
@@ -1187,11 +1160,6 @@ export interface Sunday extends BaseContract {
      * Returns the address of the current owner.
      */
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    ownerOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
 
     /**
      * Returns true if the contract is paused, and false otherwise.

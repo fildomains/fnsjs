@@ -424,23 +424,6 @@
     testrpc "0.0.1"
     web3-utils "^1.0.0-beta.31"
 
-"@ensdomains/ensjs@3.0.0-alpha.45":
-  version "3.0.0-alpha.45"
-  resolved "https://registry.npmmirror.com/@ensdomains/ensjs/-/ensjs-3.0.0-alpha.45.tgz#b567c90b11d56790764cd4dc2df73c898abecd7c"
-  integrity sha512-q6AtVgght2IX4/pxdstcHK+qybZ9eysLAQcbZWEL53W8qKUvvngJ5nw9T1R7UohJ1n3jqwlLLePL3AEEcKC9lA==
-  dependencies:
-    "@ensdomains/address-encoder" "^0.2.18"
-    "@ensdomains/content-hash" "^2.5.7"
-    "@ensdomains/dnsprovejs" "^0.4.1"
-    "@ensdomains/dnssecoraclejs" "^0.2.7"
-    cbor "^8.1.0"
-    dns-packet "^5.3.1"
-    graphql "^16.3.0"
-    graphql-request next
-    idna-uts46-hx "3.4.0"
-    pako "^2.1.0"
-    traverse "^0.6.6"
-
 "@ensdomains/ensjs@^2.0.1", "@ensdomains/ensjs@^2.1.0":
   version "2.1.0"
   resolved "https://registry.npmmirror.com/@ensdomains/ensjs/-/ensjs-2.1.0.tgz#0a7296c1f3d735ef019320d863a7846a0760c460"
@@ -931,12 +914,11 @@
     "@ethersproject/properties" "^5.7.0"
     "@ethersproject/strings" "^5.7.0"
 
-"@fildomains/fns-contracts@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.npmmirror.com/@fildomains/fns-contracts/-/fns-contracts-0.0.9.tgz#097336ed65a1a7b9ee92fc9d909e4d8b9ceb5693"
-  integrity sha512-IrOFpdumhaoQgYaf2eSMd9ZY5PtGZoQtyFQ0I6ZiEC067DXR8yv9Q7MuU91842Pbxe1iktrJA28TkCtx9m4KWg==
+"@fildomains/fns-contracts@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@fildomains/fns-contracts/-/fns-contracts-1.0.0.tgz#8f9ee193fa4eb9648d642b82ac71a79956852d70"
+  integrity sha512-a+L9mCaW85gMCoc4Km6ok9SjZei+F1yWDN7YjkNkB0PWXxKx+RG+GdmVJB5kvHzoe1I2hAIDGebOWNnYzE1T1g==
   dependencies:
-    "@ensdomains/ensjs" "3.0.0-alpha.45"
     "@ensdomains/eth-ens-namehash" "^2.0.15"
     "@openzeppelin/contracts" "4.8.0"
     dns-packet "^5.3.0"
@@ -7035,16 +7017,6 @@ graphql-request@5.1.0:
     extract-files "^9.0.0"
     form-data "^3.0.0"
 
-graphql-request@next:
-  version "5.2.0-next.5"
-  resolved "https://registry.npmmirror.com/graphql-request/-/graphql-request-5.2.0-next.5.tgz#9b8583995530677579e5c873ee8a569bc1bd06b7"
-  integrity sha512-kqEv3r9lMReGZ0jPEa99nPzn7grTajZmGeW1NAWkzMcx/qPglSroIjrBsqRSnMFrjhA1Sekz0F4xIc9SIe4XVQ==
-  dependencies:
-    "@graphql-typed-document-node/core" "^3.1.1"
-    cross-fetch "^3.1.5"
-    extract-files "^9.0.0"
-    form-data "^3.0.0"
-
 graphql@^16.3.0:
   version "16.6.0"
   resolved "https://registry.npmmirror.com/graphql/-/graphql-16.6.0.tgz#c2dcffa4649db149f6282af726c8c83f1c7c5fdb"
@@ -7428,13 +7400,6 @@ iconv-lite@^0.6.2:
   integrity sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==
   dependencies:
     safer-buffer ">= 2.1.2 < 3.0.0"
-
-idna-uts46-hx@3.4.0:
-  version "3.4.0"
-  resolved "https://registry.npmmirror.com/idna-uts46-hx/-/idna-uts46-hx-3.4.0.tgz#aa380e7c04d6bce4f5e26da742c613ea2996f470"
-  integrity sha512-b1I4qYTcJcX1TANn8OhOGrQUIWOfZUWrLKWDeKbV6posVLjp7OTqFKX3N20efrIMzQM1KhiphOEazBEEUFR9bg==
-  dependencies:
-    punycode "^2.1.1"
 
 idna-uts46-hx@^2.3.1:
   version "2.3.1"

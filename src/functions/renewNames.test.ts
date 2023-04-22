@@ -67,7 +67,7 @@ describe('renewNames', () => {
     const baseRegistrar = await fnsInstance.contracts!.getBaseRegistrar()!
     const oldExpiry = await baseRegistrar.nameExpires(labelhash(label))
     const bulkRenewal = await fnsInstance.contracts!.getBulkRenewal()!
-    const price = await bulkRenewal.rentPrice(names, duration)
+    const [price] = await bulkRenewal.rentPrice(names, duration)
 
     const tx = await fnsInstance.renewNames(names, {
       value: price.mul(4),
